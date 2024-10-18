@@ -1,8 +1,11 @@
 package com.tecknobit.ametistacore.models;
 
+import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
+import com.tecknobit.ametistacore.models.analytics.IssueAnalytic;
 import org.json.JSONObject;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -12,26 +15,16 @@ public class AmetistaApplication extends AmetistaItem {
 
     public static final String PLATFORM_KEY = "platform";
 
-    public enum Platform {
-
-        ANDROID,
-
-        IOS,
-
-        DESKTOP,
-
-        WEB
-
-    }
-
     private final String icon;
 
     private final String description;
 
     private final Set<Platform> platforms;
 
+    private final List<IssueAnalytic> issues;
+
     public AmetistaApplication() {
-        this(null, null, null, null, new HashSet<>(), -1);
+        this(null, null, null, null, new HashSet<>(), -1, List.of());
     }
 
     // TODO: 14/10/2024 TO REMOVE
@@ -44,15 +37,43 @@ public class AmetistaApplication extends AmetistaItem {
             if (new Random().nextBoolean())
                 platforms.add(platform);
         this.platforms = platforms;
-
+        issues = List.of(new IssueAnalytic(
+                        String.valueOf(new Random().nextLong()),
+                        System.currentTimeMillis(),
+                        "1.0.0",
+                        new AmetistaAnalytic.AmetistaDevice(
+                                String.valueOf(new Random().nextInt()),
+                                "Brand",
+                                "XL",
+                                "Android",
+                                "12"
+                        ),
+                        "",
+                        Platform.ANDROID
+                ),
+                new IssueAnalytic(
+                        String.valueOf(new Random().nextLong()),
+                        System.currentTimeMillis(),
+                        "1.0.0",
+                        new AmetistaAnalytic.AmetistaDevice(
+                                String.valueOf(new Random().nextInt()),
+                                "Brand",
+                                "XL",
+                                "Android",
+                                "12"
+                        ),
+                        "",
+                        Platform.ANDROID
+                ));
     }
 
     public AmetistaApplication(String id, String icon, String name, String description, Set<Platform> platforms,
-                               long creationDate) {
+                               long creationDate, List<IssueAnalytic> issues) {
         super(id, name, creationDate);
         this.icon = icon;
         this.description = description;
         this.platforms = platforms;
+        this.issues = issues;
     }
 
     public AmetistaApplication(JSONObject jApplication) {
@@ -61,6 +82,7 @@ public class AmetistaApplication extends AmetistaItem {
         icon = null;
         description = null;
         platforms = null;
+        issues = null;
     }
 
     public String getIcon() {
@@ -73,6 +95,10 @@ public class AmetistaApplication extends AmetistaItem {
 
     public Set<Platform> getPlatforms() {
         return platforms;
+    }
+
+    public List<IssueAnalytic> getIssues() {
+        return issues;
     }
 
 }

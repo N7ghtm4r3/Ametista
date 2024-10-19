@@ -1,13 +1,14 @@
-package com.tecknobit.ametistacore.models.analytics;
+package com.tecknobit.ametistacore.models.analytics.issues;
 
 import com.tecknobit.ametistacore.models.Platform;
+import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.AnalyticType.ISSUE;
 
 public class IssueAnalytic extends AmetistaAnalytic {
 
-    private final String issue;
+    protected final String issue;
 
     public IssueAnalytic() {
         this(null, -1, null, null, null, null);

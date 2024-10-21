@@ -26,6 +26,11 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     protected final PerformanceAnalyticType performanceAnalyticType;
 
+    // TODO: 21/10/2024 TO REMOVE
+    public PerformanceAnalytic(double value) {
+        this(null, -1, null, null, value, null, null);
+    }
+
     public PerformanceAnalytic() {
         this(null, -1, null, null, 0, null, null);
     }

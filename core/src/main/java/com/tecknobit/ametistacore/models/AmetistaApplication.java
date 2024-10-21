@@ -3,6 +3,8 @@ package com.tecknobit.ametistacore.models;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import org.json.JSONObject;
 
 import java.util.HashSet;
@@ -16,6 +18,8 @@ public class AmetistaApplication extends AmetistaItem {
 
     public static final String PLATFORM_KEY = "platform";
 
+    public static final int MAX_VERSION_SAMPLES = 3;
+
     private final String icon;
 
     private final String description;
@@ -24,8 +28,10 @@ public class AmetistaApplication extends AmetistaItem {
 
     private final List<IssueAnalytic> issues;
 
+    private final List<PerformanceAnalytic> launchTimeAnalytics;
+
     public AmetistaApplication() {
-        this(null, null, null, null, new HashSet<>(), -1, List.of());
+        this(null, null, null, null, new HashSet<>(), -1, List.of(), List.of());
     }
 
     // TODO: 14/10/2024 TO REMOVE
@@ -137,15 +143,32 @@ public class AmetistaApplication extends AmetistaItem {
                         "Chrome",
                         "122"
                 ));
+        launchTimeAnalytics = List.of(
+                new PerformanceAnalytic(
+                        String.valueOf(new Random().nextLong()),
+                        System.currentTimeMillis(),
+                        "1.0.0",
+                        new AmetistaAnalytic.AmetistaDevice(
+                                String.valueOf(new Random().nextInt()),
+                                "Brand",
+                                "XL",
+                                "Android",
+                                "12"
+                        ),
+                        20d,
+                        Platform.WEB,
+                        PerformanceAnalyticType.LAUNCH_TIME
+                ));
     }
 
     public AmetistaApplication(String id, String icon, String name, String description, Set<Platform> platforms,
-                               long creationDate, List<IssueAnalytic> issues) {
+                               long creationDate, List<IssueAnalytic> issues, List<PerformanceAnalytic> launchTimeAnalytics) {
         super(id, name, creationDate);
         this.icon = icon;
         this.description = description;
         this.platforms = platforms;
         this.issues = issues;
+        this.launchTimeAnalytics = launchTimeAnalytics;
     }
 
     public AmetistaApplication(JSONObject jApplication) {
@@ -155,6 +178,7 @@ public class AmetistaApplication extends AmetistaItem {
         description = null;
         platforms = null;
         issues = null;
+        launchTimeAnalytics = null;
     }
 
     public String getIcon() {
@@ -171,6 +195,41 @@ public class AmetistaApplication extends AmetistaItem {
 
     public List<IssueAnalytic> getIssues() {
         return issues;
+    }
+
+    public List<PerformanceAnalytic> getLaunchTimeAnalytics() {
+        return launchTimeAnalytics;
+    }
+
+    /*fun toChartData(): Map<String, List<Double>> {
+        return mutableMapOf<String, List<Double>>().apply {
+            versionSamples.forEach { version ->
+                put(version, values.fi)
+            }
+        }
+    }*/
+
+    // TODO: 21/10/2024 CHECK WHETHER MOVE IN THE CONTROLLER
+    public HashSet<String> getPerformanceAnalyticsSamples(PerformanceAnalyticType type, String... appVersion) {
+        HashSet<String> versionSamples = new HashSet<>();
+        switch (type) {
+            case LAUNCH_TIME -> versionSamples = fetchSamples(launchTimeAnalytics, new HashSet<>(List.of(appVersion)));
+        }
+        return versionSamples;
+    }
+
+    // TODO: 21/10/2024 CHECK WHETHER MOVE IN THE CONTROLLER
+    private HashSet<String> fetchSamples(List<PerformanceAnalytic> analytics, HashSet<String> filters) {
+        HashSet<String> versionSamples = new HashSet<>();
+        boolean fetchGenericVersions = filters.isEmpty();
+        for (PerformanceAnalytic analytic : analytics) {
+            String appVersion = analytic.getAppVersion();
+            if (versionSamples.size() > MAX_VERSION_SAMPLES)
+                break;
+            if (fetchGenericVersions || filters.contains(appVersion))
+                versionSamples.add(appVersion);
+        }
+        return versionSamples;
     }
 
 }

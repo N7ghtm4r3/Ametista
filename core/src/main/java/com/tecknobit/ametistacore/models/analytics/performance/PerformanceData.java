@@ -56,6 +56,8 @@ public class PerformanceData extends EquinoxItem {
 
     public static class PerformanceDataItem {
 
+        public static final long MAX_TEMPORAL_RANGE = 86400000L * 90;
+
         private final Map<String, List<PerformanceAnalytic>> data;
 
         public PerformanceDataItem() {
@@ -78,6 +80,38 @@ public class PerformanceData extends EquinoxItem {
 
         public Set<String> sampleVersions() {
             return data.keySet();
+        }
+
+        public boolean noDataAvailable() {
+            return data.isEmpty();
+        }
+
+        // TODO: 22/10/2024 WARN ABOUT THE ALGORITHM NOT NEEDS SORT BECAUSE DATE FETCHED ALREADY ORDERED
+        public long getStartTemporalRangeDate() {
+            long startDate = Integer.MAX_VALUE;
+            for (List<PerformanceAnalytic> analytics : data.values()) {
+                long checkTimestamp = analytics.get(0).getCreationTimestamp();
+                if (checkTimestamp < startDate)
+                    startDate = checkTimestamp;
+            }
+
+            // TODO: 22/10/2024 TO REMOVE
+            if (getEndTemporalRangeDate() - startDate >= 86400000L * 90)
+                startDate = getEndTemporalRangeDate() - 86400000L * 90;
+
+            return startDate;
+        }
+
+        // TODO: 22/10/2024 WARN ABOUT THE ALGORITHM NOT NEEDS SORT BECAUSE DATE FETCHED ALREADY ORDERED
+        public long getEndTemporalRangeDate() {
+            long endDate = 0;
+            for (List<PerformanceAnalytic> analytics : data.values()) {
+                int lastIndex = analytics.size() - 1;
+                long checkTimestamp = analytics.get(lastIndex).getCreationTimestamp();
+                if (checkTimestamp > endDate)
+                    endDate = checkTimestamp;
+            }
+            return endDate;
         }
 
     }

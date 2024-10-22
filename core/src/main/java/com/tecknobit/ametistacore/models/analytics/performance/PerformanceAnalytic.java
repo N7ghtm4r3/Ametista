@@ -5,6 +5,8 @@ import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import com.tecknobit.apimanager.annotations.Structure;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.AnalyticType.PERFORMANCE;
 
 @Structure
@@ -28,7 +30,7 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     // TODO: 21/10/2024 TO REMOVE
     public PerformanceAnalytic(double value) {
-        this(null, -1, null, null, value, null, null);
+        this(null, System.currentTimeMillis() - (86400000L * new Random().nextInt(90)), null, null, value, null, null);
     }
 
     public PerformanceAnalytic() {

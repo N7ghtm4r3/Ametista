@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class AmetistaUser extends EquinoxUser {
 
+    public static final String DEFAULT_VIEWER_PASSWORD = "changeme";
+
     public enum Role {
 
         VIEWER,

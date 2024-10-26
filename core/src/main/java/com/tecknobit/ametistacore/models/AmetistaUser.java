@@ -1,13 +1,20 @@
 package com.tecknobit.ametistacore.models;
 
 import com.tecknobit.equinox.environment.records.EquinoxUser;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import org.json.JSONObject;
 
 import java.util.Random;
 
+@Entity
 public class AmetistaUser extends EquinoxUser {
 
     public static final String DEFAULT_VIEWER_PASSWORD = "changeme";
+
+    public static final String ROLE_KEY = "role";
 
     public enum Role {
 
@@ -17,6 +24,8 @@ public class AmetistaUser extends EquinoxUser {
 
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = ROLE_KEY)
     private final Role role;
 
     // TODO: 24/10/2024 TO REMOVE

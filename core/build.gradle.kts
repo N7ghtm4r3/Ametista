@@ -45,7 +45,3 @@ afterEvaluate {
 configurations.all {
     exclude("commons-logging", "commons-logging")
 }
-
-kotlin {
-    jvmToolchain(18)
-}

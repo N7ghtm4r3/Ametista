@@ -2,14 +2,18 @@ package com.tecknobit.ametistacore.models.analytics.performance;
 
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
-import com.tecknobit.apimanager.annotations.Structure;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.json.JSONObject;
 
 import java.util.Random;
 
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.AnalyticType.PERFORMANCE;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
 
-@Structure
+@Entity
+@Table(name = PERFORMANCE_ANALYTICS_KEY)
 public class PerformanceAnalytic extends AmetistaAnalytic {
 
     public enum PerformanceAnalyticType {
@@ -24,8 +28,16 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     }
 
+    public static final String PERFORMANCE_ANALYTICS_KEY = "performance_analytics";
+
+    public static final String PERFORMANCE_VALUE_KEY = "value";
+
+    public static final String PERFORMANCE_ANALYTIC_TYPE_KEY = "performance_analytic_type";
+
+    @Column(name = PERFORMANCE_VALUE_KEY)
     protected final double value;
 
+    @Column(name = PERFORMANCE_ANALYTIC_TYPE_KEY)
     protected final PerformanceAnalyticType performanceAnalyticType;
 
     // TODO: 21/10/2024 TO REMOVE

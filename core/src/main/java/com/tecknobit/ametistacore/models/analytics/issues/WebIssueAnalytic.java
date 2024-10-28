@@ -1,12 +1,27 @@
 package com.tecknobit.ametistacore.models.analytics.issues;
 
 import com.tecknobit.ametistacore.models.Platform;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.WEB_ISSUES_KEY;
+
+@Entity
+@Table(name = WEB_ISSUES_KEY)
 public class WebIssueAnalytic extends IssueAnalytic {
 
+    public static final String WEB_ISSUES_KEY = "web_issues";
+
+    public static final String BROWSER_KEY = "browser";
+
+    public static final String BROWSER_VERSION_KEY = "browser_version";
+
+    @Column(name = BROWSER_KEY)
     private final String browser;
 
+    @Column(name = BROWSER_VERSION_KEY)
     private final String browserVersion;
 
     public WebIssueAnalytic() {

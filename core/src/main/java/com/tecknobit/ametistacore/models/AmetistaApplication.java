@@ -5,9 +5,7 @@ import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.util.HashSet;
@@ -33,19 +31,36 @@ public class AmetistaApplication extends AmetistaItem {
 
     public static final String APPLICATIONS_KEY = "applications";
 
-    public static final String PLATFORM_KEY = "platform";
+    public static final String APPLICATION_ICON_KEY = "icon";
+
+    public static final String DESCRIPTION_KEY = "description";
+
+    public static final String PLATFORMS_KEY = "platforms";
 
     public static final int MAX_VERSION_SAMPLES = 3;
 
+    @Column(name = APPLICATION_ICON_KEY)
     private final String icon;
 
+    @Lob
+    @Column(name = DESCRIPTION_KEY)
     private final String description;
 
+    @ElementCollection
+    @CollectionTable(name = PLATFORMS_KEY)
     private final Set<Platform> platforms;
 
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = APPLICATION_KEY
+    )
     private final List<IssueAnalytic> issues;
 
-    private final List<PerformanceAnalytic> launchTimeAnalytics;
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = APPLICATION_KEY
+    )
+    private final List<PerformanceAnalytic> performanceAnalytics;
 
     public AmetistaApplication() {
         this(null, null, null, null, new HashSet<>(), -1, List.of(), List.of());
@@ -160,7 +175,7 @@ public class AmetistaApplication extends AmetistaItem {
                         "Chrome",
                         "122"
                 ));
-        launchTimeAnalytics = List.of(
+        performanceAnalytics = List.of(
                 new PerformanceAnalytic(
                         String.valueOf(new Random().nextLong()),
                         System.currentTimeMillis(),
@@ -179,13 +194,13 @@ public class AmetistaApplication extends AmetistaItem {
     }
 
     public AmetistaApplication(String id, String icon, String name, String description, Set<Platform> platforms,
-                               long creationDate, List<IssueAnalytic> issues, List<PerformanceAnalytic> launchTimeAnalytics) {
+                               long creationDate, List<IssueAnalytic> issues, List<PerformanceAnalytic> performanceAnalytics) {
         super(id, name, creationDate);
         this.icon = icon;
         this.description = description;
         this.platforms = platforms;
         this.issues = issues;
-        this.launchTimeAnalytics = launchTimeAnalytics;
+        this.performanceAnalytics = performanceAnalytics;
     }
 
     public AmetistaApplication(JSONObject jApplication) {
@@ -195,7 +210,7 @@ public class AmetistaApplication extends AmetistaItem {
         description = null;
         platforms = null;
         issues = null;
-        launchTimeAnalytics = null;
+        performanceAnalytics = null;
     }
 
     public String getIcon() {
@@ -214,8 +229,8 @@ public class AmetistaApplication extends AmetistaItem {
         return issues;
     }
 
-    public List<PerformanceAnalytic> getLaunchTimeAnalytics() {
-        return launchTimeAnalytics;
+    public List<PerformanceAnalytic> getPerformanceAnalytics() {
+        return performanceAnalytics;
     }
 
     /*fun toChartData(): Map<String, List<Double>> {
@@ -230,7 +245,7 @@ public class AmetistaApplication extends AmetistaItem {
     public HashSet<String> getPerformanceAnalyticsSamples(PerformanceAnalyticType type, String... appVersion) {
         HashSet<String> versionSamples = new HashSet<>();
         switch (type) {
-            case LAUNCH_TIME -> versionSamples = fetchSamples(launchTimeAnalytics, new HashSet<>(List.of(appVersion)));
+            case LAUNCH_TIME -> versionSamples = fetchSamples(performanceAnalytics, new HashSet<>(List.of(appVersion)));
         }
         return versionSamples;
     }

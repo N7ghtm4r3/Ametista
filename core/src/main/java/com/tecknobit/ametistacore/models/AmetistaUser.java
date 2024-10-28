@@ -63,4 +63,12 @@ public class AmetistaUser extends EquinoxUser {
         return role;
     }
 
+    public boolean isViewer() {
+        return role == Role.VIEWER;
+    }
+
+    public boolean isAdmin() {
+        return role == Role.ADMIN;
+    }
+
 }

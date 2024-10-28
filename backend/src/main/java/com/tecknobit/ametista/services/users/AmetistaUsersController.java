@@ -6,21 +6,21 @@ import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.equinox.annotations.CustomParametersOrder;
 import com.tecknobit.equinox.environment.controllers.EquinoxUsersController;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
 import static com.tecknobit.ametistacore.models.AmetistaUser.*;
 import static com.tecknobit.ametistacore.models.AmetistaUser.Role.ADMIN;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PATCH;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.DEFAULT_PROFILE_PIC;
-import static com.tecknobit.equinox.inputs.InputValidator.DEFAULT_LANGUAGE;
+import static com.tecknobit.equinox.inputs.InputValidator.*;
 
 @RestController
 public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser, AmetistaUsersRepository, AmetistaUsersHelper> {
@@ -132,5 +132,32 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return validation;
     }
 
+    @PatchMapping(
+            path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}" + CHANGE_PRESET_PASSWORD_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/changePresetPassword", method = PATCH)
+    public String changePresetPassword(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestBody Map<String, String> payload
+    ) {
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (!me.isViewer())
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String password = jsonHelper.getString(PASSWORD_KEY);
+        if (!isPasswordValid(password))
+            return failedResponse(WRONG_PASSWORD_MESSAGE);
+        try {
+            usersHelper.changePassword(password, id);
+            return successResponse();
+        } catch (Exception e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+    }
 
 }

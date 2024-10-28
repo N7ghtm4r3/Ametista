@@ -5,6 +5,9 @@ import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import org.json.JSONObject;
 
 import java.util.HashSet;
@@ -12,9 +15,23 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+
+@Entity
+@Table(
+        name = APPLICATIONS_KEY,
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {NAME_KEY}
+                )
+        }
+)
 public class AmetistaApplication extends AmetistaItem {
 
     public static final String APPLICATION_KEY = "application";
+
+    public static final String APPLICATIONS_KEY = "applications";
 
     public static final String PLATFORM_KEY = "platform";
 

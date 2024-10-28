@@ -6,6 +6,8 @@ import static com.tecknobit.ametistacore.models.AmetistaUser.DEFAULT_VIEWER_PASS
 
 public class AmetistaValidator extends InputValidator {
 
+    public static final String INVALID_ADMIN_CODE = "invalid_admin_code_key";
+
     // TODO: 15/10/2024 TO TRANSLATE
     public static final String WRONG_APP_NAME_MESSAGE = "wrong_app_name_key";
 

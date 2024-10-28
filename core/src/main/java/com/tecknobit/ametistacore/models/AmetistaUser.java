@@ -14,6 +14,10 @@ public class AmetistaUser extends EquinoxUser {
 
     public static final String DEFAULT_VIEWER_PASSWORD = "changeme";
 
+    public static final String ADMIN_CODE_KEY = "admin_code";
+
+    public static final String IS_ADMIN_KEY = "is_admin";
+
     public static final String ROLE_KEY = "role";
 
     public enum Role {

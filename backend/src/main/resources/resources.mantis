@@ -10,7 +10,9 @@
         "wrong_language_key": "Language is not supported",
         "wrong_email_key": "Email is not valid",
         "not_authorized_key": "Not authorized or wrong details",
-        "invalid_admin_code_key": "The admin code is not valid or you are unauthorized"
+        "invalid_admin_code_key": "The admin code is not valid or you are unauthorized",
+        "wrong_app_name_key": "Application name is not valid",
+        "wrong_app_description_key": "Application description is not valid"
     },
     "ignored_resources": {},
     "it": {
@@ -24,7 +26,9 @@
         "wrong_language_key": "Lingua non supportata",
         "wrong_email_key": "Email non valida",
         "not_authorized_key": "Non autorizzat o dati errati",
-        "invalid_admin_code_key": "Il codice amministratore non è valido o non sei autorizzat"
+        "invalid_admin_code_key": "Il codice amministratore non è valido o non sei autorizzat",
+        "wrong_app_name_key": "Il nome dell'applicazione non è valido",
+        "wrong_app_description_key": "La descrizione dell'applicazione non è valida"
     },
     "fr": {
         "connection_error_message_key": "Le serveur est temporairement indisponible",
@@ -37,7 +41,9 @@
         "wrong_language_key": "La langue n'est pas prise en charge",
         "wrong_email_key": "Le courriel n'est pas valide",
         "not_authorized_key": "Non autorisa ou faux datails",
-        "invalid_admin_code_key": "Le code d'administration n'est pas valide ou vous n'êtes pas autorisé."
+        "invalid_admin_code_key": "Le code d'administration n'est pas valide ou vous n'êtes pas autorisé.",
+        "wrong_app_name_key": "Le nom de l'application n'est pas valide",
+        "wrong_app_description_key": "La description de l'application n'est pas valide"
     },
     "es": {
         "connection_error_message_key": "El servidor no està disponible temporalmente",
@@ -50,6 +56,8 @@
         "wrong_language_key": "El idioma no es compatible",
         "wrong_email_key": "El correo electrinico no es valido",
         "not_authorized_key": "No autorizados o datos incorrectos",
-        "invalid_admin_code_key": "El código admin no es válido o no estás autorizado"
+        "invalid_admin_code_key": "El código admin no es válido o no estás autorizado",
+        "wrong_app_name_key": "El nombre de la aplicación no es válido",
+        "wrong_app_description_key": "La descripción de la aplicación no es válida"
     }
 }

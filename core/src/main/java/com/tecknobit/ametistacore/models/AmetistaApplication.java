@@ -1,5 +1,6 @@
 package com.tecknobit.ametistacore.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
@@ -15,6 +16,8 @@ import java.util.Set;
 
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
 @Entity
@@ -242,10 +245,12 @@ public class AmetistaApplication extends AmetistaItem {
         return platforms;
     }
 
+    @JsonGetter(ISSUES_KEY)
     public List<IssueAnalytic> getIssues() {
         return issues;
     }
 
+    @JsonGetter(PERFORMANCE_ANALYTICS_KEY)
     public List<PerformanceAnalytic> getPerformanceAnalytics() {
         return performanceAnalytics;
     }

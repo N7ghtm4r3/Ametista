@@ -1,5 +1,6 @@
 package com.tecknobit.ametistacore.models;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
@@ -41,6 +42,7 @@ public abstract class AmetistaItem extends EquinoxItem {
         return name;
     }
 
+    @JsonGetter(CREATION_DATE_KEY)
     public long getCreationTimestamp() {
         return creationDate;
     }

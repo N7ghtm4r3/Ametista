@@ -9,6 +9,8 @@ public class PaginatedResponse<T> {
 
     public static final String PAGE_KEY = "page";
 
+    public static final String DATA_SIZE_KEY = "data_size";
+
     public static final String PAGE_SIZE_KEY = "page_size";
 
     public static final String IS_LAST_PAGE_KEY = "is_last_page";
@@ -17,7 +19,7 @@ public class PaginatedResponse<T> {
 
     public static final String DEFAULT_PAGE_SIZE = "10";
 
-    private List<T> data;
+    private final List<T> data;
 
     private final int page;
 
@@ -52,8 +54,9 @@ public class PaginatedResponse<T> {
         return data;
     }
 
-    public void setData(List<T> data) {
-        this.data = data;
+    @JsonGetter(DATA_SIZE_KEY)
+    public int getDataSize() {
+        return data.size();
     }
 
     public int getPage() {

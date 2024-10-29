@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
+import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
 @Entity
@@ -26,6 +27,8 @@ import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
         }
 )
 public class AmetistaApplication extends AmetistaItem {
+
+    public static final String APPLICATION_IDENTIFIER_KEY = "application_id";
 
     public static final String APPLICATION_KEY = "application";
 
@@ -51,7 +54,15 @@ public class AmetistaApplication extends AmetistaItem {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = PLATFORMS_KEY)
+    @CollectionTable(
+            name = PLATFORMS_KEY,
+            joinColumns = @JoinColumn(name = APPLICATION_IDENTIFIER_KEY),
+            foreignKey = @ForeignKey(
+                    foreignKeyDefinition = "FOREIGN KEY (" + APPLICATION_IDENTIFIER_KEY + ") REFERENCES "
+                            + APPLICATIONS_KEY + "(" + IDENTIFIER_KEY + ") ON DELETE CASCADE"
+            )
+    )
+    @Column(name = PLATFORM_KEY)
     private final Set<Platform> platforms;
 
     @OneToMany(

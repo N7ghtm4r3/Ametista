@@ -43,10 +43,14 @@ public class AmetistaApplication extends AmetistaItem {
     private final String icon;
 
     @Lob
-    @Column(name = DESCRIPTION_KEY)
+    @Column(
+            name = DESCRIPTION_KEY,
+            columnDefinition = "MEDIUMTEXT"
+    )
     private final String description;
 
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     @CollectionTable(name = PLATFORMS_KEY)
     private final Set<Platform> platforms;
 
@@ -54,12 +58,14 @@ public class AmetistaApplication extends AmetistaItem {
             fetch = FetchType.LAZY,
             mappedBy = APPLICATION_KEY
     )
+    @OrderBy(value = CREATION_DATE_KEY + " DESC")
     private final List<IssueAnalytic> issues;
 
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = APPLICATION_KEY
     )
+    @OrderBy(value = CREATION_DATE_KEY + " DESC")
     private final List<PerformanceAnalytic> performanceAnalytics;
 
     public AmetistaApplication() {

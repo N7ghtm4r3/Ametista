@@ -3,17 +3,22 @@ package com.tecknobit.ametistacore.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import org.json.JSONObject;
 
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
 @Structure
+@MappedSuperclass
 public abstract class AmetistaItem extends EquinoxItem {
 
     public static final String CREATION_DATE_KEY = "creation_date";
 
+    @Column(name = NAME_KEY)
     protected String name;
 
+    @Column(name = CREATION_DATE_KEY)
     protected final long creationDate;
 
     public AmetistaItem() {

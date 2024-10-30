@@ -1,5 +1,6 @@
 package com.tecknobit.ametistacore.models.analytics.issues;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.models.AmetistaDevice;
 import com.tecknobit.ametistacore.models.Platform;
 import jakarta.persistence.Column;
@@ -52,6 +53,7 @@ public class WebIssueAnalytic extends IssueAnalytic {
         return browser;
     }
 
+    @JsonGetter(BROWSER_VERSION_KEY)
     public String getBrowserVersion() {
         return browserVersion;
     }

@@ -22,6 +22,14 @@ public class IssueAnalytic extends AmetistaAnalytic {
 
     public static final String ISSUE_KEY = "issue";
 
+    public static final String DATE_FILTERS_KEY = "dates";
+
+    public static final String VERSION_FILTERS_KEY = "versions";
+
+    public static final String BRAND_FILTERS_KEY = "brands";
+
+    public static final String MODEL_FILTERS_KEY = "models";
+
     @Column(
             name = ISSUE_KEY,
             columnDefinition = "MEDIUMTEXT"
@@ -30,10 +38,6 @@ public class IssueAnalytic extends AmetistaAnalytic {
 
     public IssueAnalytic() {
         this(null, -1, null, null, null, null);
-    }
-
-    public IssueAnalytic(Platform platform) {
-        this(null, -1, null, null, null, platform);
     }
 
     public IssueAnalytic(String id, long creationDate, String appVersion, AmetistaDevice device, String issue,

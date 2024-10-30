@@ -16,6 +16,8 @@ public abstract class AmetistaItem extends EquinoxItem {
 
     public static final String CREATION_DATE_KEY = "creation_date";
 
+    public static final String FILTERS_KEY = "filters";
+
     @Column(name = NAME_KEY)
     protected String name;
 

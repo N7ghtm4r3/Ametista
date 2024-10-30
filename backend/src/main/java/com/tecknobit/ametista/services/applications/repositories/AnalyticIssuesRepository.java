@@ -8,10 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.*;
 
 @Repository
 public interface AnalyticIssuesRepository extends JpaRepository<IssueAnalytic, String> {
@@ -19,12 +20,18 @@ public interface AnalyticIssuesRepository extends JpaRepository<IssueAnalytic, S
     @Query(
             value = "SELECT * FROM " + ISSUES_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
-                    " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY,
+                    " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY +
+                    // " AND " + CREATION_DATE_KEY + " IN (:" + DATE_FILTERS_KEY + ")" +
+                    " AND " + APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" /*+
+                    " AND " + BRAND + " IN (:" + DATE_FILTERS_KEY + ")" +
+                    " AND " + CREATION_DATE_KEY + " IN (:" + DATE_FILTERS_KEY + ")" +
+                    " AND " + CREATION_DATE_KEY + " IN (:" + DATE_FILTERS_KEY + ")"*/,
             nativeQuery = true
     )
     List<IssueAnalytic> getIssues(
             @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @Param(PLATFORM_KEY) String platform,
+            @Param(VERSION_FILTERS_KEY) Set<String> versions,
             Pageable pageable
     );
 

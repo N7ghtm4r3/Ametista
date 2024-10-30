@@ -10,11 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.tecknobit.ametista.services.applications.ApplicationsHelper.DEFAULT_PLATFORMS_FILTER;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
 import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
+import static com.tecknobit.ametistacore.models.AmetistaItem.FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
@@ -130,12 +132,13 @@ public class ApplicationsController extends DefaultAmetistaController {
             @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @RequestParam(name = PLATFORM_KEY) Platform platform,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
         if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform));
+        return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform, filters));
     }
 
     @DeleteMapping(

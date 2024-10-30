@@ -1,7 +1,6 @@
 package com.tecknobit.ametistacore.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
@@ -169,7 +168,7 @@ public class AmetistaApplication extends AmetistaItem {
                         String.valueOf(new Random().nextLong()),
                         System.currentTimeMillis(),
                         "1.0.0",
-                        new AmetistaAnalytic.AmetistaDevice(
+                        new AmetistaDevice(
                                 String.valueOf(new Random().nextInt()),
                                 "Brand",
                                 "XL",
@@ -183,7 +182,7 @@ public class AmetistaApplication extends AmetistaItem {
                         String.valueOf(new Random().nextLong()),
                         System.currentTimeMillis(),
                         "1.0.0",
-                        new AmetistaAnalytic.AmetistaDevice(
+                        new AmetistaDevice(
                                 String.valueOf(new Random().nextInt()),
                                 "Brand",
                                 "XL",
@@ -200,7 +199,7 @@ public class AmetistaApplication extends AmetistaItem {
                         String.valueOf(new Random().nextLong()),
                         System.currentTimeMillis(),
                         "1.0.0",
-                        new AmetistaAnalytic.AmetistaDevice(
+                        new AmetistaDevice(
                                 String.valueOf(new Random().nextInt()),
                                 "Brand",
                                 "XL",

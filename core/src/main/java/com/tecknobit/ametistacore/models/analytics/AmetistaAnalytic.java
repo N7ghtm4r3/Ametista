@@ -1,18 +1,19 @@
 package com.tecknobit.ametistacore.models.analytics;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
+import com.tecknobit.ametistacore.models.AmetistaDevice;
 import com.tecknobit.ametistacore.models.AmetistaItem;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
 
 @Structure
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AmetistaAnalytic extends AmetistaItem {
 
     public enum AnalyticType {
@@ -33,6 +34,8 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
 
     }
 
+    public static final String ANALYTIC_IDENTIFIER_KEY = "analytic_id";
+
     public static final String ANALYTIC_KEY = "analytic";
 
     public static final String APP_VERSION_KEY = "app_version";
@@ -48,12 +51,12 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
     @Column(name = APP_VERSION_KEY)
     protected final String appVersion;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = ANALYTIC_TYPE_KEY)
+    @Transient
     protected final AnalyticType type;
 
     @OneToOne(
-            mappedBy = ANALYTIC_KEY
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     protected final AmetistaDevice device;
 
@@ -83,6 +86,7 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
         platform = null;
     }
 
+    @JsonGetter(APP_VERSION_KEY)
     public String getAppVersion() {
         return appVersion;
     }
@@ -93,77 +97,6 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
 
     public Platform getPlatform() {
         return platform;
-    }
-
-    @Entity
-    @Table(name = AmetistaDevice.DEVICES_KEY)
-    public static class AmetistaDevice extends EquinoxItem {
-
-        public static final String DEVICE_KEY = "device";
-
-        public static final String DEVICES_KEY = "devices";
-
-        public static final String BRAND_KEY = "brand";
-
-        public static final String MODEL_KEY = "model";
-
-        public static final String OS_KEY = "os";
-
-        public static final String OS_VERSION_KEY = "osVersion";
-
-        @OneToOne
-        @OnDelete(action = OnDeleteAction.CASCADE)
-        private AmetistaAnalytic analytic;
-
-        @Column(name = BRAND_KEY)
-        private final String brand;
-
-        @Column(name = MODEL_KEY)
-        private final String model;
-
-        @Column(name = OS_KEY)
-        private final String os;
-
-        @Column(name = OS_VERSION_KEY)
-        private final String osVersion;
-
-        public AmetistaDevice() {
-            this(null, null, null, null, null);
-        }
-
-        public AmetistaDevice(String id, String brand, String model, String os, String osVersion) {
-            super(id);
-            this.brand = brand;
-            this.model = model;
-            this.os = os;
-            this.osVersion = osVersion;
-        }
-
-        public AmetistaDevice(JSONObject jDevice) {
-            super(jDevice);
-            // TODO: 18/10/2024 TO INIT CORRECTLY
-            brand = null;
-            model = null;
-            os = null;
-            osVersion = null;
-        }
-
-        public String getBrand() {
-            return brand;
-        }
-
-        public String getModel() {
-            return model;
-        }
-
-        public String getOs() {
-            return os;
-        }
-
-        public String getOsVersion() {
-            return osVersion;
-        }
-
     }
 
 }

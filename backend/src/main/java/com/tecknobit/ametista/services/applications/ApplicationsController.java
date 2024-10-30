@@ -3,6 +3,7 @@ package com.tecknobit.ametista.services.applications;
 import com.tecknobit.ametista.services.DefaultAmetistaController;
 import com.tecknobit.ametista.services.applications.ApplicationsHelper.ApplicationPayload;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
+import com.tecknobit.ametistacore.models.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,8 @@ import static com.tecknobit.ametista.services.applications.ApplicationsHelper.DE
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
 import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
+import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
@@ -109,10 +112,30 @@ public class ApplicationsController extends DefaultAmetistaController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId
     ) {
-        Optional<AmetistaApplication> application = applicationsHelper.getApplication(applicationId);
-        if (!isMe(userId, token) || application.isEmpty())
+        AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
+        if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(application.get());
+        return (T) successResponse(application);
+    }
+
+    @GetMapping(
+            path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + ISSUES_KEY,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public <T> T getIssues(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @RequestParam(name = PLATFORM_KEY) Platform platform,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize
+    ) {
+        AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
+        if (application == null)
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform));
     }
 
     @DeleteMapping(
@@ -144,6 +167,13 @@ public class ApplicationsController extends DefaultAmetistaController {
 
     private boolean userAllowedAndApplicationExists(String userId, String token, String applicationId) {
         return isAdmin(userId, token) && applicationsHelper.applicationExists(applicationId);
+    }
+
+    private AmetistaApplication validateUserAndFetchApplication(String userId, String token, String applicationId) {
+        Optional<AmetistaApplication> application = applicationsHelper.getApplication(applicationId);
+        if (!isMe(userId, token) || application.isEmpty())
+            return null;
+        return application.get();
     }
 
 }

@@ -1,8 +1,12 @@
 package com.tecknobit.ametista.services.applications;
 
 import com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager;
+import com.tecknobit.ametista.services.applications.repositories.AnalyticIssuesRepository;
+import com.tecknobit.ametista.services.applications.repositories.ApplicationsRepository;
 import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
+import com.tecknobit.ametistacore.models.Platform;
+import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,9 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
 
     @Autowired
     private ApplicationsRepository applicationsRepository;
+
+    @Autowired
+    private AnalyticIssuesRepository issuesRepository;
 
     public PaginatedResponse<AmetistaApplication> getApplications(int page, int pageSize, String name, List<String> platforms) {
         Pageable pageable = PageRequest.of(page, pageSize);
@@ -62,6 +69,14 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
 
     public Optional<AmetistaApplication> getApplication(String applicationId) {
         return applicationsRepository.findById(applicationId);
+    }
+
+    public PaginatedResponse<IssueAnalytic> getIssues(AmetistaApplication application, int page, int pageSize,
+                                                      Platform platform) {
+        String applicationId = application.getId();
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<IssueAnalytic> issues = issuesRepository.getIssues(applicationId, platform.name(), pageable);
+        return new PaginatedResponse<>(issues, page, pageSize, applicationsRepository);
     }
 
     public void deleteApplication(String applicationId) {

@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.services.applications;
+package com.tecknobit.ametista.services.applications.repositories;
 
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import jakarta.transaction.Transactional;
@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import static com.tecknobit.ametistacore.models.AmetistaItem.CREATION_DATE_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
-@Service
 @Repository
 public interface ApplicationsRepository extends JpaRepository<AmetistaApplication, String> {
 

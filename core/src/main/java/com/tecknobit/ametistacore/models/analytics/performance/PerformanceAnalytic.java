@@ -1,5 +1,6 @@
 package com.tecknobit.ametistacore.models.analytics.performance;
 
+import com.tecknobit.ametistacore.models.AmetistaDevice;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import jakarta.persistence.Column;
@@ -69,6 +70,10 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     public PerformanceAnalyticType getPerformanceAnalyticType() {
         return performanceAnalyticType;
+    }
+
+    public AmetistaDevice getDevice() {
+        return device;
     }
 
 }

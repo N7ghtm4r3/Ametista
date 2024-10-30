@@ -28,4 +28,15 @@ public interface AnalyticIssuesRepository extends JpaRepository<IssueAnalytic, S
             Pageable pageable
     );
 
+    @Query(
+            value = "SELECT COUNT(*) FROM " + ISSUES_KEY +
+                    " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
+                    " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY,
+            nativeQuery = true
+    )
+    long countIssuesPerPlatform(
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @Param(PLATFORM_KEY) String platform
+    );
+
 }

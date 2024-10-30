@@ -74,9 +74,11 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
     public PaginatedResponse<IssueAnalytic> getIssues(AmetistaApplication application, int page, int pageSize,
                                                       Platform platform) {
         String applicationId = application.getId();
+        String platformName = platform.name();
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<IssueAnalytic> issues = issuesRepository.getIssues(applicationId, platform.name(), pageable);
-        return new PaginatedResponse<>(issues, page, pageSize, applicationsRepository);
+        List<IssueAnalytic> issues = issuesRepository.getIssues(applicationId, platformName, pageable);
+        long totalIssues = issuesRepository.countIssuesPerPlatform(applicationId, platformName);
+        return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 
     public void deleteApplication(String applicationId) {

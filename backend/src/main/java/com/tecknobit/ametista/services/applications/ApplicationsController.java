@@ -55,7 +55,7 @@ public class ApplicationsController extends DefaultAmetistaController {
                     TOKEN_KEY
             }
     )
-    public String saveApplication(
+    public String addApplication(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
             @ModelAttribute ApplicationPayload application

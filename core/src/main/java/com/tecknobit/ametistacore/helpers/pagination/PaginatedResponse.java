@@ -28,17 +28,20 @@ public class PaginatedResponse<T> {
     private final boolean isLastPage;
 
     public PaginatedResponse(List<T> data, int page, int pageSize, CrudRepository<?, ?> repository) {
+        this(data, page, pageSize, repository.count());
+    }
+
+    public PaginatedResponse(List<T> data, int page, int pageSize, long totalDataCount) {
         this.data = data;
         this.page = page;
         this.pageSize = pageSize;
-        long totalData = repository.count();
         int balancer;
-        if ((totalData % pageSize) == 0)
+        if ((totalDataCount % pageSize) == 0)
             balancer = 1;
         else
             balancer = 0;
-        int maxPages = (int) (totalData / pageSize) - balancer;
-        this.isLastPage = totalData < pageSize || page >= maxPages;
+        int maxPages = (int) (totalDataCount / pageSize) - balancer;
+        this.isLastPage = totalDataCount < pageSize || page >= maxPages;
     }
 
     public PaginatedResponse(List<T> data, int page, int pageSize, boolean isLastPage) {

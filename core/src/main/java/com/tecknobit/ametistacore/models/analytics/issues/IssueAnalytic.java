@@ -32,6 +32,10 @@ public class IssueAnalytic extends AmetistaAnalytic {
         this(null, -1, null, null, null, null);
     }
 
+    public IssueAnalytic(Platform platform) {
+        this(null, -1, null, null, null, platform);
+    }
+
     public IssueAnalytic(String id, long creationDate, String appVersion, AmetistaDevice device, String issue,
                          Platform platform) {
         super(id, null, creationDate, appVersion, ISSUE, device, platform);

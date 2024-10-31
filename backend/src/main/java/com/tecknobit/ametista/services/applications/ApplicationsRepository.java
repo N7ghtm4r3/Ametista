@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.services.applications.repositories;
+package com.tecknobit.ametista.services.applications;
 
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import jakarta.transaction.Transactional;

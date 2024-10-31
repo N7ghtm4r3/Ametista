@@ -119,7 +119,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getDateFilters() {
-        return getFilters(DATE_PATTERN);
+        return extractFiltersByPattern(DATE_PATTERN);
     }
 
     private void addVersionFilters() {
@@ -133,7 +133,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getVersionFilters() {
-        return getFilters(VERSION_PATTERN);
+        return extractFiltersByPattern(VERSION_PATTERN);
     }
 
     protected ArrayList<Predicate> getVersionPredicates(HashSet<String> versions) {
@@ -155,7 +155,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getBrandFilters() {
-        return getFilters(BRAND_PATTERN);
+        return extractFiltersByPattern(BRAND_PATTERN);
     }
 
     private void addModelFilters() {
@@ -168,10 +168,10 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getModelFilters() {
-        return getFilters(MODEL_PATTERN);
+        return extractFiltersByPattern(MODEL_PATTERN);
     }
 
-    protected HashSet<String> getFilters(Pattern pattern) {
+    protected HashSet<String> extractFiltersByPattern(Pattern pattern) {
         HashSet<String> filtersList = new HashSet<>();
         for (String filter : rawFilters) {
             Matcher matcher = pattern.matcher(filter);

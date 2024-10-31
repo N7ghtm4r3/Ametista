@@ -3,8 +3,6 @@ package com.tecknobit.ametista.services.applications;
 import com.tecknobit.ametista.helpers.queries.issues.IssuesQuery;
 import com.tecknobit.ametista.helpers.queries.issues.WebIssuesQuery;
 import com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager;
-import com.tecknobit.ametista.services.applications.repositories.AnalyticIssuesRepository;
-import com.tecknobit.ametista.services.applications.repositories.ApplicationsRepository;
 import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
@@ -30,9 +28,6 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
 
     @Autowired
     private ApplicationsRepository applicationsRepository;
-
-    @Autowired
-    private AnalyticIssuesRepository issuesRepository;
 
     public PaginatedResponse<AmetistaApplication> getApplications(int page, int pageSize, String name,
                                                                   List<String> platforms) {

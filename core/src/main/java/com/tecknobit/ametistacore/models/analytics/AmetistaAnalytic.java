@@ -11,6 +11,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.models.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
+
 @Structure
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -58,6 +60,7 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JoinColumn(name = DEVICE_IDENTIFIER_KEY)
     protected final AmetistaDevice device;
 
     @Enumerated(EnumType.STRING)

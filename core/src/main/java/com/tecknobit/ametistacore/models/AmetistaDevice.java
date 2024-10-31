@@ -2,18 +2,30 @@ package com.tecknobit.ametistacore.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.models.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
+
 @Entity
 @Table(name = AmetistaDevice.DEVICES_KEY)
+@AttributeOverride(
+        name = IDENTIFIER_KEY,
+        column = @Column(
+                name = DEVICE_IDENTIFIER_KEY
+        )
+)
 public class AmetistaDevice extends EquinoxItem {
 
     public static final String DEVICE_KEY = "device";
 
     public static final String DEVICES_KEY = "devices";
+
+    public static final String DEVICE_IDENTIFIER_KEY = "device_id";
 
     public static final String BRAND_KEY = "brand";
 

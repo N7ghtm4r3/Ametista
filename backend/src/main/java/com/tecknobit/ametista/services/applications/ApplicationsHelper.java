@@ -8,7 +8,6 @@ import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.apimanager.annotations.Wrapper;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +30,7 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
 
     public static final String DEFAULT_PLATFORMS_FILTER = "ANDROID,IOS,DESKTOP,WEB";
 
-    private static final String DATE_REGEX = "\\b(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/(\\d{4})\\s+([01]?[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])\\b";
+    private static final String DATE_REGEX = "\\b(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\\d{4}(\\s+([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9])?\\b";
 
     private static final Pattern DATE_PATTERN = Pattern.compile(DATE_REGEX);
 
@@ -113,21 +112,15 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
         if (platform == Platform.WEB) {
             HashSet<String> browsers = getBrowserFilters(concurrentFilters);
             //issues = issuesRepository.getIssues(applicationId, platformName, pageable);
-        } else {
-            issues = issuesRepository.getIssues(applicationId, platformName, versions, pageable);
-        }
+        } else
+            issues = issuesRepository.getIssues(applicationId, platformName, dates, versions, brands, models, pageable);
         long totalIssues = issuesRepository.countIssuesPerPlatform(applicationId, platformName);
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 
     @Wrapper
     private HashSet<String> getDateFilters(CopyOnWriteArraySet<String> filters) {
-        TimeFormatter timeFormatter = TimeFormatter.getInstance();
-        HashSet<String> longFormattedDates = new HashSet<>();
-        HashSet<String> rawDates = getFiltersList(filters, DATE_PATTERN);
-        for (String rawDate : rawDates)
-            longFormattedDates.add(String.valueOf(timeFormatter.formatAsTimestamp(rawDate)));
-        return longFormattedDates;
+        return getFiltersList(filters, DATE_PATTERN);
     }
 
     @Wrapper
@@ -155,7 +148,7 @@ public class ApplicationsHelper implements AmetistaResourcesManager {
         for (String filter : filters) {
             Matcher matcher = pattern.matcher(filter);
             if (matcher.matches()) {
-                filtersList.add(filter);
+                filtersList.add(filter.trim());
                 filters.remove(filter);
             }
         }

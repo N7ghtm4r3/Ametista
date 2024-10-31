@@ -42,7 +42,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getBrowserFilters() {
-        return getFiltersList(BROWSER_PATTERN);
+        return getFilters(BROWSER_PATTERN);
     }
 
 }

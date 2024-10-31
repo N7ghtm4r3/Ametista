@@ -81,15 +81,17 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
         String applicationId = application.getId();
         Pageable pageable = PageRequest.of(page, pageSize);
         List<T> issues;
+        long totalIssues;
         if (platform == Platform.WEB) {
             WebIssuesQuery webIssuesQuery = new WebIssuesQuery(entityManager, applicationId, filters);
             issues = (List<T>) webIssuesQuery.getIssues(pageable);
+            totalIssues = webIssuesQuery.getIssues().size();
         } else {
             IssuesQuery<IssueAnalytic> issuesQuery = new IssuesQuery<>(IssueAnalytic.class, entityManager, platform,
                     applicationId, filters);
             issues = (List<T>) issuesQuery.getIssues(pageable);
+            totalIssues = issuesQuery.getIssues().size();
         }
-        long totalIssues = issuesRepository.countIssuesPerPlatform(applicationId, platform.name()) - issues.size();
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 

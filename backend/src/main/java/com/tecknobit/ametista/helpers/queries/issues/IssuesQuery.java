@@ -56,9 +56,9 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     protected final Root<T> issue;
 
-    protected final Join<T, AmetistaDevice> device;
-
     protected final ArrayList<Predicate> predicates;
+
+    protected final Join<T, AmetistaDevice> device;
 
     public IssuesQuery(Class<T> issueType, EntityManager entityManager, Platform platform, String applicationId,
                        Set<String> rawFilters) {
@@ -81,9 +81,12 @@ public class IssuesQuery<T extends IssueAnalytic> {
         return typedQuery.getResultList();
     }
 
-    /*public long getTotalItems() {
-        return query
-    }*/
+    public List<T> getIssues() {
+        if (predicates.isEmpty())
+            prepareQuery();
+        TypedQuery<T> typedQuery = entityManager.createQuery(query);
+        return typedQuery.getResultList();
+    }
 
     private void prepareQuery() {
         fillPredicates();
@@ -116,7 +119,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getDateFilters() {
-        return getFiltersList(DATE_PATTERN);
+        return getFilters(DATE_PATTERN);
     }
 
     private void addVersionFilters() {
@@ -130,7 +133,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getVersionFilters() {
-        return getFiltersList(VERSION_PATTERN);
+        return getFilters(VERSION_PATTERN);
     }
 
     protected ArrayList<Predicate> getVersionPredicates(HashSet<String> versions) {
@@ -152,7 +155,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getBrandFilters() {
-        return getFiltersList(BRAND_PATTERN);
+        return getFilters(BRAND_PATTERN);
     }
 
     private void addModelFilters() {
@@ -165,10 +168,10 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     @Wrapper
     private HashSet<String> getModelFilters() {
-        return getFiltersList(MODEL_PATTERN);
+        return getFilters(MODEL_PATTERN);
     }
 
-    protected HashSet<String> getFiltersList(Pattern pattern) {
+    protected HashSet<String> getFilters(Pattern pattern) {
         HashSet<String> filtersList = new HashSet<>();
         for (String filter : rawFilters) {
             Matcher matcher = pattern.matcher(filter);

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
 import static com.tecknobit.ametistacore.models.AmetistaItem.FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCES_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
@@ -139,6 +141,26 @@ public class ApplicationsController extends DefaultAmetistaController {
         if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform, filters));
+    }
+
+    @PostMapping(
+            path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + PERFORMANCES_KEY,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public <T> T getPerformanceData(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @RequestParam(name = PLATFORM_KEY) Platform platform,
+            @RequestBody Map<String, Object> payload
+    ) {
+        AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
+        if (application == null)
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        loadJsonHelper(payload);
+        return (T) successResponse(applicationsHelper.getPerformanceData(applicationId, platform, jsonHelper));
     }
 
     @DeleteMapping(

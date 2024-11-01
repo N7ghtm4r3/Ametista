@@ -1,11 +1,10 @@
 package com.tecknobit.ametistacore.models.analytics.performance;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.models.AmetistaDevice;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.util.Random;
@@ -29,6 +28,12 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     }
 
+    public static final String PERFORMANCES_KEY = "performance";
+
+    public static final String INITIAL_DATE_KEY = "initial_date";
+
+    public static final String FINAL_DATE_KEY = "final_date";
+
     public static final String PERFORMANCE_ANALYTICS_KEY = "performance_analytics";
 
     public static final String PERFORMANCE_VALUE_KEY = "value";
@@ -38,6 +43,7 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
     @Column(name = PERFORMANCE_VALUE_KEY)
     protected final double value;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = PERFORMANCE_ANALYTIC_TYPE_KEY)
     protected final PerformanceAnalyticType performanceAnalyticType;
 
@@ -68,12 +74,9 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
         return value;
     }
 
+    @JsonGetter(PERFORMANCE_ANALYTIC_TYPE_KEY)
     public PerformanceAnalyticType getPerformanceAnalyticType() {
         return performanceAnalyticType;
-    }
-
-    public AmetistaDevice getDevice() {
-        return device;
     }
 
 }

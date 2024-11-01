@@ -2,12 +2,18 @@ package com.tecknobit.ametista.services.applications;
 
 import com.tecknobit.ametista.helpers.queries.issues.IssuesQuery;
 import com.tecknobit.ametista.helpers.queries.issues.WebIssuesQuery;
+import com.tecknobit.ametista.helpers.queries.performance.PerformanceDataPayloadFetcher;
 import com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager;
+import com.tecknobit.ametista.services.applications.repositories.ApplicationsRepository;
+import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
 import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
+import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxItemsHelper;
+import kotlin.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.LAUNCH_TIME;
 import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 
 @Service
@@ -28,6 +35,9 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
 
     @Autowired
     private ApplicationsRepository applicationsRepository;
+
+    @Autowired
+    private PerformanceRepository performanceRepository;
 
     public PaginatedResponse<AmetistaApplication> getApplications(int page, int pageSize, String name,
                                                                   List<String> platforms) {
@@ -90,13 +100,24 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 
+    public List<PerformanceAnalytic> getPerformanceData(String applicationId, Platform platform, JsonHelper hPayload) {
+        String platformName = platform.name();
+        PerformanceDataPayloadFetcher payloadFetcher = new PerformanceDataPayloadFetcher(hPayload);
+        Pair<Long, Long> launchTimeDateRange = payloadFetcher.fetchLaunchTimeDateRange();
+        List<String> launchTimeVersionSamples = payloadFetcher.getLaunchTimeVersionSamples();
+        if (launchTimeVersionSamples == null)
+            launchTimeVersionSamples = performanceRepository.getAllVersionsTarget(applicationId, platformName, LAUNCH_TIME.name());
+        List<PerformanceAnalytic> launchTimes = performanceRepository.collectLaunchTimes(applicationId, platformName,
+                launchTimeDateRange.getFirst(), launchTimeDateRange.getSecond(), launchTimeVersionSamples);
+        return launchTimes;
+    }
+
     public void deleteApplication(String applicationId) {
         applicationsRepository.deleteApplication(applicationId);
         deleteAppIcon(applicationId);
     }
 
     public record ApplicationPayload(MultipartFile icon, String name, String description) {
-
     }
 
 }

@@ -56,9 +56,8 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
     @Transient
     protected final AnalyticType type;
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    @ManyToOne(
+            cascade = CascadeType.ALL
     )
     @JoinColumn(name = DEVICE_IDENTIFIER_KEY)
     protected final AmetistaDevice device;

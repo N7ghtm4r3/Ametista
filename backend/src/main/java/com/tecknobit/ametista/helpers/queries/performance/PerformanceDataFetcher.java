@@ -14,8 +14,7 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.MAX_VERSION_
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.FINAL_DATE_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.INITIAL_DATE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.LAUNCH_TIME;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.NETWORK_REQUESTS;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem.MAX_TEMPORAL_RANGE;
 
 public class PerformanceDataFetcher {
@@ -46,6 +45,11 @@ public class PerformanceDataFetcher {
     @Wrapper
     public List<PerformanceAnalytic> getNetworkRequestsData() {
         return getPerformanceData(NETWORK_REQUESTS);
+    }
+
+    @Wrapper
+    public List<PerformanceAnalytic> getTotalIssuesData() {
+        return getPerformanceData(TOTAL_ISSUES);
     }
 
     private List<PerformanceAnalytic> getPerformanceData(PerformanceAnalyticType type) {

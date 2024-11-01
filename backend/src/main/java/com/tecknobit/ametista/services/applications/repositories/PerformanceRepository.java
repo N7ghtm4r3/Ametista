@@ -20,13 +20,16 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             value = "SELECT * FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
                     " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY +
+                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" +
                     " AND " + CREATION_DATE_KEY + " BETWEEN :" + INITIAL_DATE_KEY + " AND :" + FINAL_DATE_KEY +
-                    " AND " + APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")",
+                    " AND " + APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" +
+                    " ORDER BY " + APP_VERSION_KEY,
             nativeQuery = true
     )
-    List<PerformanceAnalytic> collectLaunchTimes(
+    List<PerformanceAnalytic> collectPerformanceData(
             @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @Param(PLATFORM_KEY) String platform,
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
             @Param(INITIAL_DATE_KEY) long initialDate,
             @Param(FINAL_DATE_KEY) long finalDate,
             @Param(VERSION_FILTERS_KEY) List<String> versions
@@ -36,14 +39,27 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             value = "SELECT DISTINCT " + APP_VERSION_KEY + " FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
                     " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY +
-                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:" + PERFORMANCE_ANALYTIC_TYPE_KEY +
-                    " LIMIT " + MAX_VERSION_SAMPLES,
+                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}",
             nativeQuery = true
     )
     List<String> getAllVersionsTarget(
             @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @Param(PLATFORM_KEY) String platform,
-            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) String type
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type
+    );
+
+    @Query(
+            value = "SELECT DISTINCT " + APP_VERSION_KEY + " FROM " + PERFORMANCE_ANALYTICS_KEY +
+                    " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
+                    " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY +
+                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" +
+                    " LIMIT " + MAX_VERSION_SAMPLES,
+            nativeQuery = true
+    )
+    List<String> getLimitedVersionsTarget(
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @Param(PLATFORM_KEY) String platform,
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type
     );
 
 }

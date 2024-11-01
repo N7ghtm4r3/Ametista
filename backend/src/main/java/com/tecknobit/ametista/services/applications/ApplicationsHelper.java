@@ -107,7 +107,9 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
                 performanceRepository);
         List<PerformanceAnalytic> launchTimes = payloadFetcher.getLaunchTimeData();
         List<PerformanceAnalytic> networkRequests = payloadFetcher.getNetworkRequestsData();
-        return networkRequests;
+        List<PerformanceAnalytic> totalIssues = payloadFetcher.getTotalIssuesData();
+        System.out.println((double) totalIssues.size() / launchTimes.size());
+        return totalIssues;
     }
 
     public void deleteApplication(String applicationId) {

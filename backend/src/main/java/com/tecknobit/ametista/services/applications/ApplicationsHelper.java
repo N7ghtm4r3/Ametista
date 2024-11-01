@@ -2,7 +2,7 @@ package com.tecknobit.ametista.services.applications;
 
 import com.tecknobit.ametista.helpers.queries.issues.IssuesQuery;
 import com.tecknobit.ametista.helpers.queries.issues.WebIssuesQuery;
-import com.tecknobit.ametista.helpers.queries.performance.PerformanceDataPayloadFetcher;
+import com.tecknobit.ametista.helpers.queries.performance.PerformanceDataFetcher;
 import com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager;
 import com.tecknobit.ametista.services.applications.repositories.ApplicationsRepository;
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
@@ -13,7 +13,7 @@ import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxItemsHelper;
-import kotlin.Pair;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,13 +25,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.LAUNCH_TIME;
 import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 
 @Service
 public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implements AmetistaResourcesManager {
 
     public static final String DEFAULT_PLATFORMS_FILTER = "ANDROID,IOS,DESKTOP,WEB";
+
+    private static final JsonHelper EMPTY_JSON_HELPER = new JsonHelper(new JSONObject());
 
     @Autowired
     private ApplicationsRepository applicationsRepository;
@@ -100,16 +101,13 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 
-    public List<PerformanceAnalytic> getPerformanceData(String applicationId, Platform platform, JsonHelper hPayload) {
+    public List<PerformanceAnalytic> getPerformanceData(String applicationId, Platform platform, JsonHelper filters) {
         String platformName = platform.name();
-        PerformanceDataPayloadFetcher payloadFetcher = new PerformanceDataPayloadFetcher(hPayload);
-        Pair<Long, Long> launchTimeDateRange = payloadFetcher.fetchLaunchTimeDateRange();
-        List<String> launchTimeVersionSamples = payloadFetcher.getLaunchTimeVersionSamples();
-        if (launchTimeVersionSamples == null)
-            launchTimeVersionSamples = performanceRepository.getAllVersionsTarget(applicationId, platformName, LAUNCH_TIME.name());
-        List<PerformanceAnalytic> launchTimes = performanceRepository.collectLaunchTimes(applicationId, platformName,
-                launchTimeDateRange.getFirst(), launchTimeDateRange.getSecond(), launchTimeVersionSamples);
-        return launchTimes;
+        PerformanceDataFetcher payloadFetcher = new PerformanceDataFetcher(applicationId, platformName, filters,
+                performanceRepository);
+        List<PerformanceAnalytic> launchTimes = payloadFetcher.getLaunchTimeData();
+        List<PerformanceAnalytic> networkRequests = payloadFetcher.getNetworkRequestsData();
+        return networkRequests;
     }
 
     public void deleteApplication(String applicationId) {

@@ -1,7 +1,7 @@
 package com.tecknobit.ametistacore.models.analytics.performance;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.tecknobit.ametistacore.models.AmetistaDevice;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import jakarta.persistence.*;
@@ -40,27 +40,33 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     public static final String PERFORMANCE_ANALYTIC_TYPE_KEY = "performance_analytic_type";
 
+    public static final String DATA_UPDATES_KEY = "data_updates";
+
     @Column(name = PERFORMANCE_VALUE_KEY)
-    protected final double value;
+    private final double value;
 
     @Enumerated(EnumType.STRING)
     @Column(name = PERFORMANCE_ANALYTIC_TYPE_KEY)
-    protected final PerformanceAnalyticType performanceAnalyticType;
+    private final PerformanceAnalyticType performanceAnalyticType;
+
+    @Column(name = DATA_UPDATES_KEY)
+    private final int dataUpdates;
 
     // TODO: 21/10/2024 TO REMOVE
     public PerformanceAnalytic(double value) {
-        this(null, System.currentTimeMillis() - (86400000L * new Random().nextInt(90)), null, null, value, null, null);
+        this(null, System.currentTimeMillis() - (86400000L * new Random().nextInt(90)), null, value, null, null, 0);
     }
 
     public PerformanceAnalytic() {
-        this(null, -1, null, null, 0, null, null);
+        this(null, -1, null, 0, null, null, 0);
     }
 
-    public PerformanceAnalytic(String id, long creationDate, String appVersion, AmetistaDevice device, double value,
-                               Platform platform, PerformanceAnalyticType performanceAnalyticType) {
-        super(id, null, creationDate, appVersion, PERFORMANCE, device, platform);
+    public PerformanceAnalytic(String id, long creationDate, String appVersion, double value, Platform platform,
+                               PerformanceAnalyticType performanceAnalyticType, int dataUpdates) {
+        super(id, null, creationDate, appVersion, PERFORMANCE, platform);
         this.value = value;
         this.performanceAnalyticType = performanceAnalyticType;
+        this.dataUpdates = dataUpdates;
     }
 
     public PerformanceAnalytic(JSONObject jPerformance) {
@@ -68,6 +74,7 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
         // TODO: 18/10/2024 TO INIT CORRECTLY
         value = 0;
         performanceAnalyticType = null;
+        dataUpdates = 0;
     }
 
     public double getValue() {
@@ -77,6 +84,11 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
     @JsonGetter(PERFORMANCE_ANALYTIC_TYPE_KEY)
     public PerformanceAnalyticType getPerformanceAnalyticType() {
         return performanceAnalyticType;
+    }
+
+    @JsonIgnore
+    public int getDataUpdates() {
+        return dataUpdates;
     }
 
 }

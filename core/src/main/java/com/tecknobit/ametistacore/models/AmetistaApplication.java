@@ -197,16 +197,10 @@ public class AmetistaApplication extends AmetistaItem {
                         String.valueOf(new Random().nextLong()),
                         System.currentTimeMillis(),
                         "1.0.0",
-                        new AmetistaDevice(
-                                String.valueOf(new Random().nextInt()),
-                                "Brand",
-                                "XL",
-                                "Android",
-                                "12"
-                        ),
-                        20d,
+                        0,
                         Platform.WEB,
-                        PerformanceAnalyticType.LAUNCH_TIME
+                        PerformanceAnalyticType.LAUNCH_TIME,
+                        0
                 ));
     }
 

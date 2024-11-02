@@ -10,7 +10,8 @@ import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxItemsHelper;
 import org.json.JSONObject;
@@ -101,15 +102,19 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }
 
-    public List<PerformanceAnalytic> getPerformanceData(String applicationId, Platform platform, JsonHelper filters) {
+    public PerformanceData getPerformanceData(String applicationId, Platform platform, JsonHelper filters) {
         String platformName = platform.name();
         PerformanceDataFetcher payloadFetcher = new PerformanceDataFetcher(applicationId, platformName, filters,
                 performanceRepository);
-        List<PerformanceAnalytic> launchTimes = payloadFetcher.getLaunchTimeData();
-        List<PerformanceAnalytic> networkRequests = payloadFetcher.getNetworkRequestsData();
-        List<PerformanceAnalytic> totalIssues = payloadFetcher.getTotalIssuesData();
-        System.out.println((double) totalIssues.size() / launchTimes.size());
-        return totalIssues;
+        PerformanceDataItem launchTimes = payloadFetcher.getLaunchTimeData();
+        PerformanceDataItem networkRequests = payloadFetcher.getNetworkRequestsData();
+        PerformanceDataItem totalIssues = payloadFetcher.getTotalIssuesData();
+        PerformanceDataItem issuesPerSession = payloadFetcher.getIssuesPerSessionData();
+        System.out.println(launchTimes);
+        System.out.println(networkRequests);
+        System.out.println(totalIssues);
+        System.out.println(issuesPerSession);
+        return new PerformanceData(launchTimes, networkRequests, totalIssues, issuesPerSession);
     }
 
     public void deleteApplication(String applicationId) {

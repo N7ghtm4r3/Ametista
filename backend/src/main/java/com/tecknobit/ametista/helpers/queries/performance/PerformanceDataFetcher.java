@@ -3,6 +3,7 @@ package com.tecknobit.ametista.helpers.queries.performance;
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import kotlin.Pair;
@@ -38,27 +39,35 @@ public class PerformanceDataFetcher {
     }
 
     @Wrapper
-    public List<PerformanceAnalytic> getLaunchTimeData() {
+    public PerformanceDataItem getLaunchTimeData() {
         return getPerformanceData(LAUNCH_TIME);
     }
 
     @Wrapper
-    public List<PerformanceAnalytic> getNetworkRequestsData() {
+    public PerformanceDataItem getNetworkRequestsData() {
         return getPerformanceData(NETWORK_REQUESTS);
     }
 
     @Wrapper
-    public List<PerformanceAnalytic> getTotalIssuesData() {
+    public PerformanceDataItem getTotalIssuesData() {
         return getPerformanceData(TOTAL_ISSUES);
     }
 
-    private List<PerformanceAnalytic> getPerformanceData(PerformanceAnalyticType type) {
+    @Wrapper
+    public PerformanceDataItem getIssuesPerSessionData() {
+        return getPerformanceData(ISSUES_PER_SESSION);
+    }
+
+    private PerformanceDataItem getPerformanceData(PerformanceAnalyticType type) {
         Pair<Long, Long> dateRange = fetchDateFromPayload(type);
         List<String> versionSamples = fetchVersionsFromPayload(type);
         if (versionSamples == null)
             versionSamples = performanceRepository.getLimitedVersionsTarget(applicationId, platformName, type);
-        return performanceRepository.collectPerformanceData(applicationId, platformName, type, dateRange.getFirst(),
-                dateRange.getSecond(), versionSamples);
+        List<PerformanceAnalytic> analytics = performanceRepository.collectPerformanceData(applicationId, platformName,
+                type, dateRange.getFirst(), dateRange.getSecond(), versionSamples);
+        if (type == LAUNCH_TIME)
+            System.out.println(analytics);
+        return new PerformanceDataItem(versionSamples, analytics);
     }
 
     private Pair<Long, Long> fetchDateFromPayload(PerformanceAnalyticType type) {

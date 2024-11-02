@@ -2,7 +2,6 @@ package com.tecknobit.ametistacore.models.analytics;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
-import com.tecknobit.ametistacore.models.AmetistaDevice;
 import com.tecknobit.ametistacore.models.AmetistaItem;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.apimanager.annotations.Structure;
@@ -10,8 +9,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
-
-import static com.tecknobit.ametistacore.models.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
 
 @Structure
 @MappedSuperclass
@@ -56,26 +53,19 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
     @Transient
     protected final AnalyticType type;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name = DEVICE_IDENTIFIER_KEY)
-    protected final AmetistaDevice device;
-
     @Enumerated(EnumType.STRING)
     @Column(name = PLATFORM_KEY)
     protected final Platform platform;
 
     public AmetistaAnalytic() {
-        this(null, null, -1, null, null, null, null);
+        this(null, null, -1, null, null, null);
     }
 
     public AmetistaAnalytic(String id, String name, long creationDate, String appVersion, AnalyticType type,
-                            AmetistaDevice device, Platform platform) {
+                            Platform platform) {
         super(id, name, creationDate);
         this.appVersion = appVersion;
         this.type = type;
-        this.device = device;
         this.platform = platform;
     }
 
@@ -84,17 +74,12 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
         // TODO: 18/10/2024 TO INIT CORRECTLY
         type = null;
         appVersion = null;
-        device = null;
         platform = null;
     }
 
     @JsonGetter(APP_VERSION_KEY)
     public String getAppVersion() {
         return appVersion;
-    }
-
-    public AmetistaDevice getDevice() {
-        return device;
     }
 
     public Platform getPlatform() {

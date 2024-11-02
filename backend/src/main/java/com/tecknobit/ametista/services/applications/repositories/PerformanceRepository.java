@@ -22,7 +22,10 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
                     " AND " + PLATFORM_KEY + "=:" + PLATFORM_KEY +
                     " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" +
                     " AND " + CREATION_DATE_KEY + " BETWEEN :" + INITIAL_DATE_KEY + " AND :" + FINAL_DATE_KEY +
-                    " AND " + APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" +
+                    " AND (" +
+                    "COALESCE(:" + VERSION_FILTERS_KEY + ") IS NULL OR " +
+                    APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" +
+                    ")" +
                     " ORDER BY " + APP_VERSION_KEY,
             nativeQuery = true
     )

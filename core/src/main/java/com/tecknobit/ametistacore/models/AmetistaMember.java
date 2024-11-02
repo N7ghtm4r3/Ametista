@@ -9,6 +9,8 @@ import static com.tecknobit.equinox.environment.records.EquinoxUser.PROFILE_PIC_
 
 public class AmetistaMember extends EquinoxItem {
 
+    public static final String MEMBER_IDENTIFIER_KEY = "member_id";
+
     private final String profilePic;
 
     private final String name;

@@ -10,11 +10,13 @@ import com.tecknobit.equinox.environment.controllers.EquinoxUsersController;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
 import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
+import static com.tecknobit.ametistacore.models.AmetistaMember.MEMBER_IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.models.AmetistaUser.*;
 import static com.tecknobit.ametistacore.models.AmetistaUser.Role.ADMIN;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PATCH;
@@ -169,7 +171,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
                     TOKEN_KEY
             }
     )
-    public <T> T geSessionMembers(
+    public <T> T getSessionMembers(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(value = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
@@ -178,6 +180,63 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         if (!isMe(userId, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         return (T) successResponse(usersHelper.getSessionMembers(page, pageSize, userId));
+    }
+
+    @PostMapping(
+            path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public String addViewer(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestBody Map<String, String> payload
+    ) {
+        loadJsonHelper(payload);
+        String adminCode = jsonHelper.getString(ADMIN_CODE_KEY);
+        if (!isAdmin(userId, token, adminCode))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        String name = jsonHelper.getString(NAME_KEY);
+        if (!isNameValid(name))
+            return failedResponse(WRONG_NAME_MESSAGE);
+        String surname = jsonHelper.getString(SURNAME_KEY);
+        if (!isSurnameValid(surname))
+            return failedResponse(WRONG_SURNAME_MESSAGE);
+        String email = jsonHelper.getString(EMAIL_KEY);
+        if (!isEmailValid(email))
+            return failedResponse(WRONG_EMAIL_MESSAGE);
+        try {
+            usersHelper.addViewer(name, surname, email);
+        } catch (NoSuchAlgorithmException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+        return successResponse();
+    }
+
+    @DeleteMapping(
+            path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY
+                    + "/{" + MEMBER_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public String removeMember(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(MEMBER_IDENTIFIER_KEY) String memberId,
+            @RequestParam(ADMIN_CODE_KEY) String adminCode
+    ) {
+        if (!isAdmin(userId, token, adminCode))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (!usersHelper.userExists(memberId))
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        usersHelper.deleteUser(memberId);
+        return successResponse();
+    }
+
+    private boolean isAdmin(String userId, String token, String adminCode) {
+        return isMe(userId, token) && me.isAdmin() && adminCodeProvider.serverSecretMatches(adminCode);
     }
 
 }

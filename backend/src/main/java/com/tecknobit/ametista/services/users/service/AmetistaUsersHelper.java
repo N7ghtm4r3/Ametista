@@ -15,8 +15,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.ametistacore.models.AmetistaUser.ADMIN_CODE_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaUser.ROLE_KEY;
+import static com.tecknobit.ametistacore.models.AmetistaUser.*;
+import static com.tecknobit.ametistacore.models.AmetistaUser.Role.VIEWER;
+import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
+import static com.tecknobit.equinox.inputs.InputValidator.DEFAULT_LANGUAGE;
 
 @Primary
 @Service
@@ -24,7 +26,8 @@ public class AmetistaUsersHelper extends EquinoxUsersHelper<AmetistaUser, Ametis
 
     @Override
     @CustomParametersOrder(order = {ADMIN_CODE_KEY, ROLE_KEY})
-    public void signUpUser(String id, String token, String name, String surname, String email, String password, String language, Object... custom) throws NoSuchAlgorithmException {
+    public void signUpUser(String id, String token, String name, String surname, String email, String password,
+                           String language, Object... custom) throws NoSuchAlgorithmException {
         super.signUpUser(id, token, name, surname, email, password, language, custom[1]);
     }
 
@@ -36,6 +39,10 @@ public class AmetistaUsersHelper extends EquinoxUsersHelper<AmetistaUser, Ametis
         return keys;
     }
 
+    public boolean userExists(String userId) {
+        return usersRepository.findById(userId).isPresent();
+    }
+
     public PaginatedResponse<AmetistaMember> getSessionMembers(int page, int pageSize, String userId) {
         ArrayList<AmetistaMember> members = new ArrayList<>();
         Pageable pageable = PageRequest.of(page, pageSize);
@@ -44,6 +51,12 @@ public class AmetistaUsersHelper extends EquinoxUsersHelper<AmetistaUser, Ametis
             members.add(user.convertToRelatedDTO());
         long totalUsers = usersRepository.count() - 1;
         return new PaginatedResponse<>(members, page, pageSize, totalUsers);
+    }
+
+    public void addViewer(String name, String surname, String email) throws NoSuchAlgorithmException {
+        String userId = generateIdentifier();
+        String token = generateIdentifier();
+        signUpUser(userId, token, name, surname, email, DEFAULT_VIEWER_PASSWORD, DEFAULT_LANGUAGE, null, VIEWER);
     }
 
 }

@@ -10,6 +10,7 @@ import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem;
 import com.tecknobit.apimanager.formatters.JsonHelper;
@@ -110,11 +111,11 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
         PerformanceDataItem networkRequests = payloadFetcher.getNetworkRequestsData();
         PerformanceDataItem totalIssues = payloadFetcher.getTotalIssuesData();
         PerformanceDataItem issuesPerSession = payloadFetcher.getIssuesPerSessionData();
-        System.out.println(launchTimes);
-        System.out.println(networkRequests);
-        System.out.println(totalIssues);
-        System.out.println(issuesPerSession);
         return new PerformanceData(launchTimes, networkRequests, totalIssues, issuesPerSession);
+    }
+
+    public List<String> getVersionSamples(String applicationId, Platform platform, PerformanceAnalyticType analyticType) {
+        return performanceRepository.getAllVersionsTarget(applicationId, platform.name(), analyticType);
     }
 
     public void deleteApplication(String applicationId) {

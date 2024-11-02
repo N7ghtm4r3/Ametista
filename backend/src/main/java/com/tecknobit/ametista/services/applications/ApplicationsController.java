@@ -4,6 +4,7 @@ import com.tecknobit.ametista.services.DefaultAmetistaController;
 import com.tecknobit.ametista.services.applications.ApplicationsHelper.ApplicationPayload;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,9 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
 import static com.tecknobit.ametistacore.models.AmetistaItem.FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCES_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
@@ -161,6 +164,25 @@ public class ApplicationsController extends DefaultAmetistaController {
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         return (T) successResponse(applicationsHelper.getPerformanceData(applicationId, platform, jsonHelper));
+    }
+
+    @GetMapping(
+            path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + VERSION_FILTERS_KEY,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public <T> T getVersionSamples(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @RequestParam(name = PLATFORM_KEY) Platform platform,
+            @RequestParam(name = PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType analyticType
+    ) {
+        AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
+        if (application == null)
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        return (T) successResponse(applicationsHelper.getVersionSamples(applicationId, platform, analyticType));
     }
 
     @DeleteMapping(

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
+import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaUser.*;
 import static com.tecknobit.ametistacore.models.AmetistaUser.Role.ADMIN;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PATCH;
@@ -160,6 +161,23 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         } catch (Exception e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
+    }
+
+    @GetMapping(
+            path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public <T> T geSessionMembers(
+            @PathVariable(IDENTIFIER_KEY) String userId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(value = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
+            @RequestParam(value = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize
+    ) {
+        if (!isMe(userId, token))
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        return (T) successResponse(usersHelper.getSessionMembers(page, pageSize, userId));
     }
 
 }

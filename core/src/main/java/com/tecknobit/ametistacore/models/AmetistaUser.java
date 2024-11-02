@@ -1,5 +1,7 @@
 package com.tecknobit.ametistacore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinox.environment.records.EquinoxUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,10 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
+
 @Entity
+@JsonIgnoreProperties({PASSWORD_KEY})
 public class AmetistaUser extends EquinoxUser {
 
     public static final String DEFAULT_VIEWER_PASSWORD = "changeme";
@@ -21,6 +26,8 @@ public class AmetistaUser extends EquinoxUser {
     public static final String ROLE_KEY = "role";
 
     public static final String SESSION_KEY = "session";
+
+    public static final String MEMBERS_KEY = "members";
 
     public enum Role {
 
@@ -65,12 +72,25 @@ public class AmetistaUser extends EquinoxUser {
         return role;
     }
 
+    @JsonIgnore
     public boolean isViewer() {
         return role == Role.VIEWER;
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return role == Role.ADMIN;
+    }
+
+    public AmetistaMember convertToRelatedDTO() {
+        return new AmetistaMember(
+                id,
+                profilePic,
+                name,
+                surname,
+                email,
+                role
+        );
     }
 
 }

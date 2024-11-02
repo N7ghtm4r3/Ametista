@@ -1,10 +1,14 @@
 package com.tecknobit.ametista.services.users.service;
 
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
+import com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse;
+import com.tecknobit.ametistacore.models.AmetistaMember;
 import com.tecknobit.ametistacore.models.AmetistaUser;
 import com.tecknobit.equinox.annotations.CustomParametersOrder;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxUsersHelper;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +34,16 @@ public class AmetistaUsersHelper extends EquinoxUsersHelper<AmetistaUser, Ametis
         ArrayList<String> keys = new ArrayList<>(DEFAULT_USER_VALUES_KEYS);
         keys.add(ROLE_KEY);
         return keys;
+    }
+
+    public PaginatedResponse<AmetistaMember> getSessionMembers(int page, int pageSize, String userId) {
+        ArrayList<AmetistaMember> members = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<AmetistaUser> users = usersRepository.getSessionMembers(userId, pageable);
+        for (AmetistaUser user : users)
+            members.add(user.convertToRelatedDTO());
+        long totalUsers = usersRepository.count() - 1;
+        return new PaginatedResponse<>(members, page, pageSize, totalUsers);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.services.applications;
+package com.tecknobit.ametista.services.applications.service;
 
 import com.tecknobit.ametista.helpers.queries.issues.IssuesQuery;
 import com.tecknobit.ametista.helpers.queries.issues.WebIssuesQuery;

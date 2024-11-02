@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.security.NoSuchAlgorithmException;
 
 import static com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager.APPLICATION_ICONS_FOLDER;
-import static com.tecknobit.ametista.services.users.AmetistaUsersController.adminCodeProvider;
+import static com.tecknobit.ametista.services.users.controller.AmetistaUsersController.adminCodeProvider;
 import static com.tecknobit.apimanager.apis.ServerProtector.DELETE_SERVER_SECRET_AND_INTERRUPT_COMMAND;
 import static com.tecknobit.equinox.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.equinox.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;

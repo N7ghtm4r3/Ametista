@@ -20,6 +20,8 @@ public class AmetistaUser extends EquinoxUser {
 
     public static final String ROLE_KEY = "role";
 
+    public static final String SESSION_KEY = "session";
+
     public enum Role {
 
         VIEWER,

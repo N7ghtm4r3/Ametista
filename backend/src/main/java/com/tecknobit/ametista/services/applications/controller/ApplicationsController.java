@@ -1,7 +1,8 @@
-package com.tecknobit.ametista.services.applications;
+package com.tecknobit.ametista.services.applications.controller;
 
 import com.tecknobit.ametista.services.DefaultAmetistaController;
-import com.tecknobit.ametista.services.applications.ApplicationsHelper.ApplicationPayload;
+import com.tecknobit.ametista.services.applications.service.ApplicationsHelper;
+import com.tecknobit.ametista.services.applications.service.ApplicationsHelper.ApplicationPayload;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.applications.ApplicationsHelper.DEFAULT_PLATFORMS_FILTER;
+import static com.tecknobit.ametista.services.applications.service.ApplicationsHelper.DEFAULT_PLATFORMS_FILTER;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
 import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaApplication.*;

@@ -1,5 +1,6 @@
-package com.tecknobit.ametista.services.users;
+package com.tecknobit.ametista.services.users.service;
 
+import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
 import com.tecknobit.ametistacore.models.AmetistaUser;
 import com.tecknobit.equinox.annotations.CustomParametersOrder;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxUsersHelper;

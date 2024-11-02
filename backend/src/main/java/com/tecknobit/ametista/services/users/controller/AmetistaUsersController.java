@@ -1,5 +1,7 @@
-package com.tecknobit.ametista.services.users;
+package com.tecknobit.ametista.services.users.controller;
 
+import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
+import com.tecknobit.ametista.services.users.service.AmetistaUsersHelper;
 import com.tecknobit.ametistacore.models.AmetistaUser;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.apis.ServerProtector;

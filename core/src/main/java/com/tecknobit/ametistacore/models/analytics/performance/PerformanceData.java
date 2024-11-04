@@ -1,6 +1,7 @@
 package com.tecknobit.ametistacore.models.analytics.performance;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONObject;
 
@@ -120,6 +121,34 @@ public class PerformanceData {
 
         public boolean noDataAvailable() {
             return data.isEmpty();
+        }
+
+        // TODO: 22/10/2024 WARN ABOUT THE ALGORITHM NOT NEEDS SORT BECAUSE DATE FETCHED ALREADY ORDERED
+        @JsonIgnore
+        public long getStartTemporalRangeDate() {
+            long startDate = Integer.MAX_VALUE;
+            long endDate = getEndTemporalRangeDate();
+            for (List<PerformanceAnalytic> analytics : data.values()) {
+                long checkTimestamp = analytics.get(0).getCreationTimestamp();
+                if (checkTimestamp < startDate)
+                    startDate = checkTimestamp;
+            }
+            if (endDate - startDate >= MAX_TEMPORAL_RANGE)
+                startDate = endDate - MAX_TEMPORAL_RANGE;
+            return startDate;
+        }
+
+        // TODO: 22/10/2024 WARN ABOUT THE ALGORITHM NOT NEEDS SORT BECAUSE DATE FETCHED ALREADY ORDERED
+        @JsonIgnore
+        public long getEndTemporalRangeDate() {
+            long endDate = 0;
+            for (List<PerformanceAnalytic> analytics : data.values()) {
+                int lastIndex = analytics.size() - 1;
+                long checkTimestamp = analytics.get(lastIndex).getCreationTimestamp();
+                if (checkTimestamp > endDate)
+                    endDate = checkTimestamp;
+            }
+            return endDate;
         }
 
         @Override

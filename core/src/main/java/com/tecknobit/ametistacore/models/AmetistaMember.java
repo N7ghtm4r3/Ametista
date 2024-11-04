@@ -1,12 +1,14 @@
 package com.tecknobit.ametistacore.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.tecknobit.ametistacore.helpers.annotations.DTO;
 import com.tecknobit.ametistacore.models.AmetistaUser.Role;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
 import org.json.JSONObject;
 
 import static com.tecknobit.equinox.environment.records.EquinoxUser.PROFILE_PIC_KEY;
 
+@DTO
 public class AmetistaMember extends EquinoxItem {
 
     public static final String MEMBER_IDENTIFIER_KEY = "member_id";

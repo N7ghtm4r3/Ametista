@@ -2,6 +2,7 @@ package com.tecknobit.ametistacore.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.ametistacore.helpers.dtoutils.DTOConvertible;
 import com.tecknobit.equinox.environment.records.EquinoxUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,7 @@ import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY
 
 @Entity
 @JsonIgnoreProperties({PASSWORD_KEY})
-public class AmetistaUser extends EquinoxUser {
+public class AmetistaUser extends EquinoxUser implements DTOConvertible<AmetistaMember> {
 
     public static final String DEFAULT_VIEWER_PASSWORD = "changeme";
 
@@ -82,6 +83,7 @@ public class AmetistaUser extends EquinoxUser {
         return role == Role.ADMIN;
     }
 
+    @Override
     public AmetistaMember convertToRelatedDTO() {
         return new AmetistaMember(
                 id,

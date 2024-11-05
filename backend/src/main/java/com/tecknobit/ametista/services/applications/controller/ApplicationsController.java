@@ -44,8 +44,8 @@ public class ApplicationsController extends DefaultAmetistaController {
     public <T> T getApplications(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
             @RequestParam(name = NAME_KEY, defaultValue = "", required = false) String name,
             @RequestParam(
                     name = PLATFORMS_KEY,
@@ -137,8 +137,8 @@ public class ApplicationsController extends DefaultAmetistaController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @RequestParam(name = PLATFORM_KEY) Platform platform,
-            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
             @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);

@@ -174,8 +174,8 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     public <T> T getSessionMembers(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(value = PAGE_KEY, defaultValue = DEFAULT_PAGE, required = false) int page,
-            @RequestParam(value = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize
+            @RequestParam(value = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(value = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (!isMe(userId, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
@@ -193,10 +193,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody Map<String, String> payload
     ) {
-        loadJsonHelper(payload);
-        String adminCode = jsonHelper.getString(ADMIN_CODE_KEY);
-        if (!isAdmin(userId, token, adminCode))
+        if (!isAdmin(userId, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        loadJsonHelper(payload);
         String name = jsonHelper.getString(NAME_KEY);
         if (!isNameValid(name))
             return failedResponse(WRONG_NAME_MESSAGE);
@@ -224,10 +223,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     public String removeMember(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(MEMBER_IDENTIFIER_KEY) String memberId,
-            @RequestParam(ADMIN_CODE_KEY) String adminCode
+            @PathVariable(MEMBER_IDENTIFIER_KEY) String memberId
     ) {
-        if (!isAdmin(userId, token, adminCode))
+        if (!isAdmin(userId, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         if (!usersHelper.userExists(memberId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -235,8 +233,8 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return successResponse();
     }
 
-    private boolean isAdmin(String userId, String token, String adminCode) {
-        return isMe(userId, token) && me.isAdmin() && adminCodeProvider.serverSecretMatches(adminCode);
+    private boolean isAdmin(String userId, String token) {
+        return isMe(userId, token) && me.isAdmin();
     }
 
 }

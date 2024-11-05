@@ -1,12 +1,14 @@
 package com.tecknobit.ametistacore.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametistacore.helpers.annotations.DTO;
 import com.tecknobit.ametistacore.models.AmetistaUser.Role;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
 import org.json.JSONObject;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.PROFILE_PIC_KEY;
+import static com.tecknobit.ametistacore.models.AmetistaUser.ROLE_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 
 @DTO
 public class AmetistaMember extends EquinoxItem {
@@ -34,12 +36,11 @@ public class AmetistaMember extends EquinoxItem {
 
     public AmetistaMember(JSONObject jMember) {
         super(jMember);
-        // TODO: 02/11/2024 TO INIT CORRECTLY
-        profilePic = null;
-        name = null;
-        surname = null;
-        email = null;
-        role = null;
+        profilePic = hItem.getString(PROFILE_PIC_KEY);
+        name = hItem.getString(NAME_KEY);
+        surname = hItem.getString(SURNAME_KEY);
+        email = hItem.getString(EMAIL_KEY);
+        role = Role.valueOf(hItem.getString(ROLE_KEY));
     }
 
     @JsonGetter(PROFILE_PIC_KEY)
@@ -53,6 +54,11 @@ public class AmetistaMember extends EquinoxItem {
 
     public String getSurname() {
         return surname;
+    }
+
+    @JsonIgnore
+    public String getCompleteName() {
+        return name + " " + surname;
     }
 
     public String getEmail() {

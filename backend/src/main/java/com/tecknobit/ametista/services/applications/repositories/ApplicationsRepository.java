@@ -82,6 +82,24 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
+            value = "UPDATE " + APPLICATIONS_KEY +
+                    " SET " +
+                    NAME_KEY + "=:" + NAME_KEY + "," +
+                    DESCRIPTION_KEY + "=:" + DESCRIPTION_KEY + "," +
+                    APPLICATION_ICON_KEY + "=:" + APPLICATION_ICON_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void editApplication(
+            @Param(IDENTIFIER_KEY) String applicationId,
+            @Param(NAME_KEY) String name,
+            @Param(DESCRIPTION_KEY) String description,
+            @Param(APPLICATION_ICON_KEY) String icon
+    );
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
             value = "DELETE FROM " + APPLICATIONS_KEY +
                     " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true

@@ -68,15 +68,23 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
     }
 
     public void editApplication(String applicationId, ApplicationPayload payload) throws IOException {
-        applicationsRepository.editApplication(
-                applicationId,
-                payload.name,
-                payload.description
-        );
         MultipartFile newIcon = payload.icon;
         if (newIcon != null && !newIcon.isEmpty()) {
-            String iconPath = createAppIcon(newIcon, applicationId);
+            String iconPath = createAppIcon(newIcon, applicationId + System.currentTimeMillis());
+            applicationsRepository.editApplication(
+                    applicationId,
+                    payload.name,
+                    payload.description,
+                    iconPath
+            );
+            deleteAppIcon(applicationId);
             saveResource(newIcon, iconPath);
+        } else {
+            applicationsRepository.editApplication(
+                    applicationId,
+                    payload.name,
+                    payload.description
+            );
         }
     }
 

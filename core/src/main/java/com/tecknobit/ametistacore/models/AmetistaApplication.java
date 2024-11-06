@@ -8,10 +8,7 @@ import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalyt
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
@@ -216,12 +213,18 @@ public class AmetistaApplication extends AmetistaItem {
 
     public AmetistaApplication(JSONObject jApplication) {
         super(jApplication);
-        // TODO: 14/10/2024 TO INIT CORRECTLY
-        icon = null;
-        description = null;
-        platforms = null;
+        icon = hItem.getString(APPLICATION_ICON_KEY);
+        description = hItem.getString(DESCRIPTION_KEY);
+        platforms = new HashSet<>();
+        loadPlatforms();
         issues = null;
         performanceAnalytics = null;
+    }
+
+    private void loadPlatforms() {
+        List<String> jPlatforms = hItem.fetchVList(PLATFORMS_KEY, new ArrayList<>());
+        for (String platform : jPlatforms)
+            platforms.add(Platform.valueOf(platform));
     }
 
     public String getIcon() {
@@ -244,37 +247,6 @@ public class AmetistaApplication extends AmetistaItem {
     @JsonIgnore
     public List<PerformanceAnalytic> getPerformanceAnalytics() {
         return performanceAnalytics;
-    }
-
-    /*fun toChartData(): Map<String, List<Double>> {
-        return mutableMapOf<String, List<Double>>().apply {
-            versionSamples.forEach { version ->
-                put(version, values.fi)
-            }
-        }
-    }*/
-
-    // TODO: 21/10/2024 CHECK WHETHER MOVE IN THE CONTROLLER
-    public HashSet<String> getPerformanceAnalyticsSamples(PerformanceAnalyticType type, String... appVersion) {
-        HashSet<String> versionSamples = new HashSet<>();
-        switch (type) {
-            case LAUNCH_TIME -> versionSamples = fetchSamples(performanceAnalytics, new HashSet<>(List.of(appVersion)));
-        }
-        return versionSamples;
-    }
-
-    // TODO: 21/10/2024 CHECK WHETHER MOVE IN THE CONTROLLER
-    private HashSet<String> fetchSamples(List<PerformanceAnalytic> analytics, HashSet<String> filters) {
-        HashSet<String> versionSamples = new HashSet<>();
-        boolean fetchGenericVersions = filters.isEmpty();
-        for (PerformanceAnalytic analytic : analytics) {
-            String appVersion = analytic.getAppVersion();
-            if (versionSamples.size() > MAX_VERSION_SAMPLES)
-                break;
-            if (fetchGenericVersions || filters.contains(appVersion))
-                versionSamples.add(appVersion);
-        }
-        return versionSamples;
     }
 
 }

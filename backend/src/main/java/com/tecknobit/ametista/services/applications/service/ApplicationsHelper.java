@@ -32,7 +32,7 @@ import static com.tecknobit.equinox.environment.controllers.EquinoxController.ge
 @Service
 public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implements AmetistaResourcesManager {
 
-    public static final String DEFAULT_PLATFORMS_FILTER = "ANDROID,IOS,DESKTOP,WEB";
+    public static final String DEFAULT_PLATFORMS_FILTER = "";
 
     private static final JsonHelper EMPTY_JSON_HELPER = new JsonHelper(new JSONObject());
 

@@ -24,7 +24,10 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
                     " LEFT JOIN " + PLATFORMS_KEY + " as p ON" +
                     " p." + APPLICATION_IDENTIFIER_KEY + "=" + IDENTIFIER_KEY +
                     " WHERE " + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
-                    " AND (p." + PLATFORM_KEY + " IN (:" + PLATFORMS_KEY + ") OR p." + PLATFORM_KEY + " IS NULL) " +
+                    " AND (" +
+                    "COALESCE(:" + PLATFORMS_KEY + ") IS NULL OR " +
+                    "p." + PLATFORM_KEY + " IN (:" + PLATFORMS_KEY + ")" +
+                    ") " +
                     " ORDER BY " + CREATION_DATE_KEY + " DESC",
             nativeQuery = true
     )

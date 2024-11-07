@@ -7,8 +7,6 @@ import com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
-import java.util.Random;
-
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.AnalyticType.PERFORMANCE;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
 
@@ -52,11 +50,6 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
     @Column(name = DATA_UPDATES_KEY)
     private final int dataUpdates;
 
-    // TODO: 21/10/2024 TO REMOVE
-    public PerformanceAnalytic(double value) {
-        this(null, System.currentTimeMillis() - (86400000L * new Random().nextInt(90)), null, value, null, null, 0);
-    }
-
     public PerformanceAnalytic() {
         this(null, -1, null, 0, null, null, 0);
     }
@@ -71,9 +64,8 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     public PerformanceAnalytic(JSONObject jPerformance) {
         super(jPerformance, PERFORMANCE);
-        // TODO: 18/10/2024 TO INIT CORRECTLY
-        value = 0;
-        performanceAnalyticType = null;
+        value = hItem.getDouble(PERFORMANCE_VALUE_KEY);
+        performanceAnalyticType = PerformanceAnalyticType.valueOf(hItem.getString(PERFORMANCE_ANALYTIC_TYPE_KEY));
         dataUpdates = 0;
     }
 

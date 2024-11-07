@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.DATA_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 
 public class PerformanceData {
@@ -43,11 +44,10 @@ public class PerformanceData {
 
     public PerformanceData(JSONObject jPerformanceData) {
         JsonHelper hItem = new JsonHelper(jPerformanceData);
-        /* TODO: 02/11/2024 TO INIT CORRECTLY */
-        launchTimes = null;
-        networkRequests = null;
-        totalIssues = null;
-        issuesPerSession = null;
+        launchTimes = new PerformanceDataItem(hItem.getJSONObject(LAUNCH_TIMES_KEY, new JSONObject()));
+        networkRequests = new PerformanceDataItem(hItem.getJSONObject(NETWORK_REQUESTS_KEY, new JSONObject()));
+        totalIssues = new PerformanceDataItem(hItem.getJSONObject(TOTAL_ISSUES_KEY, new JSONObject()));
+        issuesPerSession = new PerformanceDataItem(hItem.getJSONObject(ISSUES_PER_SESSION_KEY, new JSONObject()));
     }
 
     @JsonGetter(LAUNCH_TIMES_KEY)
@@ -86,7 +86,7 @@ public class PerformanceData {
                                    PerformanceAnalyticType analyticType) {
             this.analyticType = analyticType;
             HashMap<String, List<PerformanceAnalytic>> data = new HashMap<>();
-            CopyOnWriteArrayList<PerformanceAnalytic> containerList = new CopyOnWriteArrayList<>(analytics);
+            ArrayList<PerformanceAnalytic> containerList = new ArrayList<>(analytics);
             for (String version : versions) {
                 List<PerformanceAnalytic> analyticByVersion = getAnalyticByVersion(version, containerList);
                 data.put(version, analyticByVersion);
@@ -101,23 +101,31 @@ public class PerformanceData {
 
         public PerformanceDataItem(JSONObject jItem) {
             JsonHelper hItem = new JsonHelper(jItem);
-            // TODO: 21/10/2024 TO INIT CORRECTLY
-            data = null;
-            analyticType = null;
+            JSONObject jData = hItem.getJSONObject(DATA_KEY);
+            data = loadData(jData);
+            analyticType = PerformanceAnalyticType.valueOf(hItem.getString(PERFORMANCE_ANALYTIC_TYPE_KEY));
         }
 
-        // TODO: 02/11/2024 WARN IN THE DOCU ABOUT THE BREAK EXIT BEFORE SCAN ALL THE LIST BEAUSE FROM DATABASE THE LIST IS ORDERED BY APP VERSION
-        private List<PerformanceAnalytic> getAnalyticByVersion(String appVersion, CopyOnWriteArrayList<PerformanceAnalytic> analytics) {
+        private List<PerformanceAnalytic> getAnalyticByVersion(String appVersion, ArrayList<PerformanceAnalytic> analytics) {
             List<PerformanceAnalytic> analyticsByVersion = new ArrayList<>();
-            for (int j = 0; j < analytics.size(); j++) {
-                PerformanceAnalytic analytic = analytics.get(j);
-                if (analytic.getAppVersion().equals(appVersion)) {
+            for (PerformanceAnalytic analytic : analytics) {
+                if (analytic.getAppVersion().equals(appVersion))
                     analyticsByVersion.add(analytic);
-                    analytics.remove(analytic);
-                } else
-                    break;
             }
+            analytics.removeAll(analyticsByVersion);
             return analyticsByVersion;
+        }
+
+        private Map<String, List<PerformanceAnalytic>> loadData(JSONObject jData) {
+            Map<String, List<PerformanceAnalytic>> data = new HashMap<>();
+            for (String appVersion : jData.keySet()) {
+                JSONArray analyticsPerVersion = jData.getJSONArray(appVersion);
+                ArrayList<PerformanceAnalytic> analytics = new ArrayList<>();
+                for (int j = 0; j < analyticsPerVersion.length(); j++)
+                    analytics.add(new PerformanceAnalytic(analyticsPerVersion.getJSONObject(j)));
+                data.put(appVersion, analytics);
+            }
+            return data;
         }
 
         public Map<String, List<PerformanceAnalytic>> getData() {

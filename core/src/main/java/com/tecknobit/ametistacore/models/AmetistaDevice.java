@@ -61,11 +61,16 @@ public class AmetistaDevice extends EquinoxItem {
 
     public AmetistaDevice(JSONObject jDevice) {
         super(jDevice);
-        // TODO: 18/10/2024 TO INIT CORRECTLY
-        brand = null;
-        model = null;
-        os = null;
-        osVersion = null;
+        brand = hItem.getString(BRAND_KEY);
+        model = hItem.getString(MODEL_KEY);
+        os = hItem.getString(OS_KEY);
+        osVersion = hItem.getString(OS_VERSION_KEY);
+    }
+
+    @Override
+    @JsonGetter(IDENTIFIER_KEY)
+    public String getId() {
+        return super.getId();
     }
 
     public String getBrand() {

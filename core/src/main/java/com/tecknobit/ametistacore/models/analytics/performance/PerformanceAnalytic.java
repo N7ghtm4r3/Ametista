@@ -70,7 +70,7 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
     }
 
     public PerformanceAnalytic(JSONObject jPerformance) {
-        super(jPerformance);
+        super(jPerformance, PERFORMANCE);
         // TODO: 18/10/2024 TO INIT CORRECTLY
         value = 0;
         performanceAnalyticType = null;

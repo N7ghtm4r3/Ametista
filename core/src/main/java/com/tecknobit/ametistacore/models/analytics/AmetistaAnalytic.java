@@ -69,12 +69,11 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
         this.platform = platform;
     }
 
-    public AmetistaAnalytic(JSONObject jAnalytic) {
+    public AmetistaAnalytic(JSONObject jAnalytic, AnalyticType analyticType) {
         super(jAnalytic);
-        // TODO: 18/10/2024 TO INIT CORRECTLY
-        type = null;
-        appVersion = null;
-        platform = null;
+        type = analyticType;
+        appVersion = hItem.getString(APP_VERSION_KEY);
+        platform = Platform.valueOf(hItem.getString(PLATFORM_KEY));
     }
 
     @JsonGetter(APP_VERSION_KEY)

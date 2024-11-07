@@ -10,8 +10,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import org.json.JSONObject;
 
-import java.util.Random;
-
 import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
 
 @Entity
@@ -42,12 +40,6 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
     @Column(name = ROLE_KEY)
     private final Role role;
 
-    // TODO: 24/10/2024 TO REMOVE
-    public AmetistaUser(String email) {
-        this(new Random().nextLong() + "", null, "Don", "Joe", email, null, "https://t3.ftcdn.net/jpg/06/48/40/06/360_F_648400633_xGkZpiwO8Dna5j0egnXVXPmdzMYup4K2.jpg",
-                null, null, Role.values()[new Random().nextInt(2)]);
-    }
-
     public AmetistaUser() {
         this(null, null, null, null, null, null, null, null, null, null);
     }
@@ -65,8 +57,7 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
 
     public AmetistaUser(JSONObject jUser) {
         super(jUser);
-        // TODO: 24/10/2024 TO INIT CORRECTLY
-        role = null;
+        role = Role.valueOf(hItem.getString(ROLE_KEY));
     }
 
     public Role getRole() {

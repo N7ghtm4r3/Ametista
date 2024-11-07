@@ -32,21 +32,20 @@ public class WebIssueAnalytic extends IssueAnalytic {
     private final String browserVersion;
 
     public WebIssueAnalytic() {
-        this(null, -1, null, null, null, null, null, null);
+        this(null, null, -1, null, null, null, null, null, null);
     }
 
-    public WebIssueAnalytic(String id, long creationDate, String appVersion, AmetistaDevice device, String issue,
-                            Platform platform, String browser, String browserVersion) {
-        super(id, creationDate, appVersion, device, issue, platform);
+    public WebIssueAnalytic(String id, String name, long creationDate, String appVersion, AmetistaDevice device,
+                            String issue, Platform platform, String browser, String browserVersion) {
+        super(id, name, creationDate, appVersion, device, issue, platform);
         this.browser = browser;
         this.browserVersion = browserVersion;
     }
 
     public WebIssueAnalytic(JSONObject jWebIssue) {
         super(jWebIssue);
-        // TODO: 19/10/2024 TO INIT CORRECTLY
-        browser = null;
-        browserVersion = null;
+        browser = hItem.getString(BROWSER_KEY);
+        browserVersion = hItem.getString(BROWSER_VERSION_KEY);
     }
 
     public String getBrowser() {

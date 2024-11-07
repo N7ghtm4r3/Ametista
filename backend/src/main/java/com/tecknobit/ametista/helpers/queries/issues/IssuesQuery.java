@@ -18,9 +18,12 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_
 import static com.tecknobit.ametistacore.models.AmetistaDevice.*;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 import static jakarta.persistence.criteria.JoinType.INNER;
 
 public class IssuesQuery<T extends IssueAnalytic> {
+
+    private static final String NAME_REGEX = "\\b(\\w+Exception)\\b";
 
     private static final String DATE_REGEX = "\\b(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\\d{4}(\\s+([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9])?\\b";
 
@@ -31,6 +34,8 @@ public class IssuesQuery<T extends IssueAnalytic> {
     private static final String BROWSER_REGEX = "^(Google Chrome|Safari|Microsoft Edge|Mozilla Firefox|Opera|Samsung Internet|Brave|Vivaldi|Tor Browser|Epic Privacy Browser|Maxthon)$";
 
     private static final String MODEL_REGEX = "^(?!" + BROWSER_REGEX + ")(\\d{1,2}[A-Za-z]?[- ]?\\d?[A-Za-z]?|[A-Za-z]+[ -]?\\d{1,2}([A-Za-z]?|\\d*)|[A-Za-z0-9]+[- ]?\\d{1,2}|\\d{1,2}[- ]?[A-Za-z0-9]+|[A-Za-z0-9]+[ -]?[A-Za-z0-9]+|\\d{1,2}[A-Za-z]? ?[A-Za-z]+|\\w+ ?[A-Za-z0-9]+)$";
+
+    public static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
 
     private static final Pattern DATE_PATTERN = Pattern.compile(DATE_REGEX);
 
@@ -95,6 +100,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
 
     protected void fillPredicates() {
         addMandatoryFilters();
+        addNameFilters();
         addDateFilters();
         addVersionFilters();
         addBrandFilters();
@@ -104,6 +110,19 @@ public class IssuesQuery<T extends IssueAnalytic> {
     private void addMandatoryFilters() {
         predicates.add(criteriaBuilder.equal(issue.get(APPLICATION_KEY).get(IDENTIFIER_KEY), applicationId));
         predicates.add(criteriaBuilder.equal(issue.get(PLATFORM_KEY), platform));
+    }
+
+    private void addNameFilters() {
+        HashSet<String> names = getNameFilters();
+        if (names != null) {
+            Predicate nameIn = issue.get(NAME_KEY).in(names);
+            predicates.add(nameIn);
+        }
+    }
+
+    @Wrapper
+    private HashSet<String> getNameFilters() {
+        return extractFiltersByPattern(NAME_PATTERN);
     }
 
     private void addDateFilters() {

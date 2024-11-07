@@ -65,8 +65,6 @@ public class PerformanceDataFetcher {
             versionSamples = performanceRepository.getLimitedVersionsTarget(applicationId, platformName, type);
         List<PerformanceAnalytic> analytics = performanceRepository.collectPerformanceData(applicationId, platformName,
                 type, dateRange.getFirst(), dateRange.getSecond(), versionSamples);
-        if (type == LAUNCH_TIME)
-            System.out.println(analytics);
         return new PerformanceDataItem(versionSamples, analytics);
     }
 

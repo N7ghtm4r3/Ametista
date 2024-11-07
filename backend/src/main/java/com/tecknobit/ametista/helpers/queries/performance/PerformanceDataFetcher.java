@@ -65,7 +65,7 @@ public class PerformanceDataFetcher {
             versionSamples = performanceRepository.getLimitedVersionsTarget(applicationId, platformName, type);
         List<PerformanceAnalytic> analytics = performanceRepository.collectPerformanceData(applicationId, platformName,
                 type, dateRange.getFirst(), dateRange.getSecond(), versionSamples);
-        return new PerformanceDataItem(versionSamples, analytics);
+        return new PerformanceDataItem(versionSamples, analytics, type);
     }
 
     private Pair<Long, Long> fetchDateFromPayload(PerformanceAnalyticType type) {

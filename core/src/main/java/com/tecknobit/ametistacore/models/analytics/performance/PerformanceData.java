@@ -2,11 +2,14 @@ package com.tecknobit.ametistacore.models.analytics.performance;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONObject;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 
 public class PerformanceData {
 
@@ -73,11 +76,15 @@ public class PerformanceData {
 
         private final Map<String, List<PerformanceAnalytic>> data;
 
+        private final PerformanceAnalyticType analyticType;
+
         public PerformanceDataItem() {
-            this((Map<String, List<PerformanceAnalytic>>) null);
+            this(null, null);
         }
 
-        public PerformanceDataItem(List<String> versions, List<PerformanceAnalytic> analytics) {
+        public PerformanceDataItem(List<String> versions, List<PerformanceAnalytic> analytics,
+                                   PerformanceAnalyticType analyticType) {
+            this.analyticType = analyticType;
             HashMap<String, List<PerformanceAnalytic>> data = new HashMap<>();
             CopyOnWriteArrayList<PerformanceAnalytic> containerList = new CopyOnWriteArrayList<>(analytics);
             for (String version : versions) {
@@ -87,14 +94,16 @@ public class PerformanceData {
             this.data = data;
         }
 
-        public PerformanceDataItem(Map<String, List<PerformanceAnalytic>> data) {
+        public PerformanceDataItem(Map<String, List<PerformanceAnalytic>> data, PerformanceAnalyticType analyticType) {
             this.data = data;
+            this.analyticType = analyticType;
         }
 
         public PerformanceDataItem(JSONObject jItem) {
             JsonHelper hItem = new JsonHelper(jItem);
             // TODO: 21/10/2024 TO INIT CORRECTLY
             data = null;
+            analyticType = null;
         }
 
         // TODO: 02/11/2024 WARN IN THE DOCU ABOUT THE BREAK EXIT BEFORE SCAN ALL THE LIST BEAUSE FROM DATABASE THE LIST IS ORDERED BY APP VERSION
@@ -121,6 +130,11 @@ public class PerformanceData {
 
         public boolean noDataAvailable() {
             return data.isEmpty();
+        }
+
+        @JsonGetter(PERFORMANCE_ANALYTIC_TYPE_KEY)
+        public PerformanceAnalyticType getAnalyticType() {
+            return analyticType;
         }
 
         // TODO: 22/10/2024 WARN ABOUT THE ALGORITHM NOT NEEDS SORT BECAUSE DATE FETCHED ALREADY ORDERED

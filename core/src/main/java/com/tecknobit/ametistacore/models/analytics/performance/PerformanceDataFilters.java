@@ -95,9 +95,9 @@ public class PerformanceDataFilters {
             PerformanceFilter filter = getFilter(analyticType);
             if (filter != null) {
                 JSONObject jAnalytic = new JSONObject();
-                jAnalytic.put(INITIAL_DATE_KEY, filter.getInitialDate());
+                payload.put(INITIAL_DATE_KEY, filter.getInitialDate());
                 jAnalytic.put(FINAL_DATE_KEY, filter.getFinalDate());
-                jAnalytic.put(VERSION_FILTERS_KEY, filter.getVersions());
+                jAnalytic.put(VERSION_FILTERS_KEY, filter.getVersions().toString());
                 payload.put(analyticType.name(), jAnalytic);
             }
         }

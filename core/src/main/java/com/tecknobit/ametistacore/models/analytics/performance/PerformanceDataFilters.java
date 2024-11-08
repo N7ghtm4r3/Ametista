@@ -1,6 +1,7 @@
 package com.tecknobit.ametistacore.models.analytics.performance;
 
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -97,7 +98,7 @@ public class PerformanceDataFilters {
                 JSONObject jAnalytic = new JSONObject();
                 payload.put(INITIAL_DATE_KEY, filter.getInitialDate());
                 jAnalytic.put(FINAL_DATE_KEY, filter.getFinalDate());
-                jAnalytic.put(VERSION_FILTERS_KEY, filter.getVersions().toString());
+                jAnalytic.put(VERSION_FILTERS_KEY, new JSONArray(filter.getVersions()));
                 payload.put(analyticType.name(), jAnalytic);
             }
         }

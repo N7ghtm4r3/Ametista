@@ -74,16 +74,20 @@ public class PerformanceData {
 
         public static final long MAX_TEMPORAL_RANGE = 86400000L * 90;
 
+        public static final String IS_CUSTOM_FILTERED_KEY = "is_custom_filtered";
+
         private final Map<String, List<PerformanceAnalytic>> data;
 
         private final PerformanceAnalyticType analyticType;
 
+        private final boolean customFiltered;
+
         public PerformanceDataItem() {
-            this(null, null);
+            this(null, null, false);
         }
 
         public PerformanceDataItem(List<String> versions, List<PerformanceAnalytic> analytics,
-                                   PerformanceAnalyticType analyticType) {
+                                   PerformanceAnalyticType analyticType, boolean customFiltered) {
             this.analyticType = analyticType;
             HashMap<String, List<PerformanceAnalytic>> data = new HashMap<>();
             ArrayList<PerformanceAnalytic> containerList = new ArrayList<>(analytics);
@@ -92,11 +96,14 @@ public class PerformanceData {
                 data.put(version, analyticByVersion);
             }
             this.data = data;
+            this.customFiltered = customFiltered;
         }
 
-        public PerformanceDataItem(Map<String, List<PerformanceAnalytic>> data, PerformanceAnalyticType analyticType) {
+        public PerformanceDataItem(Map<String, List<PerformanceAnalytic>> data, PerformanceAnalyticType analyticType,
+                                   boolean customFiltered) {
             this.data = data;
             this.analyticType = analyticType;
+            this.customFiltered = customFiltered;
         }
 
         public PerformanceDataItem(JSONObject jItem) {
@@ -104,6 +111,7 @@ public class PerformanceData {
             JSONObject jData = hItem.getJSONObject(DATA_KEY);
             data = loadData(jData);
             analyticType = PerformanceAnalyticType.valueOf(hItem.getString(PERFORMANCE_ANALYTIC_TYPE_KEY));
+            customFiltered = hItem.getBoolean(IS_CUSTOM_FILTERED_KEY);
         }
 
         private List<PerformanceAnalytic> getAnalyticByVersion(String appVersion, ArrayList<PerformanceAnalytic> analytics) {
@@ -123,7 +131,8 @@ public class PerformanceData {
                 ArrayList<PerformanceAnalytic> analytics = new ArrayList<>();
                 for (int j = 0; j < analyticsPerVersion.length(); j++)
                     analytics.add(new PerformanceAnalytic(analyticsPerVersion.getJSONObject(j)));
-                data.put(appVersion, analytics);
+                if (!analytics.isEmpty())
+                    data.put(appVersion, analytics);
             }
             return data;
         }
@@ -137,7 +146,12 @@ public class PerformanceData {
         }
 
         public boolean noDataAvailable() {
-            return data.isEmpty();
+            return data == null || data.isEmpty();
+        }
+
+        @JsonGetter(IS_CUSTOM_FILTERED_KEY)
+        public boolean isCustomFiltered() {
+            return customFiltered;
         }
 
         @JsonGetter(PERFORMANCE_ANALYTIC_TYPE_KEY)

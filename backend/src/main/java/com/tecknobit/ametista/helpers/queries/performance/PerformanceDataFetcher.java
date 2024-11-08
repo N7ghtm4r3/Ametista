@@ -7,6 +7,7 @@ import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.P
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import kotlin.Pair;
+import kotlin.Triple;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -59,29 +60,37 @@ public class PerformanceDataFetcher {
     }
 
     private PerformanceDataItem getPerformanceData(PerformanceAnalyticType type) {
-        Pair<Long, Long> dateRange = fetchDateFromPayload(type);
-        List<String> versionSamples = fetchVersionsFromPayload(type);
+        Triple<Long, Long, Boolean> dateRange = fetchDateFromPayload(type);
+        Pair<List<String>, Boolean> versionSamplesResult = fetchVersionsFromPayload(type);
+        List<String> versionSamples = versionSamplesResult.getFirst();
         if (versionSamples == null)
             versionSamples = performanceRepository.getLimitedVersionsTarget(applicationId, platformName, type);
         List<PerformanceAnalytic> analytics = performanceRepository.collectPerformanceData(applicationId, platformName,
                 type, dateRange.getFirst(), dateRange.getSecond(), versionSamples);
-        return new PerformanceDataItem(versionSamples, analytics, type);
+        return new PerformanceDataItem(versionSamples, analytics, type,
+                dateRange.getThird() || versionSamplesResult.getSecond());
     }
 
-    private Pair<Long, Long> fetchDateFromPayload(PerformanceAnalyticType type) {
+    private Triple<Long, Long, Boolean> fetchDateFromPayload(PerformanceAnalyticType type) {
         JsonHelper analyticPayload = hPayload.getJsonHelper(type.name(), EMPTY_JSON_HELPER);
         long initialDate = analyticPayload.getLong(INITIAL_DATE_KEY, -1);
-        long finalDate = analyticPayload.getLong(FINAL_DATE_KEY, System.currentTimeMillis());
+        long finalDate = analyticPayload.getLong(FINAL_DATE_KEY, -1);
+        boolean customFiltered = initialDate != -1 || finalDate != -1;
+        if (finalDate == -1)
+            finalDate = System.currentTimeMillis();
         if (initialDate == -1)
             initialDate = finalDate - MAX_TEMPORAL_RANGE;
-        return new Pair<>(initialDate, finalDate);
+        return new Triple<>(initialDate, finalDate, customFiltered);
     }
 
-    private List<String> fetchVersionsFromPayload(PerformanceAnalyticType type) {
+    private Pair<List<String>, Boolean> fetchVersionsFromPayload(PerformanceAnalyticType type) {
         List<String> versions = hPayload.getJsonHelper(type.name(), EMPTY_JSON_HELPER).fetchList(VERSION_FILTERS_KEY);
-        if (versions != null && versions.size() > MAX_VERSION_SAMPLES)
+        boolean customFiltered = false;
+        if (versions != null && versions.size() > MAX_VERSION_SAMPLES) {
             versions.subList(MAX_VERSION_SAMPLES, versions.size()).clear();
-        return versions;
+            customFiltered = true;
+        }
+        return new Pair<>(versions, customFiltered);
     }
 
 }

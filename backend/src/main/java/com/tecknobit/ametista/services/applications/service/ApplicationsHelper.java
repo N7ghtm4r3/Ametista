@@ -37,10 +37,10 @@ public class ApplicationsHelper extends EquinoxItemsHelper<IssueAnalytic> implem
     private static final JsonHelper EMPTY_JSON_HELPER = new JsonHelper(new JSONObject());
 
     @Autowired
-    private ApplicationsRepository applicationsRepository;
+    protected ApplicationsRepository applicationsRepository;
 
     @Autowired
-    private PerformanceRepository performanceRepository;
+    protected PerformanceRepository performanceRepository;
 
     public PaginatedResponse<AmetistaApplication> getApplications(int page, int pageSize, String name,
                                                                   List<String> platforms) {

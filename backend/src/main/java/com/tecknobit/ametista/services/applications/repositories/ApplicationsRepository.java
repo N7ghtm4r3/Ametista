@@ -1,6 +1,7 @@
 package com.tecknobit.ametista.services.applications.repositories;
 
 import com.tecknobit.ametistacore.models.AmetistaApplication;
+import com.tecknobit.ametistacore.models.Platform;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -106,6 +107,23 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
     )
     void deleteApplication(
             @Param(IDENTIFIER_KEY) String applicationId
+    );
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
+            value = "INSERT INTO " + PLATFORMS_KEY + "(" +
+                    APPLICATION_IDENTIFIER_KEY + "," +
+                    PLATFORM_KEY + ")" +
+                    " VALUES " + " ( " +
+                    ":" + APPLICATION_IDENTIFIER_KEY + "," +
+                    ":#{#" + PLATFORM_KEY + ".name()}" +
+                    ")",
+            nativeQuery = true
+    )
+    void connectPlatform(
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @Param(PLATFORM_KEY) Platform platform
     );
 
 }

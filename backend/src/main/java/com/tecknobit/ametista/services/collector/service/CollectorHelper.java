@@ -122,10 +122,12 @@ public class CollectorHelper extends ApplicationsHelper {
 
     private void manageIssuesPerSessionAnalytic(String applicationId, String appVersion, Platform platform) {
         long currentDate = getCurrentDate();
-        PerformanceAnalytic sessions = performanceRepository.getPerformanceAnalyticByDate(applicationId,
-                appVersion, platform, LAUNCH_TIME, currentDate);
         PerformanceAnalytic totalIssues = performanceRepository.getPerformanceAnalyticByDate(applicationId,
                 appVersion, platform, TOTAL_ISSUES, currentDate);
+        if (totalIssues == null)
+            return;
+        PerformanceAnalytic sessions = performanceRepository.getPerformanceAnalyticByDate(applicationId,
+                appVersion, platform, LAUNCH_TIME, currentDate);
         PerformanceAnalytic issuesPerSession = performanceRepository.getPerformanceAnalyticByDate(applicationId, appVersion,
                 platform, ISSUES_PER_SESSION, currentDate);
         double value = totalIssues.getValue() / sessions.getDataUpdates();

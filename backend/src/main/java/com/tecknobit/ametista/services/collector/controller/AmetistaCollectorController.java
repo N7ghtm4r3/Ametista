@@ -15,8 +15,11 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.APP_VERSION_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.ISSUES_PER_SESSION;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.TOTAL_ISSUES;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 
@@ -52,6 +55,35 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     }
 
     @PutMapping(
+            path = "/" + ISSUES_KEY,
+            params = {
+                    APP_VERSION_KEY,
+                    PLATFORM_KEY
+            },
+            headers = {
+                    SERVER_SECRET_KEY
+            }
+    )
+    public String collectIssue(
+            @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @RequestHeader(SERVER_SECRET_KEY) String serverSecret,
+            @RequestParam(APP_VERSION_KEY) String appVersion,
+            @RequestParam(PLATFORM_KEY) Platform platform,
+            @RequestBody Map<String, String> payload
+    ) {
+        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+        if (application == null || !application.getPlatforms().contains(platform))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        loadJsonHelper(payload);
+        try {
+            collectorHelper.collectIssue(applicationId, appVersion, platform, jsonHelper);
+            return successResponse();
+        } catch (IllegalArgumentException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+    }
+
+    @PutMapping(
             path = "/" + PERFORMANCE_ANALYTICS_KEY,
             params = {
                     APP_VERSION_KEY,
@@ -71,8 +103,10 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestBody(required = false) Map<String, String> payload
     ) {
         AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
-        if (application == null || !application.getPlatforms().contains(platform))
+        if (application == null || type == TOTAL_ISSUES || type == ISSUES_PER_SESSION ||
+                !application.getPlatforms().contains(platform)) {
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        }
         loadJsonHelper(payload);
         try {
             collectorHelper.collectAnalytic(applicationId, appVersion, platform, type, jsonHelper);

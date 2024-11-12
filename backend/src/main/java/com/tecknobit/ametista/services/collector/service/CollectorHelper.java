@@ -1,14 +1,24 @@
 package com.tecknobit.ametista.services.collector.service;
 
 import com.tecknobit.ametista.services.applications.service.ApplicationsHelper;
+import com.tecknobit.ametista.services.collector.repositories.DevicesRepository;
+import com.tecknobit.ametista.services.collector.repositories.IssuesRepository;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.tecknobit.ametistacore.models.AmetistaDevice.*;
+import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUE_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.BROWSER_KEY;
+import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.BROWSER_VERSION_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.LAUNCH_TIME_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.LAUNCH_TIME;
 import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
@@ -18,16 +28,67 @@ public class CollectorHelper extends ApplicationsHelper {
 
     private static final TimeFormatter timeFormatter = TimeFormatter.getInstance("dd/MM/yyyy");
 
+    private static final String EXCEPTION_NAME_REGEX = "\\b(\\w+Exception)\\b";
+
+    private static final Pattern EXCEPTION_NAME_PATTERN = Pattern.compile(EXCEPTION_NAME_REGEX);
+
+    @Autowired
+    private IssuesRepository issuesRepository;
+
+    @Autowired
+    private DevicesRepository devicesRepository;
+
     public void connectPlatform(String applicationId, Platform platform) {
         applicationsRepository.connectPlatform(applicationId, platform);
     }
 
+    public void collectIssue(String applicationId, String appVersion, Platform platform, JsonHelper hPayload) {
+        String issue = hPayload.getString(ISSUE_KEY);
+        if (issue == null)
+            throw new IllegalArgumentException("Invalid issue");
+        String deviceId = saveDevice(hPayload);
+        String name = getIssueName(issue);
+        String issueId = generateIdentifier();
+        long currentDate = timeFormatter.formatNowAsTimestamp();
+        if (platform == Platform.WEB) {
+            String browser = hPayload.getString(BROWSER_KEY);
+            String browserVersion = hPayload.getString(BROWSER_VERSION_KEY);
+            if (browser == null || browserVersion == null)
+                throw new IllegalArgumentException("Invalid browser details");
+            issuesRepository.storeWebIssue(issueId, currentDate, name, appVersion, platform, issue, browserVersion,
+                    browserVersion, applicationId, deviceId);
+        } else {
+            issuesRepository.storeIssue(issueId, currentDate, name, appVersion, platform, issue, applicationId, deviceId);
+        }
+    }
+
+    private String saveDevice(JsonHelper hDevice) {
+        String deviceId = hDevice.getString(DEVICE_IDENTIFIER_KEY);
+        if (deviceId == null)
+            throw new IllegalArgumentException("Invalid device");
+        if (devicesRepository.findById(deviceId).isEmpty()) {
+            String brand = hDevice.getString(BRAND_KEY);
+            String model = hDevice.getString(MODEL_KEY);
+            String os = hDevice.getString(OS_KEY);
+            String osVersion = hDevice.getString(OS_VERSION_KEY);
+            devicesRepository.saveDevice(deviceId, brand, model, os, osVersion);
+        }
+        return deviceId;
+    }
+
+    private String getIssueName(String issue) {
+        Matcher matcher = EXCEPTION_NAME_PATTERN.matcher(issue);
+        if (matcher.find())
+            return matcher.group(1);
+        return null;
+    }
+
     public void collectAnalytic(String applicationId, String appVersion, Platform platform, PerformanceAnalyticType type,
                                 JsonHelper hPayload) {
-        if (type == LAUNCH_TIME)
-            storeLaunchTime(applicationId, appVersion, platform, hPayload);
-        else
-            storeAnalytic(applicationId, appVersion, platform, type, 1);
+        switch (type) {
+            case LAUNCH_TIME -> storeLaunchTime(applicationId, appVersion, platform, hPayload);
+            case NETWORK_REQUESTS -> storeAnalytic(applicationId, appVersion, platform, type, 1);
+        }
     }
 
     @Wrapper

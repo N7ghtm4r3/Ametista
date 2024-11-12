@@ -1,6 +1,7 @@
 package com.tecknobit.ametistacore.models.analytics;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.AmetistaItem;
 import com.tecknobit.ametistacore.models.Platform;
@@ -83,6 +84,11 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
 
     public Platform getPlatform() {
         return platform;
+    }
+
+    @JsonIgnore
+    public AmetistaApplication getApplication() {
+        return application;
     }
 
 }

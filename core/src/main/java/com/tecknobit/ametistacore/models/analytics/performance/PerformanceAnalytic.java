@@ -28,6 +28,8 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
 
     public static final String PERFORMANCES_KEY = "performance";
 
+    public static final String LAUNCH_TIME_KEY = "launch_time";
+
     public static final String INITIAL_DATE_KEY = "initial_date";
 
     public static final String FINAL_DATE_KEY = "final_date";

@@ -5,12 +5,18 @@ import com.tecknobit.ametista.services.DefaultAmetistaController;
 import com.tecknobit.ametista.services.collector.service.CollectorHelper;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
+import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
 import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
+import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.APP_VERSION_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 
@@ -24,6 +30,9 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     private CollectorHelper collectorHelper;
 
     @PutMapping(
+            params = {
+                    PLATFORM_KEY
+            },
             headers = {
                     SERVER_SECRET_KEY
             }
@@ -40,6 +49,37 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             return failedResponse(PLATFORM_ALREADY_CONNECTED);
         collectorHelper.connectPlatform(applicationId, platform);
         return successResponse();
+    }
+
+    @PutMapping(
+            path = "/" + PERFORMANCE_ANALYTICS_KEY,
+            params = {
+                    APP_VERSION_KEY,
+                    PLATFORM_KEY,
+                    PERFORMANCE_ANALYTIC_TYPE_KEY
+            },
+            headers = {
+                    SERVER_SECRET_KEY
+            }
+    )
+    public String collectAnalytic(
+            @PathVariable(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @RequestHeader(SERVER_SECRET_KEY) String serverSecret,
+            @RequestParam(APP_VERSION_KEY) String appVersion,
+            @RequestParam(PLATFORM_KEY) Platform platform,
+            @RequestParam(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
+            @RequestBody(required = false) Map<String, String> payload
+    ) {
+        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+        if (application == null || !application.getPlatforms().contains(platform))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        loadJsonHelper(payload);
+        try {
+            collectorHelper.collectAnalytic(applicationId, appVersion, platform, type, jsonHelper);
+            return successResponse();
+        } catch (IllegalArgumentException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
     }
 
     private AmetistaApplication validateCollectorRequest(String applicationId, String serverSecret) {

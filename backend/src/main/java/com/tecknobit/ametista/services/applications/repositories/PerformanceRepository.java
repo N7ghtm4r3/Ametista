@@ -1,7 +1,10 @@
 package com.tecknobit.ametista.services.applications.repositories;
 
+import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -63,6 +66,83 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
             @Param(PLATFORM_KEY) String platform,
             @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type
+    );
+
+    @Query(
+            value = "SELECT * FROM " + PERFORMANCE_ANALYTICS_KEY +
+                    " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
+                    " AND " + APP_VERSION_KEY + "=:" + APP_VERSION_KEY +
+                    " AND " + PLATFORM_KEY + "=:#{#" + PLATFORM_KEY + ".name()}" +
+                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" +
+                    " AND " + CREATION_DATE_KEY + "=:" + CREATION_DATE_KEY,
+            nativeQuery = true
+    )
+    PerformanceAnalytic getPerformanceAnalyticByDate(
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId,
+            @Param(APP_VERSION_KEY) String appVersion,
+            @Param(PLATFORM_KEY) Platform platform,
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
+            @Param(CREATION_DATE_KEY) long creationDate
+    );
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
+            value = "INSERT INTO " + PERFORMANCE_ANALYTICS_KEY + " (" +
+                    IDENTIFIER_KEY + "," +
+                    CREATION_DATE_KEY + "," +
+                    APP_VERSION_KEY + "," +
+                    PLATFORM_KEY + "," +
+                    DATA_UPDATES_KEY + "," +
+                    PERFORMANCE_ANALYTIC_TYPE_KEY + "," +
+                    PERFORMANCE_VALUE_KEY + "," +
+                    APPLICATION_IDENTIFIER_KEY +
+                    ") VALUES (" +
+                    ":" + IDENTIFIER_KEY + "," +
+                    ":" + CREATION_DATE_KEY + "," +
+                    ":" + APP_VERSION_KEY + "," +
+                    ":#{#" + PLATFORM_KEY + ".name()}" + "," +
+                    ":" + DATA_UPDATES_KEY + "," +
+                    ":#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" + "," +
+                    ":" + PERFORMANCE_VALUE_KEY + "," +
+                    ":" + APPLICATION_IDENTIFIER_KEY +
+                    ")",
+            nativeQuery = true
+    )
+    void storeAnalytic(
+            @Param(IDENTIFIER_KEY) String id,
+            @Param(CREATION_DATE_KEY) long creationDate,
+            @Param(APP_VERSION_KEY) String appVersion,
+            @Param(PLATFORM_KEY) Platform platform,
+            @Param(DATA_UPDATES_KEY) int updates,
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
+            @Param(PERFORMANCE_VALUE_KEY) double value,
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId
+    );
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
+            value = "UPDATE " + PERFORMANCE_ANALYTICS_KEY + " SET " +
+                    DATA_UPDATES_KEY + "=:" + DATA_UPDATES_KEY + "," +
+                    PERFORMANCE_VALUE_KEY + "=:" + PERFORMANCE_VALUE_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + CREATION_DATE_KEY + "=:" + CREATION_DATE_KEY +
+                    " AND " + APP_VERSION_KEY + "=:" + APP_VERSION_KEY +
+                    " AND " + PLATFORM_KEY + "=:#{#" + PLATFORM_KEY + ".name()}" +
+                    " AND " + PERFORMANCE_ANALYTIC_TYPE_KEY + "=:#{#" + PERFORMANCE_ANALYTIC_TYPE_KEY + ".name()}" +
+                    " AND " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void updateAnalytic(
+            @Param(DATA_UPDATES_KEY) int updates,
+            @Param(PERFORMANCE_VALUE_KEY) double value,
+            @Param(IDENTIFIER_KEY) String id,
+            @Param(CREATION_DATE_KEY) long creationDate,
+            @Param(APP_VERSION_KEY) String appVersion,
+            @Param(PLATFORM_KEY) Platform platform,
+            @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
+            @Param(APPLICATION_IDENTIFIER_KEY) String applicationId
     );
 
 }

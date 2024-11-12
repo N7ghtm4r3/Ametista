@@ -20,7 +20,7 @@ import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.I
 import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.BROWSER_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.BROWSER_VERSION_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.LAUNCH_TIME_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.LAUNCH_TIME;
+import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
 import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 
 @Service
@@ -57,9 +57,9 @@ public class CollectorHelper extends ApplicationsHelper {
                 throw new IllegalArgumentException("Invalid browser details");
             issuesRepository.storeWebIssue(issueId, currentDate, name, appVersion, platform, issue, browserVersion,
                     browserVersion, applicationId, deviceId);
-        } else {
+        } else
             issuesRepository.storeIssue(issueId, currentDate, name, appVersion, platform, issue, applicationId, deviceId);
-        }
+        collectAnalytic(applicationId, appVersion, platform, TOTAL_ISSUES, null);
     }
 
     private String saveDevice(JsonHelper hDevice) {
@@ -88,6 +88,10 @@ public class CollectorHelper extends ApplicationsHelper {
         switch (type) {
             case LAUNCH_TIME -> storeLaunchTime(applicationId, appVersion, platform, hPayload);
             case NETWORK_REQUESTS -> storeAnalytic(applicationId, appVersion, platform, type, 1);
+            case TOTAL_ISSUES -> {
+                storeAnalytic(applicationId, appVersion, platform, type, 1);
+                manageIssuesPerSessionAnalytic(applicationId, appVersion, platform);
+            }
         }
     }
 
@@ -101,18 +105,41 @@ public class CollectorHelper extends ApplicationsHelper {
                                PerformanceAnalyticType type, double value) {
         if (value < 0)
             throw new IllegalArgumentException("Invalid analytic value");
-        long currentDate = timeFormatter.formatAsTimestamp(timeFormatter.formatNowAsString());
+        long currentDate = getCurrentDate();
         PerformanceAnalytic analytic = performanceRepository.getPerformanceAnalyticByDate(applicationId, appVersion,
                 platform, type, currentDate);
         if (analytic == null) {
             performanceRepository.storeAnalytic(generateIdentifier(), currentDate, appVersion, platform, 1, type,
                     value, applicationId);
         } else {
-            switch (type) {
-                case LAUNCH_TIME, ISSUES_PER_SESSION -> computeAnalyticValue(analytic, value, currentDate);
-                default -> incrementAnalyticValue(analytic, (int) value, currentDate);
-            }
+            if (type == LAUNCH_TIME) {
+                computeAnalyticValue(analytic, value, currentDate);
+                manageIssuesPerSessionAnalytic(applicationId, appVersion, platform);
+            } else
+                incrementAnalyticValue(analytic, (int) value, currentDate);
         }
+    }
+
+    private void manageIssuesPerSessionAnalytic(String applicationId, String appVersion, Platform platform) {
+        long currentDate = getCurrentDate();
+        PerformanceAnalytic sessions = performanceRepository.getPerformanceAnalyticByDate(applicationId,
+                appVersion, platform, LAUNCH_TIME, currentDate);
+        PerformanceAnalytic totalIssues = performanceRepository.getPerformanceAnalyticByDate(applicationId,
+                appVersion, platform, TOTAL_ISSUES, currentDate);
+        PerformanceAnalytic issuesPerSession = performanceRepository.getPerformanceAnalyticByDate(applicationId, appVersion,
+                platform, ISSUES_PER_SESSION, currentDate);
+        double value = totalIssues.getValue() / sessions.getDataUpdates();
+        if (issuesPerSession == null) {
+            performanceRepository.storeAnalytic(generateIdentifier(), currentDate, appVersion, platform, 1,
+                    ISSUES_PER_SESSION, value, applicationId);
+        } else {
+            int updatesRefreshed = issuesPerSession.getDataUpdates() + 1;
+            updateAnalytic(updatesRefreshed, value, issuesPerSession, currentDate);
+        }
+    }
+
+    private long getCurrentDate() {
+        return timeFormatter.formatAsTimestamp(timeFormatter.formatNowAsString());
     }
 
     private void computeAnalyticValue(PerformanceAnalytic analytic, double value, long currentDate) {

@@ -69,7 +69,7 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestHeader(SERVER_SECRET_KEY) String serverSecret,
             @RequestParam(APP_VERSION_KEY) String appVersion,
             @RequestParam(PLATFORM_KEY) Platform platform,
-            @RequestBody Map<String, String> payload
+            @RequestBody Map<String, Object> payload
     ) {
         AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
         if (application == null || !application.getPlatforms().contains(platform))

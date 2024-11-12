@@ -34,9 +34,10 @@ public interface IssuesRepository extends JpaRepository<IssueAnalytic, String> {
                     APP_VERSION_KEY + "," +
                     PLATFORM_KEY + "," +
                     ISSUE_KEY + "," +
-                    APPLICATION_IDENTIFIER_KEY +
-                    ") VALUES (" +
-                    ISSUE_KEY + "," +
+                    APPLICATION_IDENTIFIER_KEY + "," +
+                    DEVICE_IDENTIFIER_KEY +
+                    ") VALUES ('" +
+                    ISSUE_KEY + "'," +
                     ":" + IDENTIFIER_KEY + "," +
                     ":" + CREATION_DATE_KEY + "," +
                     ":" + NAME_KEY + "," +
@@ -72,9 +73,10 @@ public interface IssuesRepository extends JpaRepository<IssueAnalytic, String> {
                     ISSUE_KEY + "," +
                     BROWSER_KEY + "," +
                     BROWSER_VERSION_KEY + "," +
-                    APPLICATION_IDENTIFIER_KEY +
-                    ") VALUES (" +
-                    WEB_ISSUE_KEY + "," +
+                    APPLICATION_IDENTIFIER_KEY + "," +
+                    DEVICE_IDENTIFIER_KEY +
+                    ") VALUES ('" +
+                    WEB_ISSUE_KEY + "'," +
                     ":" + IDENTIFIER_KEY + "," +
                     ":" + CREATION_DATE_KEY + "," +
                     ":" + NAME_KEY + "," +

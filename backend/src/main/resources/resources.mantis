@@ -13,7 +13,8 @@
         "invalid_admin_code_key": "The admin code is not valid or you are unauthorized",
         "wrong_app_name_key": "Application name is not valid",
         "wrong_app_description_key": "Application description is not valid",
-        "platform_already_connected_key": "This platform is already connected"
+        "platform_already_connected_key": "This platform is already connected",
+        "debug_operation_executed_successfully_key": "Debug operation successfully simulated"
     },
     "ignored_resources": {},
     "it": {
@@ -30,7 +31,8 @@
         "invalid_admin_code_key": "Il codice amministratore non è valido o non sei autorizzat",
         "wrong_app_name_key": "Il nome dell'applicazione non è valido",
         "wrong_app_description_key": "La descrizione dell'applicazione non è valida",
-        "platform_already_connected_key": "Questa piattaforma è già connessa"
+        "platform_already_connected_key": "Questa piattaforma è già connessa",
+         "debug_operation_executed_successfully_key": "Operazione simulata con successo"
     },
     "fr": {
         "connection_error_message_key": "Le serveur est temporairement indisponible",
@@ -46,7 +48,8 @@
         "invalid_admin_code_key": "Le code d'administration n'est pas valide ou vous n'êtes pas autorisé.",
         "wrong_app_name_key": "Le nom de l'application n'est pas valide",
         "wrong_app_description_key": "La description de l'application n'est pas valide",
-        "platform_already_connected_key": "Cette plateforme est déjà connectée"
+        "platform_already_connected_key": "Cette plateforme est déjà connectée",
+        "debug_operation_executed_successfully_key": "Opération de débogage simulée avec succès"
     },
     "es": {
         "connection_error_message_key": "El servidor no està disponible temporalmente",
@@ -62,6 +65,7 @@
         "invalid_admin_code_key": "El código admin no es válido o no estás autorizado",
         "wrong_app_name_key": "El nombre de la aplicación no es válido",
         "wrong_app_description_key": "La descripción de la aplicación no es válida",
-        "platform_already_connected_key": "Esta plataforma ya está conectada"
+        "platform_already_connected_key": "Esta plataforma ya está conectada",
+        "debug_operation_executed_successfully_key": "Operación de depuración simulada con éxito"
     }
 }

@@ -31,7 +31,7 @@ import static com.tecknobit.equinox.inputs.InputValidator.*;
 public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser, AmetistaUsersRepository, AmetistaUsersHelper> {
 
     public static final ServerProtector adminCodeProvider = new ServerProtector(
-            "tecknobit/nova/admin",
+            "tecknobit/ametista/admin",
             ""
     );
 

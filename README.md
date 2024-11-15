@@ -177,8 +177,8 @@ When you have to start the service you will have different scenarios:
   access to your server**
   ``` java
   Exception in thread "main" java.lang.RuntimeException: com.tecknobit.apimanager.exceptions.SaveData: Note: is not an error, but is an alert!
-  Please you should safely save: the_server_secret_generated to correctly register a new user in the Ametista system.
-  The admin code: the_admin_code_generated to authenticate as an admin, keep it safe!
+  Please you should safely save: "the_server_secret_generated" to correctly register a new user in the Ametista system.
+  The admin code: "the_admin_code_generated" to authenticate as an admin, keep them safe!
   ```
 - If is not the first launch the service will start directly
 - If you need to recreate the server secret you need to launch the service with the **rss** command like this:

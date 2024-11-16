@@ -14,14 +14,29 @@ import static com.tecknobit.ametistacore.models.analytics.performance.Performanc
 @Table(name = PERFORMANCE_ANALYTICS_KEY)
 public class PerformanceAnalytic extends AmetistaAnalytic {
 
+    /**
+     * The performance analytics available
+     */
     public enum PerformanceAnalyticType {
 
+        /**
+         * **LAUNCH_TIME** -> Inherent measurement of application startup time
+         */
         LAUNCH_TIME,
 
+        /**
+         * **NETWORK_REQUESTS** -> Inherent measure of the number of HTTP requests executed by each application daily
+         */
         NETWORK_REQUESTS,
 
+        /**
+         * **TOTAL_ISSUES** -> Inherent measurement of the number of crashes or problems encountered while using the application
+         */
         TOTAL_ISSUES,
 
+        /**
+         * **ISSUES_PER_SESSION** -> Inherent measurement of the average number of crashes or issues encountered while using the application for a single session
+         */
         ISSUES_PER_SESSION
 
     }

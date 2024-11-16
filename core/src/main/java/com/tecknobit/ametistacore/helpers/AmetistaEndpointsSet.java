@@ -2,6 +2,11 @@ package com.tecknobit.ametistacore.helpers;
 
 import com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet;
 
+/**
+ * The {@code AmetistaEndpointsSet} class is a container with all the Ametista's system base endpoints
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 public class AmetistaEndpointsSet extends EquinoxBaseEndpointsSet {
 
     /**
@@ -9,6 +14,9 @@ public class AmetistaEndpointsSet extends EquinoxBaseEndpointsSet {
      */
     public static final String CHANGE_PRESET_PASSWORD_ENDPOINT = "/changePresetPassword";
 
+    /**
+     * Constructor to init the {@link AmetistaEndpointsSet} class <br>
+     */
     private AmetistaEndpointsSet() {
 
     }

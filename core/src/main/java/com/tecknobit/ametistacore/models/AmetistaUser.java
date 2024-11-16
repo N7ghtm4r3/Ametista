@@ -128,7 +128,7 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
     /**
      * Constructor to init the {@link AmetistaUser} class
      *
-     * @param jUser: user details formatted as JSON
+     * @param jUser User details formatted as JSON
      */
     public AmetistaUser(JSONObject jUser) {
         super(jUser);

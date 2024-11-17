@@ -6,6 +6,7 @@ import com.tecknobit.ametistacore.models.AmetistaUser;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.equinox.annotations.CustomParametersOrder;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.equinox.environment.controllers.EquinoxUsersController;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +20,25 @@ import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaMember.MEMBER_IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.models.AmetistaUser.*;
 import static com.tecknobit.ametistacore.models.AmetistaUser.Role.ADMIN;
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PATCH;
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.DEFAULT_PROFILE_PIC;
 import static com.tecknobit.equinox.inputs.InputValidator.*;
 
+/**
+ * The {@code AmetistaUsersController} class is useful to manage all the user operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxController
+ */
 @RestController
 public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser, AmetistaUsersRepository, AmetistaUsersHelper> {
 
+    /**
+     * {@code adminCodeProvider} helper to provide the admin code and manage the admin accesses
+     */
     public static final ServerProtector adminCodeProvider = new ServerProtector(
             "tecknobit/ametista/admin",
             ""
@@ -38,7 +47,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     /**
      * Method to sign up in the <b>Equinox's system</b>
      *
-     * @param payload: payload of the request
+     * @param payload The payload of the request
      *                 <pre>
      *                                      {@code
      *                                              {
@@ -46,6 +55,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
      *                                                  "surname": "the surname of the user" -> [String],
      *                                                  "email": "the email of the user" -> [String],
      *                                                  "password": "the password of the user" -> [String]
+     *                                                  "language": "the language of the user" -> [String]
      *                                              }
      *                                      }
      *                                 </pre>
@@ -92,6 +102,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @CustomParametersOrder(order = {ADMIN_CODE_KEY, ROLE_KEY})
     protected Object[] getSignUpCustomParams() {
@@ -101,6 +114,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @CustomParametersOrder(order = {ADMIN_CODE_KEY, ROLE_KEY})
     protected String validateSignUp(String name, String surname, String email, String password, String language, Object... custom) {
@@ -110,6 +126,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return validation;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @CustomParametersOrder(order = {ADMIN_CODE_KEY, /* OR*/ SERVER_SECRET_KEY})
     protected Object[] getSignInCustomParams() {
@@ -123,6 +142,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @CustomParametersOrder(order = {IS_ADMIN_KEY, ADMIN_CODE_KEY, SERVER_SECRET_KEY})
     protected String validateSignIn(String email, String password, String language, Object... custom) {
@@ -137,19 +159,34 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return validation;
     }
 
+    /**
+     * Method to change the preset password of a {@link Role#VIEWER}
+     *
+     * @param userId  The identifier of the user
+     * @param token   The token of the user
+     * @param payload The payload of the request
+     *                <pre>
+     *                                                     {@code
+     *                                                             {
+     *                                                                 "password": "the password of the viewer" -> [String]
+     *                                                             }
+     *                                                     }
+     *                                                </pre>
+     * @return the result of the request as {@link String}
+     */
     @PatchMapping(
             path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}" + CHANGE_PRESET_PASSWORD_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/changePresetPassword", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{userId}/changePresetPassword", method = PATCH)
     public String changePresetPassword(
-            @PathVariable(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody Map<String, String> payload
     ) {
-        if (!isMe(id, token))
+        if (!isMe(userId, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         if (!me.isViewer())
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -158,19 +195,30 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         if (!isPasswordValid(password))
             return failedResponse(WRONG_PASSWORD_MESSAGE);
         try {
-            usersHelper.changePassword(password, id);
+            usersHelper.changePassword(password, userId);
             return successResponse();
         } catch (Exception e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
     }
 
+    /**
+     * Method to get the current members registered in the system
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param page The page requested
+     * @param pageSize The size of the items to insert in the page
+     *
+     * @return the result of the request as {@link T}
+     */
     @GetMapping(
             path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY,
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/session/members", method = GET)
     public <T> T getSessionMembers(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -182,12 +230,30 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return (T) successResponse(usersHelper.getSessionMembers(page, pageSize, userId));
     }
 
+    /**
+     * Method to add a new {@link Role#VIEWER} in the system
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param payload The payload of the request
+     *                 <pre>
+     *                                      {@code
+     *                                              {
+     *                                                  "name" : "the name of the viewer" -> [String],
+     *                                                  "surname": "the surname of the viewer" -> [String],
+     *                                                  "email": "the email of the viewer" -> [String]
+     *                                              }
+     *                                      }
+     *                                 </pre>
+     * @return the result of the request as {@link String}
+     */
     @PostMapping(
             path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY,
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/session/members", method = POST)
     public String addViewer(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -213,6 +279,15 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return successResponse();
     }
 
+    /**
+     * Method to remove a member from the system
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param memberId The identifier of the member to remove
+     *
+     * @return the result of the request as {@link String}
+     */
     @DeleteMapping(
             path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + SESSION_KEY + "/" + MEMBERS_KEY
                     + "/{" + MEMBER_IDENTIFIER_KEY + "}",
@@ -220,6 +295,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/session/members/{member_id}", method = DELETE)
     public String removeMember(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -233,6 +309,14 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         return successResponse();
     }
 
+    /**
+     * Method to get whether the user who request to execute an action is a {@link Role#ADMIN}
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     *
+     * @return whether the user is a {@link Role#ADMIN} {@code boolean}
+     */
     private boolean isAdmin(String userId, String token) {
         return isMe(userId, token) && me.isAdmin();
     }

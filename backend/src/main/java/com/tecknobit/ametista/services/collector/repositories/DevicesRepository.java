@@ -10,9 +10,24 @@ import org.springframework.stereotype.Repository;
 
 import static com.tecknobit.ametistacore.models.AmetistaDevice.*;
 
+/**
+ * The {@code DevicesRepository} interface is useful to manage the queries for the devices operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ */
 @Repository
 public interface DevicesRepository extends JpaRepository<AmetistaDevice, String> {
 
+    /**
+     * Method to save a new device in the system
+     *
+     * @param deviceId  The identifier of the device
+     * @param brand     The brand of the device
+     * @param model     The model of the device
+     * @param os        The operating system of the device
+     * @param osVersion The version of the operating system of the device
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(

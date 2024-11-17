@@ -6,6 +6,8 @@ import com.tecknobit.ametista.services.applications.service.ApplicationsHelper.A
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,27 +22,51 @@ import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
 import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
 import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
 import static com.tecknobit.ametistacore.models.AmetistaItem.FILTERS_KEY;
+import static com.tecknobit.ametistacore.models.AmetistaUser.*;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCES_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
+import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 
+/**
+ * The {@code ApplicationsController} class is useful to manage all the applications operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see DefaultAmetistaController
+ * @see EquinoxController
+ */
 @RestController
 @RequestMapping(BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + APPLICATIONS_KEY)
 public class ApplicationsController extends DefaultAmetistaController {
 
+    /**
+     * {@code applicationsHelper} helper to manage the applications database operations
+     */
     @Autowired
     private ApplicationsHelper applicationsHelper;
 
+    /**
+     * Method to get the applications list registered in the system
+     *
+     * @param userId    The identifier of the user
+     * @param token     The token of the user
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
+     * @param name      The application name used as filter
+     * @param platforms The list of platforms used as filter
+     * @return the result of the request as {@link T}
+     */
     @GetMapping(
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/applications", method = GET)
     public <T> T getApplications(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -58,11 +84,21 @@ public class ApplicationsController extends DefaultAmetistaController {
         return (T) successResponse(applicationsHelper.getApplications(page, pageSize, name, platforms));
     }
 
+    /**
+     * Method to save and add in the system a new application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param application The application payload to use
+     *
+     * @return the result of the request as {@link String}
+     */
     @PostMapping(
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/applications", method = POST)
     public String addApplication(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -84,12 +120,23 @@ public class ApplicationsController extends DefaultAmetistaController {
         return successResponse();
     }
 
+    /**
+     * Method to edit an existing application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The identifier of the application to edit
+     * @param application The application payload to use
+     *
+     * @return the result of the request as {@link String}
+     */
     @PostMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}",
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/applications/{application_id}", method = POST)
     public String editApplication(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -109,12 +156,22 @@ public class ApplicationsController extends DefaultAmetistaController {
         return successResponse();
     }
 
+    /**
+     * Method to get an existing application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The identifier of the application to get
+     *
+     * @return the result of the request as {@link T}
+     */
     @GetMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}",
             headers = {
                     TOKEN_KEY
             }
     )
+    @RequestPath(path = "/api/v1/users/{user_id}/applications/{application_id}", method = GET)
     public <T> T getApplication(
             @PathVariable(IDENTIFIER_KEY) String userId,
             @RequestHeader(TOKEN_KEY) String token,
@@ -126,11 +183,29 @@ public class ApplicationsController extends DefaultAmetistaController {
         return (T) successResponse(application);
     }
 
+    /**
+     * Method to get the issues related to an application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The application of retrieve the related issues
+     * @param platform The platform of retrieve the related issues
+     * @param page The page requested
+     * @param pageSize The size of the items to insert in the page
+     * @param filters The filters to use for the issue selection
+     *
+     * @return the result of the request as {@link T}
+     */
     @GetMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + ISSUES_KEY,
             headers = {
                     TOKEN_KEY
             }
+    )
+    @RequestPath(
+            path = "/api/v1/users/{user_id}/applications/{application_id}/issues",
+            query_parameters = "?platform={platform}",
+            method = GET
     )
     public <T> T getIssues(
             @PathVariable(IDENTIFIER_KEY) String userId,
@@ -147,11 +222,28 @@ public class ApplicationsController extends DefaultAmetistaController {
         return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform, filters));
     }
 
+    /**
+     * Method to get the performance data of an application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The application identifier of retrieve the related performance data
+     * @param platform The platform of retrieve the related performance data
+     * @param payload The filters payload to use for the performance data selection
+     *
+     * @return the result of the request as {@link T}
+     *
+     */
     @PostMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + PERFORMANCES_KEY,
             headers = {
                     TOKEN_KEY
             }
+    )
+    @RequestPath(
+            path = "/api/v1/users/{user_id}/applications/{application_id}/performance",
+            query_parameters = "?platform={platform}",
+            method = POST
     )
     public <T> T getPerformanceData(
             @PathVariable(IDENTIFIER_KEY) String userId,
@@ -167,11 +259,27 @@ public class ApplicationsController extends DefaultAmetistaController {
         return (T) successResponse(applicationsHelper.getPerformanceData(applicationId, platform, jsonHelper));
     }
 
+    /**
+     * Method to get all the available versions target for a specific analytic
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The application identifier related to the performance data collected
+     * @param platform The platform related to the performance data collected
+     * @param analyticType The specific performance data to retrieve
+     *
+     * @return the result of the request as {@link T}
+     */
     @GetMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}/" + VERSION_FILTERS_KEY,
             headers = {
                     TOKEN_KEY
             }
+    )
+    @RequestPath(
+            path = "/api/v1/users/{user_id}/applications/{application_id}/versions",
+            query_parameters = "?platform={platform}&performance_analytic_type={performance_analytic_type}",
+            method = GET
     )
     public <T> T getVersionSamples(
             @PathVariable(IDENTIFIER_KEY) String userId,
@@ -186,6 +294,13 @@ public class ApplicationsController extends DefaultAmetistaController {
         return (T) successResponse(applicationsHelper.getVersionSamples(applicationId, platform, analyticType));
     }
 
+    /**
+     * Method to delete an existing application
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The identifier of the application
+     */
     @DeleteMapping(
             path = "{" + APPLICATION_IDENTIFIER_KEY + "}",
             headers = {
@@ -203,6 +318,14 @@ public class ApplicationsController extends DefaultAmetistaController {
         return successResponse();
     }
 
+    /**
+     * Method to validate the payload used in the {@link #addApplication(String, String, ApplicationPayload)} or {@link #editApplication(String, String, String, ApplicationPayload)}
+     * operations
+     *
+     * @param application The payload used
+     *
+     * @return null if the payload is valid or the error message if not valid as {@link String}
+     */
     private String validateApplicationPayload(ApplicationPayload application) {
         String appName = application.name();
         if (!isAppNameValid(appName))
@@ -213,10 +336,28 @@ public class ApplicationsController extends DefaultAmetistaController {
         return null;
     }
 
+    /**
+     * Method to check if the user is allowed to operate (him/she is an {@link Role#ADMIN}) and the application exists
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The identifier of the application
+     *
+     * @return whether the user is allowed to operate and the application exists as {@code boolean}
+     */
     private boolean userAllowedAndApplicationExists(String userId, String token, String applicationId) {
         return isAdmin(userId, token) && applicationsHelper.applicationExists(applicationId);
     }
 
+    /**
+     * Method to check if the user is allowed to operate (him/she is an {@link Role#ADMIN}) and the application exists
+     *
+     * @param userId The identifier of the user
+     * @param token The token of the user
+     * @param applicationId The identifier of the application
+     *
+     * @return whether the user is allowed to operate and the application exists as {@link AmetistaApplication}
+     */
     private AmetistaApplication validateUserAndFetchApplication(String userId, String token, String applicationId) {
         Optional<AmetistaApplication> application = applicationsHelper.getApplication(applicationId);
         if (!isMe(userId, token) || application.isEmpty())

@@ -16,9 +16,26 @@ import static com.tecknobit.ametistacore.models.AmetistaApplication.MAX_VERSION_
 import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.*;
 
+/**
+ * The {@code PerformanceRepository} interface is useful to manage the queries for the performance data operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ */
 @Repository
 public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic, String> {
 
+    /**
+     * Method to retrieve the collected performance data from the database
+     *
+     * @param applicationId The application identifier related to the performance data collected
+     * @param platform      The platform related to the performance data collected
+     * @param type          The specific performance data to retrieve
+     * @param initialDate   The initial date to retrieve the data
+     * @param finalDate     The final date allowed to retrieve the data
+     * @param versions      The versions sample of the collected data to retrieve
+     * @return the performance data collected as {@link List} of {@link PerformanceAnalytic}
+     */
     @Query(
             value = "SELECT * FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
@@ -41,6 +58,15 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(VERSION_FILTERS_KEY) List<String> versions
     );
 
+    /**
+     * Method to get all the available versions target for a specific analytic
+     *
+     * @param applicationId The application identifier related to the performance data collected
+     * @param platform The platform related to the performance data collected
+     * @param type The specific performance data to retrieve
+     *
+     * @return all the available versions target as {@link List} of {@link String}
+     */
     @Query(
             value = "SELECT DISTINCT " + APP_VERSION_KEY + " FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
@@ -54,6 +80,15 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type
     );
 
+    /**
+     * Method to get all the available versions target for a specific analytic limited for the chart data presentation
+     *
+     * @param applicationId The application identifier related to the performance data collected
+     * @param platform The platform related to the performance data collected
+     * @param type The specific performance data to retrieve
+     *
+     * @return all the available versions target as {@link List} of {@link String}
+     */
     @Query(
             value = "SELECT DISTINCT " + APP_VERSION_KEY + " FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
@@ -68,6 +103,17 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type
     );
 
+    /**
+     * Method to retrieve an analytic by date
+     *
+     * @param applicationId The application identifier related to the performance data collected
+     * @param appVersion The application version related to the performance data collected
+     * @param platform The platform related to the performance data collected
+     * @param type The specific performance data to retrieve
+     * @param creationDate The filter date to retrieve the analytic
+     *
+     * @return analytic as {@link PerformanceAnalytic}
+     */
     @Query(
             value = "SELECT * FROM " + PERFORMANCE_ANALYTICS_KEY +
                     " WHERE " + APPLICATION_IDENTIFIER_KEY + "=:" + APPLICATION_IDENTIFIER_KEY +
@@ -85,6 +131,18 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(CREATION_DATE_KEY) long creationDate
     );
 
+    /**
+     * Method to store a new analytic in the system
+     *
+     * @param id The identifier of the analytic
+     * @param creationDate The date when the analytic has been inserted in the system
+     * @param appVersion The application version related to the analytic
+     * @param platform The platform version related to the analytic
+     * @param updates The updates number executed on the analytic
+     * @param type The type of the analytic
+     * @param value The representative value of the analytic
+     * @param applicationId The application identifier related to the analytic
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -120,6 +178,18 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
             @Param(APPLICATION_IDENTIFIER_KEY) String applicationId
     );
 
+    /**
+     * Method to update an existing analytic in the system
+     *
+     * @param updates The updates number executed on the analytic
+     * @param value The representative value of the analytic
+     * @param id The identifier of the analytic
+     * @param creationDate The date when the analytic has been inserted in the system
+     * @param appVersion The application version related to the analytic
+     * @param platform The platform version related to the analytic
+     * @param type The type of the analytic
+     * @param applicationId The application identifier related to the analytic
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(

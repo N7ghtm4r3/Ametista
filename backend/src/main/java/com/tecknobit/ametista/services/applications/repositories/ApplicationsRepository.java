@@ -17,9 +17,22 @@ import static com.tecknobit.ametistacore.models.AmetistaItem.CREATION_DATE_KEY;
 import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
+/**
+ * The {@code ApplicationsRepository} interface is useful to manage the queries for the application operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ */
 @Repository
 public interface ApplicationsRepository extends JpaRepository<AmetistaApplication, String> {
 
+    /**
+     * Method to execute the query to get the applications list registered in the system
+     *
+     * @param name      The application name used as filter
+     * @param platforms The list of platforms used as filter
+     * @param pageable  The parameters to paginate the query
+     */
     @Query(
             value = "SELECT DISTINCT a.* FROM " + APPLICATIONS_KEY + " AS a" +
                     " LEFT JOIN " + PLATFORMS_KEY + " as p ON" +
@@ -38,6 +51,15 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
             Pageable pageable
     );
 
+    /**
+     * Method to save and register a new application in the system
+     *
+     * @param applicationId The identifier of the application
+     * @param creationDate The creation date when the application has been registered
+     * @param name The name of the application
+     * @param description The description of the application
+     * @param icon The icon of the application
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -64,6 +86,13 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
             @Param(APPLICATION_ICON_KEY) String icon
     );
 
+    /**
+     * Method to edit an existing application
+     *
+     * @param applicationId The identifier of the application
+     * @param name The name of the application
+     * @param description The description of the application
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -80,6 +109,14 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
             @Param(DESCRIPTION_KEY) String description
     );
 
+    /**
+     * Method to edit an existing application
+     *
+     * @param applicationId The identifier of the application
+     * @param name The name of the application
+     * @param description The description of the application
+     * @param icon The icon of the application
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -98,6 +135,11 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
             @Param(APPLICATION_ICON_KEY) String icon
     );
 
+    /**
+     * Method to delete an existing application
+     *
+     * @param applicationId The identifier of the application
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -109,6 +151,12 @@ public interface ApplicationsRepository extends JpaRepository<AmetistaApplicatio
             @Param(IDENTIFIER_KEY) String applicationId
     );
 
+    /**
+     * Method to connect a platform version for an existing application
+     *
+     * @param applicationId The identifier of the application
+     * @param platform The platform to connect
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(

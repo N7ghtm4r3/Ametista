@@ -9,6 +9,8 @@ import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalyt
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinox.environment.helpers.services.EquinoxItemsHelper;
+import com.tecknobit.equinox.resourcesutils.ResourcesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,25 +25,62 @@ import static com.tecknobit.ametistacore.models.analytics.performance.Performanc
 import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
 import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 
+/**
+ * The {@code CollectorHelper} class is useful to collect all the issues and analytics data sent by the Ametista Engine
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see ApplicationsHelper
+ * @see EquinoxItemsHelper
+ * @see ResourcesManager
+ */
 @Service
 public class CollectorHelper extends ApplicationsHelper {
 
+    /**
+     * {@code timeFormatter} helps to format the temporal value with the specific "dd/MM/yyyy" pattern
+     */
     private static final TimeFormatter timeFormatter = TimeFormatter.getInstance("dd/MM/yyyy");
 
+    /**
+     * {@code EXCEPTION_NAME_REGEX} regex to validate the exception name
+     */
     private static final String EXCEPTION_NAME_REGEX = "\\b(\\w+Exception)\\b";
 
+    /**
+     * {@code EXCEPTION_NAME_PATTERN} the pattern to validate the exception names values
+     */
     private static final Pattern EXCEPTION_NAME_PATTERN = Pattern.compile(EXCEPTION_NAME_REGEX);
 
+    /**
+     * {@code issuesRepository} instance for the issues repository
+     */
     @Autowired
     private IssuesRepository issuesRepository;
 
+    /**
+     * {@code devicesRepository} instance for the device repository
+     */
     @Autowired
     private DevicesRepository devicesRepository;
 
+    /**
+     * Method to connect a new platform for the application
+     *
+     * @param applicationId The identifier of the application
+     * @param platform      The platform to connect
+     */
     public void connectPlatform(String applicationId, Platform platform) {
         applicationsRepository.connectPlatform(applicationId, platform);
     }
 
+    /**
+     * Method to collect a new issue occurred in the application
+     *
+     * @param applicationId The identifier of the application
+     * @param appVersion The application version where the issue occurred
+     * @param platform The platform to connect
+     * @param hPayload The json helper to manage the json data
+     */
     public void collectIssue(String applicationId, String appVersion, Platform platform, JsonHelper hPayload) {
         String issue = hPayload.getString(ISSUE_KEY);
         if (issue == null)
@@ -62,6 +101,13 @@ public class CollectorHelper extends ApplicationsHelper {
         collectAnalytic(applicationId, appVersion, platform, TOTAL_ISSUES, null);
     }
 
+    /**
+     * Method to save a new device in the system if not already exists
+     *
+     * @param hDevice The json helper to manage the device data
+     *
+     * @return the device identifier as {@link String}
+     */
     private String saveDevice(JsonHelper hDevice) {
         String deviceId = hDevice.getString(DEVICE_IDENTIFIER_KEY);
         if (deviceId == null)
@@ -76,6 +122,13 @@ public class CollectorHelper extends ApplicationsHelper {
         return deviceId;
     }
 
+    /**
+     * Method to get with the {@link #EXCEPTION_NAME_PATTERN} the name of the issue
+     *
+     * @param issue The issue case from extract its name
+     *
+     * @return the name of the issue as {@link String}
+     */
     private String getIssueName(String issue) {
         Matcher matcher = EXCEPTION_NAME_PATTERN.matcher(issue);
         if (matcher.find())
@@ -83,6 +136,15 @@ public class CollectorHelper extends ApplicationsHelper {
         return null;
     }
 
+    /**
+     * Method to collect an analytic for an application and its platform version
+     *
+     * @param applicationId The identifier of the application
+     * @param appVersion The application version
+     * @param platform The platform to connect
+     * @param type The analytic type to collect
+     * @param hPayload The json helper to manage the analytic payload data
+     */
     public void collectAnalytic(String applicationId, String appVersion, Platform platform, PerformanceAnalyticType type,
                                 JsonHelper hPayload) {
         switch (type) {
@@ -95,12 +157,29 @@ public class CollectorHelper extends ApplicationsHelper {
         }
     }
 
+    /**
+     * Method to collect a {@link PerformanceAnalytic.PerformanceAnalyticType#LAUNCH_TIME} analytic
+     *
+     * @param applicationId The identifier of the application
+     * @param appVersion The application version
+     * @param platform The platform to connect
+     * @param hPayload The json helper to manage the analytic payload data
+     */
     @Wrapper
     private void storeLaunchTime(String applicationId, String appVersion, Platform platform, JsonHelper hPayload) {
         long launchTime = hPayload.getLong(LAUNCH_TIME_KEY, -1);
         storeAnalytic(applicationId, appVersion, platform, LAUNCH_TIME, launchTime);
     }
 
+    /**
+     * Method to store an analytic for an application and its platform version
+     *
+     * @param applicationId The identifier of the application
+     * @param appVersion The application version
+     * @param platform The platform to connect
+     * @param type The analytic type to collect
+     * @param value The analytic related value
+     */
     private void storeAnalytic(String applicationId, String appVersion, Platform platform,
                                PerformanceAnalyticType type, double value) {
         if (value < 0)
@@ -113,13 +192,20 @@ public class CollectorHelper extends ApplicationsHelper {
                     value, applicationId);
         } else {
             if (type == LAUNCH_TIME) {
-                computeAnalyticValue(analytic, value, currentDate);
+                calculateAnalyticValue(analytic, value, currentDate);
                 manageIssuesPerSessionAnalytic(applicationId, appVersion, platform);
             } else
                 incrementAnalyticValue(analytic, (int) value, currentDate);
         }
     }
 
+    /**
+     * Method to calculate the {@link PerformanceAnalytic.PerformanceAnalyticType#ISSUES_PER_SESSION} rate and save it
+     *
+     * @param applicationId The identifier of the application
+     * @param appVersion The application version
+     * @param platform The platform to connect
+     */
     private void manageIssuesPerSessionAnalytic(String applicationId, String appVersion, Platform platform) {
         long currentDate = getCurrentDate();
         PerformanceAnalytic totalIssues = performanceRepository.getPerformanceAnalyticByDate(applicationId,
@@ -140,17 +226,36 @@ public class CollectorHelper extends ApplicationsHelper {
         }
     }
 
+    /**
+     * Method to get the current date formatted with the {@link #timeFormatter}
+     *
+     * @return the date formatted as {@code long}
+     */
     private long getCurrentDate() {
         return timeFormatter.formatAsTimestamp(timeFormatter.formatNowAsString());
     }
 
-    private void computeAnalyticValue(PerformanceAnalytic analytic, double value, long currentDate) {
+    /**
+     * Method to calculate and store the value of an analytic
+     *
+     * @param analytic    The analytic type to calculate
+     * @param value       The initial value from calculate the new one
+     * @param currentDate The current date where store the analytic
+     */
+    private void calculateAnalyticValue(PerformanceAnalytic analytic, double value, long currentDate) {
         int currentUpdates = analytic.getDataUpdates();
         int updatesRefreshed = currentUpdates + 1;
         double updatedValue = (((analytic.getValue() * currentUpdates) + value) / updatesRefreshed);
         updateAnalytic(updatesRefreshed, updatedValue, analytic, currentDate);
     }
 
+    /**
+     * Method to increment and store the value of an analytic
+     *
+     * @param analytic The analytic type to calculate
+     * @param incrementValue The value to use as increment
+     * @param currentDate The current date where store the analytic
+     */
     private void incrementAnalyticValue(PerformanceAnalytic analytic, int incrementValue, long currentDate) {
         int currentUpdates = analytic.getDataUpdates();
         int updatesRefreshed = currentUpdates + incrementValue;
@@ -158,6 +263,14 @@ public class CollectorHelper extends ApplicationsHelper {
         updateAnalytic(updatesRefreshed, updatedValue, analytic, currentDate);
     }
 
+    /**
+     * Method to update and then store the updated analytic
+     *
+     * @param updatesRefreshed The number of the updates refreshed executed
+     * @param updatedValue The updated value
+     * @param analytic The analytic to store
+     * @param currentDate The current date where store the analytic
+     */
     private void updateAnalytic(int updatesRefreshed, double updatedValue, PerformanceAnalytic analytic,
                                 long currentDate) {
         performanceRepository.updateAnalytic(updatesRefreshed, updatedValue, analytic.getId(), currentDate,

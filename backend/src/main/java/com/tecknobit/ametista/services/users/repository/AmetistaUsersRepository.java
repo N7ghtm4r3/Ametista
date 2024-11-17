@@ -2,7 +2,6 @@ package com.tecknobit.ametista.services.users.repository;
 
 import com.tecknobit.ametistacore.models.AmetistaUser;
 import com.tecknobit.equinox.environment.helpers.services.repositories.EquinoxUsersRepository;
-import com.tecknobit.equinox.environment.records.EquinoxUser;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,9 +18,8 @@ import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
  * The {@code AmetistaUsersRepository} interface is useful to manage the queries for the users operations
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxUsersRepository
  * @see JpaRepository
- * @see EquinoxUser
- * @since 1.0.1
  */
 @Primary
 @Repository

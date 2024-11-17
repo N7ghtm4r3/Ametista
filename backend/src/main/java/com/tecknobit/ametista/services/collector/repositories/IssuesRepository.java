@@ -20,9 +20,27 @@ import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalyti
 import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
+/**
+ * The {@code IssuesRepository} interface is useful to manage the queries for the issues operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ */
 @Repository
 public interface IssuesRepository extends JpaRepository<IssueAnalytic, String> {
 
+    /**
+     * Method to store a new issue
+     *
+     * @param id            The identifier of the issue
+     * @param creationDate  When the issue occurred
+     * @param name          The name of the issue
+     * @param appVersion    The version of the application where the issue occurred
+     * @param platform      The platform of the application where the issue occurred
+     * @param issue         The issue cause message
+     * @param applicationId The identifier of the application where the issue occurred
+     * @param deviceId      The identifier of the device where the issue occurred
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(
@@ -60,6 +78,20 @@ public interface IssuesRepository extends JpaRepository<IssueAnalytic, String> {
             @Param(DEVICE_IDENTIFIER_KEY) String deviceId
     );
 
+    /**
+     * Method to store a new issue occurred on a browser
+     *
+     * @param id The identifier of the issue
+     * @param creationDate When the issue occurred
+     * @param name The name of the issue
+     * @param appVersion The version of the application where the issue occurred
+     * @param platform The platform of the application where the issue occurred
+     * @param issue The issue cause message
+     * @param browser The browser where the issue occurred
+     * @param browserVersion The version of the browser where the issue occurred
+     * @param applicationId The identifier of the application where the issue occurred
+     * @param deviceId The identifier of the device where the issue occurred
+     */
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query(

@@ -6,6 +6,7 @@ import com.tecknobit.ametista.services.collector.service.CollectorHelper;
 import com.tecknobit.ametistacore.models.AmetistaApplication;
 import com.tecknobit.ametistacore.models.Platform;
 import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,14 @@ import static com.tecknobit.equinox.Requester.RESPONSE_DATA_KEY;
 import static com.tecknobit.equinox.Requester.RESPONSE_STATUS_KEY;
 import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 
+/**
+ * The {@code AmetistaCollectorController} class is useful to manage all the collection operations requested by the
+ * Ametista-Engine
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see DefaultAmetistaController
+ * @see EquinoxController
+ */
 @RestController
 @RequestMapping(BASE_EQUINOX_ENDPOINT + APPLICATIONS_KEY + "/{" + APPLICATION_IDENTIFIER_KEY + "}")
 public class AmetistaCollectorController extends DefaultAmetistaController {

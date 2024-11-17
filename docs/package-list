@@ -1,0 +1,32 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/backend/[root]/index.html
+$dokka.location:/Launcher///PointingToDeclaration/backend/[root]/-launcher/index.html
+$dokka.location:/Launcher/Launcher/#/PointingToDeclaration/backend/[root]/-launcher/-launcher.html
+$dokka.location:/Launcher/generateAdminCode/#java.lang.String[]/PointingToDeclaration/backend/[root]/-launcher/generate-admin-code.html
+$dokka.location:/Launcher/getSaveMessage/#java.lang.String/PointingToDeclaration/backend/[root]/-launcher/get-save-message.html
+$dokka.location:/Launcher/hasInvalidCommand/#java.lang.String[]/PointingToDeclaration/backend/[root]/-launcher/has-invalid-command.html
+$dokka.location:/Launcher/main/#java.lang.String[]/PointingToDeclaration/backend/[root]/-launcher/main.html
+module:backend
+com.tecknobit.ametista.helpers.queries.issues
+com.tecknobit.ametista.helpers.queries.performance
+com.tecknobit.ametista.helpers.resources
+com.tecknobit.ametista.services
+com.tecknobit.ametista.services.applications.controller
+com.tecknobit.ametista.services.applications.repositories
+com.tecknobit.ametista.services.applications.service
+com.tecknobit.ametista.services.collector.controller
+com.tecknobit.ametista.services.collector.repositories
+com.tecknobit.ametista.services.collector.service
+com.tecknobit.ametista.services.users.controller
+com.tecknobit.ametista.services.users.repository
+com.tecknobit.ametista.services.users.service
+module:core
+com.tecknobit.ametistacore.helpers
+com.tecknobit.ametistacore.helpers.annotations
+com.tecknobit.ametistacore.helpers.dtoutils
+com.tecknobit.ametistacore.helpers.pagination
+com.tecknobit.ametistacore.models
+com.tecknobit.ametistacore.models.analytics
+com.tecknobit.ametistacore.models.analytics.issues
+com.tecknobit.ametistacore.models.analytics.performance

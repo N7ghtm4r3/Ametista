@@ -1,0 +1,530 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PerformanceData</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+    <link href="../../../styles/style.css" rel="Stylesheet">
+    <link href="../../../styles/main.css" rel="Stylesheet">
+    <link href="../../../styles/prism.css" rel="Stylesheet">
+    <link href="../../../styles/logo-styles.css" rel="Stylesheet">
+    <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+    <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+    <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+    <script type="text/javascript" src="../../../scripts/main.js" defer></script>
+    <script type="text/javascript" src="../../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+</head>
+<body>
+<div class="root">
+    <nav class="navigation" id="navigation-wrapper">
+        <div class="navigation--inner">
+            <div class="navigation-title">
+                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+                <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                        Ametista
+                    </a></div>
+                <div class="library-version">
+                </div>
+            </div>
+            <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active=""
+                        data-filter=":core:dokkaHtmlPartial/main">jvm
+                </button>
+            </div>
+        </div>
+        <div class="navigation-controls">
+            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
+                switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+                API
+            </div>
+        </div>
+    </nav>
+    <div id="container">
+        <div class="sidebar" id="leftColumn">
+            <div class="sidebar--inner" id="sideMenu"></div>
+        </div>
+        <div id="main">
+            <div class="main-content" data-page-type="classlike" id="content"
+                 pageids="core::com.tecknobit.ametistacore.models.analytics.performance/PerformanceData///PointingToDeclaration//537371977">
+                <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a
+                        href="../index.html">com.tecknobit.ametistacore.models.analytics.performance</a><span
+                        class="delimiter">/</span><span class="current">PerformanceData</span></div>
+                <div class="cover ">
+                    <h1 class="cover"><span>Performance</span>
+                        <wbr>
+                        <span><span>Data</span></span></h1>
+                    <div class="platform-hinted " data-platform-hinted="data-platform-hinted">
+                        <div class="content sourceset-dependent-content" data-active=""
+                             data-togglable=":core:dokkaHtmlPartial/main">
+                            <div class="symbol monospace"><span class="token keyword">open </span><span
+                                    class="token keyword">class </span><a href="index.html">PerformanceData</a></div>
+                            <p class="paragraph">The <code class="lang-kotlin">PerformanceData</code> class is a
+                                container to simplify the transfer and the parsing of the performance data by the server
+                                and the clients</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">N7ghtm4r3 - Tecknobit</p></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabbedcontent">
+                    <div class="tabs-section" tabs-section="tabs-section">
+                        <button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">
+                            Members
+                        </button>
+                    </div>
+                    <div class="tabs-section-body">
+                        <div data-togglable="CONSTRUCTOR">
+                            <h2 class="">Constructors</h2>
+                            <div class="table"><a data-name="1438890642%2FConstructors%2F537371977"
+                                                  anchor-label="PerformanceData"
+                                                  id="1438890642%2FConstructors%2F537371977"
+                                                  data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-togglable="CONSTRUCTOR"
+                                     data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-performance-data.html"><span>Performance</span><wbr><span><span>Data</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1438890642%2FConstructors%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span class="token keyword">constructor</span><span
+                                                                class="token punctuation">(</span><span
+                                                                class="token punctuation">)</span></div>
+                                                        <div class="brief ">Constructor to init the <a
+                                                                href="index.html">PerformanceData</a> class
+                                                        </div>
+                                                        <div class="symbol monospace"><span class="token keyword">constructor</span><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span
+                                                                class="parameter ">launchTime<span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a><span
+                                                                class="token punctuation">, </span></span><span
+                                                                class="parameter ">networkRequests<span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a><span
+                                                                class="token punctuation">, </span></span><span
+                                                                class="parameter ">totalIssues<span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a><span
+                                                                class="token punctuation">, </span></span><span
+                                                                class="parameter ">issuesPerSession<span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a></span></span><span
+                                                                class="token punctuation">)</span></div>
+                                                        <div class="brief ">Constructor to init the <a
+                                                                href="../-performance-analytic/index.html">PerformanceAnalytic</a>
+                                                            class
+                                                        </div>
+                                                        <div class="symbol monospace"><span class="token keyword">constructor</span><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span class="parameter ">jPerformanceData<span
+                                                                class="token operator">: </span><span
+                                                                data-unresolved-link="org.json/JSONObject///PointingToDeclaration/">JSONObject</span></span></span><span
+                                                                class="token punctuation">)</span></div>
+                                                        <div class="brief ">Constructor to init the <a
+                                                                href="index.html">PerformanceData</a> class
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-togglable="TYPE">
+                            <h2 class="">Types</h2>
+                            <div class="table"><a data-name="-789989874%2FClasslikes%2F537371977"
+                                                  anchor-label="PerformanceDataItem"
+                                                  id="-789989874%2FClasslikes%2F537371977"
+                                                  data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-performance-data-item/index.html"><span>Performance</span><wbr><span>Data</span><wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-789989874%2FClasslikes%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">class </span><a
+                                                                href="-performance-data-item/index.html">PerformanceDataItem</a>
+                                                        </div>
+                                                        <div class="brief ">The <code class="lang-kotlin">PerformanceDataItem</code>
+                                                            class is a container of single performance data collected
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-togglable="PROPERTY">
+                            <h2 class="">Properties</h2>
+                            <div class="table"><a data-name="1758855619%2FProperties%2F537371977"
+                                                  anchor-label="ISSUES_PER_SESSION_KEY"
+                                                  id="1758855619%2FProperties%2F537371977"
+                                                  data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-i-s-s-u-e-s_-p-e-r_-s-e-s-s-i-o-n_-k-e-y.html"><span><span>ISSUES_PER_SESSION_KEY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1758855619%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="-i-s-s-u-e-s_-p-e-r_-s-e-s-s-i-o-n_-k-e-y.html">ISSUES_PER_SESSION_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"issues_per_session"</span></div>
+                                                        <div class="brief "><code class="lang-kotlin">ISSUES_PER_SESSION_KEY</code>
+                                                            the key for the <strong>"issues_per_session"</strong> field
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-760725985%2FProperties%2F537371977" anchor-label="issuesPerSession"
+                                   id="-760725985%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="issues-per-session.html"><span>issues</span><wbr><span>Per</span><wbr><span><span>Session</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-760725985%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="issues-per-session.html">issuesPerSession</a><span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a>
+                                                        </div>
+                                                        <div class="brief "><code
+                                                                class="lang-kotlin">issuesPerSession</code> the
+                                                            container of the issues per session collected
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="379610703%2FProperties%2F537371977" anchor-label="LAUNCH_TIME_KEY"
+                                   id="379610703%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-l-a-u-n-c-h_-t-i-m-e_-k-e-y.html"><span><span>LAUNCH_TIME_KEY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="379610703%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="-l-a-u-n-c-h_-t-i-m-e_-k-e-y.html">LAUNCH_TIME_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"launch_times"</span></div>
+                                                        <div class="brief "><code
+                                                                class="lang-kotlin">LAUNCH_TIME_KEY</code> the key for
+                                                            the <strong>"launch_times"</strong> field
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="35790450%2FProperties%2F537371977" anchor-label="launchTime"
+                                   id="35790450%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="launch-time.html"><span>launch</span><wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="35790450%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="launch-time.html">launchTime</a><span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a>
+                                                        </div>
+                                                        <div class="brief "><code class="lang-kotlin">launchTime</code>
+                                                            the container of the launch time collected
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1290423581%2FProperties%2F537371977" anchor-label="NETWORK_REQUESTS_KEY"
+                                   id="1290423581%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-n-e-t-w-o-r-k_-r-e-q-u-e-s-t-s_-k-e-y.html"><span><span>NETWORK_REQUESTS_KEY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1290423581%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="-n-e-t-w-o-r-k_-r-e-q-u-e-s-t-s_-k-e-y.html">NETWORK_REQUESTS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"network_requests"</span></div>
+                                                        <div class="brief "><code class="lang-kotlin">NETWORK_REQUESTS_KEY</code>
+                                                            the key for the <strong>"network_requests"</strong> field
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-591775434%2FProperties%2F537371977" anchor-label="networkRequests"
+                                   id="-591775434%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="network-requests.html"><span>network</span><wbr><span><span>Requests</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-591775434%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="network-requests.html">networkRequests</a><span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a>
+                                                        </div>
+                                                        <div class="brief "><code
+                                                                class="lang-kotlin">networkRequests</code> the container
+                                                            of the network requests collected
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-257886659%2FProperties%2F537371977" anchor-label="TOTAL_ISSUES_KEY"
+                                   id="-257886659%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-t-o-t-a-l_-i-s-s-u-e-s_-k-e-y.html"><span><span>TOTAL_ISSUES_KEY</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-257886659%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="-t-o-t-a-l_-i-s-s-u-e-s_-k-e-y.html">TOTAL_ISSUES_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"total_issues"</span></div>
+                                                        <div class="brief "><code
+                                                                class="lang-kotlin">TOTAL_ISSUES_KEY</code> the key for
+                                                            the <strong>"total_issues"</strong> field
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1169246934%2FProperties%2F537371977" anchor-label="totalIssues"
+                                   id="-1169246934%2FProperties%2F537371977"
+                                   data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="total-issues.html"><span>total</span><wbr><span><span>Issues</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1169246934%2FProperties%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="total-issues.html">totalIssues</a><span
+                                                                class="token operator">: </span><a
+                                                                href="-performance-data-item/index.html">PerformanceData.PerformanceDataItem</a>
+                                                        </div>
+                                                        <div class="brief "><code class="lang-kotlin">totalIssues</code>
+                                                            the container of the total issues collected
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-togglable="FUNCTION">
+                            <h2 class="">Functions</h2>
+                            <div class="table"><a data-name="819487718%2FFunctions%2F537371977" anchor-label="toString"
+                                                  id="819487718%2FFunctions%2F537371977"
+                                                  data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main"
+                                     data-filterable-set=":core:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="to-string.html"><span>to</span><wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="819487718%2FFunctions%2F537371977"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">fun </span><a
+                                                                href="to-string.html"><span class="token function">toString</span></a><span
+                                                                class="token punctuation">(</span><span
+                                                                class="token punctuation">)</span><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <span class="go-to-top-icon"><a href="#content"
+                                                id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                    class="pull-right"><span>Generated by </span><a
+                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
+                    class="padded-icon"></span></a></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

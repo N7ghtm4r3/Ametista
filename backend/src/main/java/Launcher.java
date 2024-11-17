@@ -1,3 +1,4 @@
+import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.apimanager.exceptions.SaveData;
 import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.equinox.resourcesutils.ResourcesProvider;
@@ -77,6 +78,12 @@ public class Launcher {
         SpringApplication.run(Launcher.class, args);
     }
 
+    /**
+     * Method to check whether the program arguments list contains invalid commands such {@link ServerProtector#DELETE_SERVER_SECRET_AND_INTERRUPT_COMMAND}
+     *
+     * @param args The program arguments list
+     * @return whether the program arguments list contains invalid commands as {@code boolean}
+     */
     private static boolean hasInvalidCommand(String[] args) {
         for (String arg : args)
             if (arg.equals(DELETE_SERVER_SECRET_AND_INTERRUPT_COMMAND))
@@ -84,6 +91,13 @@ public class Launcher {
         return false;
     }
 
+    /**
+     * Method to generate the admin code for the server instance
+     *
+     * @param args The program arguments list
+     *
+     * @return the generated admin code as {@link String}
+     */
     private static String generateAdminCode(String[] args) {
         String adminCode = null;
         try {
@@ -96,6 +110,13 @@ public class Launcher {
         return adminCode;
     }
 
+    /**
+     * Method to assemble the save message for the {@link SaveData} exception
+     *
+     * @param adminCode The generated admin code
+     *
+     * @return the save message assembled as {@link String}
+     */
     private static String getSaveMessage(String adminCode) {
         return format(" to correctly register a new user in the Ametista system.\nThe admin code: %sto authenticate as " +
                 "an admin, keep it safe!", adminCode);

@@ -1,11 +1,8 @@
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.2.3"
     id("maven-publish")
     kotlin("jvm")
 }
-
-apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
 version = "1.0.0"

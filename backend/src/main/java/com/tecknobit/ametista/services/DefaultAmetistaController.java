@@ -1,11 +1,11 @@
 package com.tecknobit.ametista.services;
 
+import com.tecknobit.ametista.services.users.entity.AmetistaUser;
+import com.tecknobit.ametista.services.users.entity.AmetistaUser.Role;
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
-import com.tecknobit.ametista.services.users.service.AmetistaUsersHelper;
-import com.tecknobit.ametistacore.models.AmetistaUser;
-import com.tecknobit.ametistacore.models.AmetistaUser.Role;
+import com.tecknobit.ametista.services.users.service.AmetistaUsersService;
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
 
 /**
  * The {@code DefaultAmetistaController} class is useful to give the base behavior of the <b>Ametista's controllers</b>
@@ -14,7 +14,7 @@ import com.tecknobit.equinox.environment.controllers.EquinoxController;
  */
 @Structure
 public abstract class DefaultAmetistaController extends EquinoxController<AmetistaUser, AmetistaUsersRepository,
-        AmetistaUsersHelper> {
+        AmetistaUsersService> {
 
     /**
      * Method to get whether the user who request to execute an action is a {@link Role#VIEWER}

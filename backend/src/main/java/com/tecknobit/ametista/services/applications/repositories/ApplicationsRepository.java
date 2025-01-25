@@ -1,7 +1,7 @@
 package com.tecknobit.ametista.services.applications.repositories;
 
-import com.tecknobit.ametistacore.models.AmetistaApplication;
-import com.tecknobit.ametistacore.models.Platform;
+import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
+import com.tecknobit.ametistacore.enums.Platform;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
-import static com.tecknobit.ametistacore.models.AmetistaItem.CREATION_DATE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.*;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**
  * The {@code ApplicationsRepository} interface is useful to manage the queries for the application operations

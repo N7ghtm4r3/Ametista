@@ -1,8 +1,8 @@
 package com.tecknobit.ametista.helpers.queries.issues;
 
-import com.tecknobit.ametistacore.models.AmetistaDevice;
-import com.tecknobit.ametistacore.models.Platform;
-import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
+import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
+import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
+import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -14,11 +14,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaDevice.*;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.*;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 import static jakarta.persistence.criteria.JoinType.INNER;
 
 /**

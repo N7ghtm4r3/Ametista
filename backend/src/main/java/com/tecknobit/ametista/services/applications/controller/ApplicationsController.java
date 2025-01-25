@@ -1,13 +1,14 @@
 package com.tecknobit.ametista.services.applications.controller;
 
 import com.tecknobit.ametista.services.DefaultAmetistaController;
-import com.tecknobit.ametista.services.applications.service.ApplicationsHelper;
-import com.tecknobit.ametista.services.applications.service.ApplicationsHelper.ApplicationPayload;
-import com.tecknobit.ametistacore.models.AmetistaApplication;
-import com.tecknobit.ametistacore.models.Platform;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
+import com.tecknobit.ametista.services.applications.service.ApplicationsService;
+import com.tecknobit.ametista.services.applications.service.ApplicationsService.ApplicationPayload;
+import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametista.services.users.entity.AmetistaUser.Role;
+import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,21 +18,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.applications.service.ApplicationsHelper.DEFAULT_PLATFORMS_FILTER;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.*;
+import static com.tecknobit.ametista.services.applications.service.ApplicationsService.DEFAULT_PLATFORMS_FILTER;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.VERSION_FILTERS_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCES_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
-import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
-import static com.tecknobit.ametistacore.models.AmetistaApplication.*;
-import static com.tecknobit.ametistacore.models.AmetistaItem.FILTERS_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaUser.*;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCES_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
-import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 
 /**
  * The {@code ApplicationsController} class is useful to manage all the applications operations
@@ -45,10 +45,10 @@ import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_K
 public class ApplicationsController extends DefaultAmetistaController {
 
     /**
-     * {@code applicationsHelper} helper to manage the applications database operations
+     * {@code applicationsService} helper to manage the applications database operations
      */
     @Autowired
-    private ApplicationsHelper applicationsHelper;
+    private ApplicationsService applicationsService;
 
     /**
      * Method to get the applications list registered in the system
@@ -81,7 +81,7 @@ public class ApplicationsController extends DefaultAmetistaController {
     ) {
         if (!isMe(userId, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(applicationsHelper.getApplications(page, pageSize, name, platforms));
+        return (T) successResponse(applicationsService.getApplications(page, pageSize, name, platforms));
     }
 
     /**
@@ -113,7 +113,7 @@ public class ApplicationsController extends DefaultAmetistaController {
         if (icon == null || icon.isEmpty())
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         try {
-            applicationsHelper.saveApplication(application);
+            applicationsService.saveApplication(application);
         } catch (Exception e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
@@ -149,7 +149,7 @@ public class ApplicationsController extends DefaultAmetistaController {
         if (payloadValidation != null)
             return payloadValidation;
         try {
-            applicationsHelper.editApplication(applicationId, application);
+            applicationsService.editApplication(applicationId, application);
         } catch (Exception e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
@@ -219,7 +219,7 @@ public class ApplicationsController extends DefaultAmetistaController {
         AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
         if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(applicationsHelper.getIssues(application, page, pageSize, platform, filters));
+        return (T) successResponse(applicationsService.getIssues(application, page, pageSize, platform, filters));
     }
 
     /**
@@ -256,7 +256,7 @@ public class ApplicationsController extends DefaultAmetistaController {
         if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
-        return (T) successResponse(applicationsHelper.getPerformanceData(applicationId, platform, jsonHelper));
+        return (T) successResponse(applicationsService.getPerformanceData(applicationId, platform, jsonHelper));
     }
 
     /**
@@ -291,7 +291,7 @@ public class ApplicationsController extends DefaultAmetistaController {
         AmetistaApplication application = validateUserAndFetchApplication(userId, token, applicationId);
         if (application == null)
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(applicationsHelper.getVersionSamples(applicationId, platform, analyticType));
+        return (T) successResponse(applicationsService.getVersionSamples(applicationId, platform, analyticType));
     }
 
     /**
@@ -314,7 +314,7 @@ public class ApplicationsController extends DefaultAmetistaController {
     ) {
         if (!userAllowedAndApplicationExists(userId, token, applicationId))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        applicationsHelper.deleteApplication(applicationId);
+        applicationsService.deleteApplication(applicationId);
         return successResponse();
     }
 
@@ -346,7 +346,7 @@ public class ApplicationsController extends DefaultAmetistaController {
      * @return whether the user is allowed to operate and the application exists as {@code boolean}
      */
     private boolean userAllowedAndApplicationExists(String userId, String token, String applicationId) {
-        return isAdmin(userId, token) && applicationsHelper.applicationExists(applicationId);
+        return isAdmin(userId, token) && applicationsService.applicationExists(applicationId);
     }
 
     /**
@@ -359,7 +359,7 @@ public class ApplicationsController extends DefaultAmetistaController {
      * @return whether the user is allowed to operate and the application exists as {@link AmetistaApplication}
      */
     private AmetistaApplication validateUserAndFetchApplication(String userId, String token, String applicationId) {
-        Optional<AmetistaApplication> application = applicationsHelper.getApplication(applicationId);
+        Optional<AmetistaApplication> application = applicationsService.getApplication(applicationId);
         if (!isMe(userId, token) || application.isEmpty())
             return null;
         return application.get();

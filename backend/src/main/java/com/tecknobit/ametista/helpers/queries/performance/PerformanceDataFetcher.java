@@ -1,9 +1,7 @@
 package com.tecknobit.ametista.helpers.queries.performance;
 
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem;
+import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import kotlin.Pair;
@@ -12,12 +10,12 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.MAX_VERSION_SAMPLES;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.FINAL_DATE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.INITIAL_DATE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceData.PerformanceDataItem.MAX_TEMPORAL_RANGE;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.MAX_VERSION_SAMPLES;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.VERSION_FILTERS_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.*;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem.MAX_TEMPORAL_RANGE;
 
 /**
  * The {@code PerformanceDataFetcher} class is useful to fetch the performance data and format them to transfer to the

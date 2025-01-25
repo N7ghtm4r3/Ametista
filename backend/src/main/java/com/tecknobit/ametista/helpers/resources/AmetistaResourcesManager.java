@@ -1,7 +1,7 @@
 package com.tecknobit.ametista.helpers.resources;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
-import com.tecknobit.equinox.resourcesutils.ResourcesManager;
+import com.tecknobit.equinoxbackend.resourcesutils.ResourcesManager;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

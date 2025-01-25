@@ -1,6 +1,6 @@
 package com.tecknobit.ametista.helpers.queries.issues;
 
-import com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic;
+import com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.tecknobit.ametistacore.models.Platform.WEB;
-import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.BROWSER_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic.BROWSER_KEY;
+import static com.tecknobit.ametistacore.enums.Platform.WEB;
 
 /**
  * The {@code WebIssuesQuery} class is useful to execute the query to retrieve the web-issues data from the database with the

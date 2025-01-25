@@ -1,7 +1,7 @@
 import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.apimanager.exceptions.SaveData;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
-import com.tecknobit.equinox.resourcesutils.ResourcesProvider;
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
+import com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,8 +15,8 @@ import java.security.NoSuchAlgorithmException;
 import static com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager.APPLICATION_ICONS_FOLDER;
 import static com.tecknobit.ametista.services.users.controller.AmetistaUsersController.adminCodeProvider;
 import static com.tecknobit.apimanager.apis.ServerProtector.DELETE_SERVER_SECRET_AND_INTERRUPT_COMMAND;
-import static com.tecknobit.equinox.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
-import static com.tecknobit.equinox.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
+import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
+import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
 import static java.lang.String.format;
 
 /**

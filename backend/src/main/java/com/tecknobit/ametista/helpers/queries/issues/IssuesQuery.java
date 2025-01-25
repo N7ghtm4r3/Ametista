@@ -4,14 +4,18 @@ import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
 import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxbackend.environment.helpers.FilteredQuery;
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
-import org.springframework.data.domain.Pageable;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.regex.Matcher;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_KEY;
@@ -26,9 +30,12 @@ import static jakarta.persistence.criteria.JoinType.INNER;
  * possibility to dynamically filter that query with the {@link CriteriaBuilder}'s logic
  *
  * @param <T> The type of the issues to retrieve
+ *
  * @author N7ghtm4r3 - Tecknobit
+ *
+ * @see FilteredQuery
  */
-public class IssuesQuery<T extends IssueAnalytic> {
+public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
 
     /**
      * {@code NAME_REGEX} regex to validate the exception name
@@ -91,11 +98,6 @@ public class IssuesQuery<T extends IssueAnalytic> {
     protected static final Pattern BROWSER_PATTERN = Pattern.compile(BROWSER_REGEX);
 
     /**
-     * {@code entityManager} manage the entities
-     */
-    protected final EntityManager entityManager;
-
-    /**
      * {@code platformName} the name of the platform
      */
     protected final Platform platform;
@@ -106,39 +108,14 @@ public class IssuesQuery<T extends IssueAnalytic> {
     protected final String applicationId;
 
     /**
-     * {@code rawFilters} the filters all together in raw format
-     */
-    protected final CopyOnWriteArraySet<String> rawFilters;
-
-    /**
-     * {@code criteriaBuilder} the builder to add the criteria to filter the query
-     */
-    protected final CriteriaBuilder criteriaBuilder;
-
-    /**
-     * {@code query} the criteria prepared query to execute
-     */
-    protected final CriteriaQuery<T> query;
-
-    /**
-     * {@code issue} the root table
-     */
-    protected final Root<T> issue;
-
-    /**
-     * {@code predicates} the list of predicates to apply to the query
-     */
-    protected final ArrayList<Predicate> predicates;
-
-    /**
-     * {@code device} the device related to the issue retrieved with the {@link Join}
+     * {@code device} the device related to the root retrieved with the {@link Join}
      */
     protected final Join<T, AmetistaDevice> device;
 
     /**
      * Constructor to init the {@link IssuesQuery}
      *
-     * @param issueType     The type of the issue to retrieve
+     * @param issueType     The type of the root to retrieve
      * @param entityManager Manage the entities
      * @param platform      The name of the platform
      * @param applicationId The identifier of the application
@@ -146,56 +123,17 @@ public class IssuesQuery<T extends IssueAnalytic> {
      */
     public IssuesQuery(Class<T> issueType, EntityManager entityManager, Platform platform, String applicationId,
                        Set<String> rawFilters) {
-        this.entityManager = entityManager;
+        super(issueType, entityManager, rawFilters);
         this.platform = platform;
         this.applicationId = applicationId;
-        this.rawFilters = new CopyOnWriteArraySet<>(rawFilters);
-        criteriaBuilder = entityManager.getCriteriaBuilder();
-        query = criteriaBuilder.createQuery(issueType);
-        issue = query.from(issueType);
-        device = issue.join(DEVICE_KEY, INNER);
-        predicates = new ArrayList<>();
+        device = root.join(DEVICE_KEY, INNER);
     }
 
     /**
-     * Method to get the issue executing the query
-     *
-     * @param pageable The pageable value to use to paginate the query
-     *
-     * @return the issues retrieved from database as {@link List} of {@link T}
+     * {@inheritDoc}
      */
-    public List<T> getIssues(Pageable pageable) {
-        prepareQuery();
-        TypedQuery<T> typedQuery = entityManager.createQuery(query);
-        typedQuery.setFirstResult((int) pageable.getOffset());
-        typedQuery.setMaxResults(pageable.getPageSize());
-        return typedQuery.getResultList();
-    }
-
-    /**
-     * Method to get the issue executing the query
-     *
-     * @return the issues retrieved from database as {@link List} of {@link T}
-     */
-    public List<T> getIssues() {
-        if (predicates.isEmpty())
-            prepareQuery();
-        TypedQuery<T> typedQuery = entityManager.createQuery(query);
-        return typedQuery.getResultList();
-    }
-
-    /**
-     * Method to prepare the query adding the predicates
-     */
-    private void prepareQuery() {
-        fillPredicates();
-        query.select(issue).where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-    }
-
-    /**
-     * Wrapper method to fill all the predicates dynamically
-     */
-    @Wrapper
+    @Override
+    @RequiresSuperCall
     protected void fillPredicates() {
         addMandatoryFilters();
         addNameFilters();
@@ -209,8 +147,8 @@ public class IssuesQuery<T extends IssueAnalytic> {
      * Method to add the mandatory filters such {@link #applicationId} and {@link #platform}
      */
     private void addMandatoryFilters() {
-        predicates.add(criteriaBuilder.equal(issue.get(APPLICATION_KEY).get(IDENTIFIER_KEY), applicationId));
-        predicates.add(criteriaBuilder.equal(issue.get(PLATFORM_KEY), platform));
+        predicates.add(criteriaBuilder.equal(root.get(APPLICATION_KEY).get(IDENTIFIER_KEY), applicationId));
+        predicates.add(criteriaBuilder.equal(root.get(PLATFORM_KEY), platform));
     }
 
     /**
@@ -219,7 +157,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
     private void addNameFilters() {
         HashSet<String> names = getNameFilters();
         if (names != null) {
-            Predicate nameIn = issue.get(NAME_KEY).in(names);
+            Predicate nameIn = root.get(NAME_KEY).in(names);
             predicates.add(nameIn);
         }
     }
@@ -241,7 +179,12 @@ public class IssuesQuery<T extends IssueAnalytic> {
         HashSet<String> dates = getDateFilters();
         if (dates != null) {
             Expression<String> formattedDate = criteriaBuilder.function("DATE_FORMAT", String.class,
-                    criteriaBuilder.function("FROM_UNIXTIME", Date.class, criteriaBuilder.quot(issue.get("creationDate"), 1000)),
+                    criteriaBuilder.function(
+                            "FROM_UNIXTIME",
+                            Date.class,
+                            criteriaBuilder.quot(root.get("creationDate"),
+                                    1000)
+                    ),
                     criteriaBuilder.literal("%d/%m/%Y")
             );
             predicates.add(formattedDate.in(dates));
@@ -285,7 +228,7 @@ public class IssuesQuery<T extends IssueAnalytic> {
      */
     protected ArrayList<Predicate> getVersionPredicates(HashSet<String> versions) {
         ArrayList<Predicate> predicates = new ArrayList<>();
-        Predicate appVersionIn = issue.get("appVersion").in(versions);
+        Predicate appVersionIn = root.get("appVersion").in(versions);
         predicates.add(appVersionIn);
         Predicate osVersionIn = device.get("osVersion").in(versions);
         predicates.add(osVersionIn);
@@ -332,27 +275,6 @@ public class IssuesQuery<T extends IssueAnalytic> {
     @Wrapper
     private HashSet<String> getModelFilters() {
         return extractFiltersByPattern(MODEL_PATTERN);
-    }
-
-    /**
-     * Method to extract from the {@link #rawFilters} the specific set of filters
-     *
-     * @param pattern The pattern to use to extract the specific set
-     *
-     * @return the specific filters as {@link HashSet} of {@link String}
-     */
-    protected HashSet<String> extractFiltersByPattern(Pattern pattern) {
-        HashSet<String> filtersList = new HashSet<>();
-        for (String filter : rawFilters) {
-            Matcher matcher = pattern.matcher(filter);
-            if (matcher.matches()) {
-                filtersList.add(filter.trim());
-                rawFilters.remove(filter);
-            }
-        }
-        if (filtersList.isEmpty())
-            return null;
-        return filtersList;
     }
 
 }

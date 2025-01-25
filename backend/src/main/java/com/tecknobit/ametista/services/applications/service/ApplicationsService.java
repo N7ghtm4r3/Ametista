@@ -165,13 +165,13 @@ public class ApplicationsService extends EquinoxItemsHelper implements AmetistaR
         long totalIssues;
         if (platform == Platform.WEB) {
             WebIssuesQuery webIssuesQuery = new WebIssuesQuery(entityManager, applicationId, filters);
-            issues = (List<T>) webIssuesQuery.getIssues(pageable);
-            totalIssues = webIssuesQuery.getIssues().size();
+            issues = (List<T>) webIssuesQuery.getEntities(pageable);
+            totalIssues = webIssuesQuery.getEntities().size();
         } else {
             IssuesQuery<IssueAnalytic> issuesQuery = new IssuesQuery<>(IssueAnalytic.class, entityManager, platform,
                     applicationId, filters);
-            issues = (List<T>) issuesQuery.getIssues(pageable);
-            totalIssues = issuesQuery.getIssues().size();
+            issues = (List<T>) issuesQuery.getEntities(pageable);
+            totalIssues = issuesQuery.getEntities().size();
         }
         return new PaginatedResponse<>(issues, page, pageSize, totalIssues);
     }

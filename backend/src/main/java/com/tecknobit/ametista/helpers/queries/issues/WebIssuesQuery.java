@@ -2,6 +2,7 @@ package com.tecknobit.ametista.helpers.queries.issues;
 
 import com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxcore.annotations.RequiresSuperCall;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -36,6 +37,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
      * {@inheritDoc}
      */
     @Override
+    @RequiresSuperCall
     protected void fillPredicates() {
         super.fillPredicates();
         addBrowserPredicates();
@@ -47,7 +49,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
     @Override
     protected ArrayList<Predicate> getVersionPredicates(HashSet<String> versions) {
         ArrayList<Predicate> predicates = super.getVersionPredicates(versions);
-        Predicate browserVersionIn = issue.get("browserVersion").in(versions);
+        Predicate browserVersionIn = root.get("browserVersion").in(versions);
         predicates.add(browserVersionIn);
         return predicates;
     }
@@ -58,7 +60,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
     private void addBrowserPredicates() {
         HashSet<String> browsers = getBrowserFilters();
         if (browsers != null) {
-            Predicate browserIn = issue.get(BROWSER_KEY).in(browsers);
+            Predicate browserIn = root.get(BROWSER_KEY).in(browsers);
             predicates.add(browserIn);
         }
     }

@@ -2,33 +2,35 @@ package com.tecknobit.ametista.services.collector.controller;
 
 
 import com.tecknobit.ametista.services.DefaultAmetistaController;
-import com.tecknobit.ametista.services.collector.service.CollectorHelper;
-import com.tecknobit.ametistacore.models.AmetistaApplication;
-import com.tecknobit.ametistacore.models.Platform;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
+import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametista.services.collector.service.CollectorService;
+import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
+import kotlin.Pair;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATIONS_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.APP_VERSION_KEY;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.ISSUES_PER_SESSION;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.PerformanceAnalyticType.TOTAL_ISSUES;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATIONS_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.APP_VERSION_KEY;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.ISSUES_PER_SESSION;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.TOTAL_ISSUES;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PUT;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
+import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
-import static com.tecknobit.equinox.Requester.RESPONSE_DATA_KEY;
-import static com.tecknobit.equinox.Requester.RESPONSE_STATUS_KEY;
-import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxcore.network.Requester.RESPONSE_DATA_KEY;
+import static com.tecknobit.equinoxcore.network.Requester.RESPONSE_STATUS_KEY;
 
 /**
  * The {@code AmetistaCollectorController} class is useful to manage all the collection operations requested by the
@@ -53,15 +55,20 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     private static final String PLATFORM_ALREADY_CONNECTED = "platform_already_connected_key";
 
     /**
-     * {@code DEBUG_OPERATION_EXECUTED_SUCCESSFULLY} message sent when the collection request has been completed successfully
+     * {@code DEBUG_OPERATION_EXECUTED_SUCCESSFULLY} message sent when the debug request has been completed successfully
      */
     private static final String DEBUG_OPERATION_EXECUTED_SUCCESSFULLY = "debug_operation_executed_successfully_key";
 
     /**
-     * {@code collectorHelper} helper to manage the collection operations
+     * {@code DEBUG_OPERATION_FAILED} message sent when the debug request failed
+     */
+    private static final String DEBUG_OPERATION_FAILED = "debug_operation_failed_key";
+
+    /**
+     * {@code collectorService} helper to manage the collection operations
      */
     @Autowired
-    private CollectorHelper collectorHelper;
+    private CollectorService collectorService;
 
     /**
      * Method to connect a new platform for the application
@@ -94,7 +101,7 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         if (application.getPlatforms().contains(platform))
             return failedResponse(PLATFORM_ALREADY_CONNECTED);
-        collectorHelper.connectPlatform(applicationId, platform);
+        collectorService.connectPlatform(applicationId, platform);
         return successResponse();
     }
     
@@ -146,14 +153,15 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestParam(value = IS_DEBUG_MODE, defaultValue = "false", required = false) boolean isDebugMode,
             @RequestBody Map<String, Object> payload
     ) {
+        Pair<String, AmetistaApplication> checkResult = checkDebugRequest(applicationId, serverSecret);
         if (isDebugMode)
-            return sendDebugRequestResponse();
-        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+            return checkResult.getFirst();
+        AmetistaApplication application = checkResult.getSecond();
         if (application == null || !application.getPlatforms().contains(platform))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         try {
-            collectorHelper.collectIssue(applicationId, appVersion, platform, jsonHelper);
+            collectorService.collectIssue(applicationId, appVersion, platform, jsonHelper);
             return successResponse();
         } catch (IllegalArgumentException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -194,18 +202,19 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestParam(PLATFORM_KEY) Platform platform,
             @RequestParam(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
             @RequestParam(value = IS_DEBUG_MODE, defaultValue = "false", required = false) boolean isDebugMode,
-            @RequestBody(required = false) Map<String, String> payload
+            @RequestBody(required = false) Map<String, Object> payload
     ) {
+        Pair<String, AmetistaApplication> checkResult = checkDebugRequest(applicationId, serverSecret);
         if (isDebugMode)
-            return sendDebugRequestResponse();
-        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+            return checkResult.getFirst();
+        AmetistaApplication application = checkResult.getSecond();
         if (application == null || type == TOTAL_ISSUES || type == ISSUES_PER_SESSION ||
                 !application.getPlatforms().contains(platform)) {
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         }
         loadJsonHelper(payload);
         try {
-            collectorHelper.collectAnalytic(applicationId, appVersion, platform, type, jsonHelper);
+            collectorService.collectAnalytic(applicationId, appVersion, platform, type, jsonHelper);
             return successResponse();
         } catch (IllegalArgumentException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -213,14 +222,27 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     }
 
     /**
-     * Method to send the debug request response
+     * Method to assemble the debug request response
      *
-     * @return the request response as {@link String}
+     * @param applicationId Identifier of the application
+     * @param serverSecret User token for authentication
+     *
+     * @return the request response as {@link Pair} of {@link String} and {@link AmetistaApplication}
      */
-    private String sendDebugRequestResponse() {
-        return new JSONObject()
-                .put(RESPONSE_STATUS_KEY, SUCCESSFUL)
-                .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY)).toString();
+    private Pair<String, AmetistaApplication> checkDebugRequest(String applicationId, String serverSecret) {
+        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+        JSONObject response = new JSONObject();
+        if (application != null) {
+            response.put(RESPONSE_STATUS_KEY, SUCCESSFUL)
+                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY));
+        } else {
+            response.put(RESPONSE_STATUS_KEY, FAILED)
+                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_FAILED));
+        }
+        return new Pair<>(
+                response.toString(),
+                application
+        );
     }
 
     /**
@@ -234,7 +256,7 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     private AmetistaApplication validateCollectorRequest(String applicationId, String serverSecret) {
         if (!serverProtector.serverSecretMatches(serverSecret))
             return null;
-        return collectorHelper.getApplication(applicationId).orElse(null);
+        return collectorService.getApplication(applicationId).orElse(null);
     }
 
 }

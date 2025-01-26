@@ -1,7 +1,7 @@
 package com.tecknobit.ametista.services.collector.repositories;
 
-import com.tecknobit.ametistacore.models.Platform;
-import com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic;
+import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
+import com.tecknobit.ametistacore.enums.Platform;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,16 +9,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaItem.CREATION_DATE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.APP_VERSION_KEY;
-import static com.tecknobit.ametistacore.models.analytics.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUES_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.ISSUE_KEY;
-import static com.tecknobit.ametistacore.models.analytics.issues.WebIssueAnalytic.*;
-import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.APP_VERSION_KEY;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUES_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUE_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic.*;
+import static com.tecknobit.ametista.shared.data.AmetistaItem.CREATION_DATE_KEY;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**
  * The {@code IssuesRepository} interface is useful to manage the queries for the issues operations

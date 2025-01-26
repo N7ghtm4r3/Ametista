@@ -1,31 +1,32 @@
 package com.tecknobit.ametista.services.users.controller;
 
+import com.tecknobit.ametista.services.users.entity.AmetistaUser;
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
-import com.tecknobit.ametista.services.users.service.AmetistaUsersHelper;
-import com.tecknobit.ametistacore.models.AmetistaUser;
+import com.tecknobit.ametista.services.users.service.AmetistaUsersService;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.apis.ServerProtector;
-import com.tecknobit.equinox.annotations.CustomParametersOrder;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
-import com.tecknobit.equinox.environment.controllers.EquinoxUsersController;
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.users.controller.EquinoxUsersController;
+import com.tecknobit.equinoxcore.annotations.CustomParametersOrder;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import static com.tecknobit.ametista.services.users.dtos.AmetistaMember.MEMBER_IDENTIFIER_KEY;
+import static com.tecknobit.ametista.services.users.entity.AmetistaUser.*;
+import static com.tecknobit.ametista.services.users.entity.AmetistaUser.Role.ADMIN;
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
-import static com.tecknobit.ametistacore.helpers.pagination.PaginatedResponse.*;
-import static com.tecknobit.ametistacore.models.AmetistaMember.MEMBER_IDENTIFIER_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaUser.*;
-import static com.tecknobit.ametistacore.models.AmetistaUser.Role.ADMIN;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
-import static com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
-import static com.tecknobit.equinox.environment.records.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.DEFAULT_PROFILE_PIC;
-import static com.tecknobit.equinox.inputs.InputValidator.*;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.helpers.InputsValidator.Companion;
+import static com.tecknobit.equinoxcore.helpers.InputsValidator.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 
 /**
  * The {@code AmetistaUsersController} class is useful to manage all the user operations
@@ -34,7 +35,7 @@ import static com.tecknobit.equinox.inputs.InputValidator.*;
  * @see EquinoxController
  */
 @RestController
-public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser, AmetistaUsersRepository, AmetistaUsersHelper> {
+public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser, AmetistaUsersRepository, AmetistaUsersService> {
 
     /**
      * {@code adminCodeProvider} helper to provide the admin code and manage the admin accesses
@@ -192,7 +193,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String password = jsonHelper.getString(PASSWORD_KEY);
-        if (!isPasswordValid(password))
+        if (!Companion.isPasswordValid(password))
             return failedResponse(WRONG_PASSWORD_MESSAGE);
         try {
             usersHelper.changePassword(password, userId);
@@ -263,13 +264,13 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         String name = jsonHelper.getString(NAME_KEY);
-        if (!isNameValid(name))
+        if (!Companion.isNameValid(name))
             return failedResponse(WRONG_NAME_MESSAGE);
         String surname = jsonHelper.getString(SURNAME_KEY);
-        if (!isSurnameValid(surname))
+        if (!Companion.isSurnameValid(surname))
             return failedResponse(WRONG_SURNAME_MESSAGE);
         String email = jsonHelper.getString(EMAIL_KEY);
-        if (!isEmailValid(email))
+        if (!Companion.isEmailValid(email))
             return failedResponse(WRONG_EMAIL_MESSAGE);
         try {
             usersHelper.addViewer(name, surname, email);

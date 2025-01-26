@@ -1,6 +1,6 @@
 package com.tecknobit.ametista.services.collector.repositories;
 
-import com.tecknobit.ametistacore.models.AmetistaDevice;
+import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import static com.tecknobit.ametistacore.models.AmetistaDevice.*;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.*;
 
 /**
  * The {@code DevicesRepository} interface is useful to manage the queries for the devices operations

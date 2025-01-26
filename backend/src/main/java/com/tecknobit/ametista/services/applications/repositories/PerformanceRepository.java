@@ -1,7 +1,7 @@
 package com.tecknobit.ametista.services.applications.repositories;
 
-import com.tecknobit.ametistacore.models.Platform;
-import com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic;
+import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic;
+import com.tecknobit.ametistacore.enums.Platform;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,10 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tecknobit.ametistacore.models.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
-import static com.tecknobit.ametistacore.models.AmetistaApplication.MAX_VERSION_SAMPLES;
-import static com.tecknobit.ametistacore.models.analytics.issues.IssueAnalytic.VERSION_FILTERS_KEY;
-import static com.tecknobit.ametistacore.models.analytics.performance.PerformanceAnalytic.*;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
+import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.MAX_VERSION_SAMPLES;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.APP_VERSION_KEY;
+import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.VERSION_FILTERS_KEY;
+import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.*;
+import static com.tecknobit.ametista.shared.data.AmetistaItem.CREATION_DATE_KEY;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 
 /**
  * The {@code PerformanceRepository} interface is useful to manage the queries for the performance data operations

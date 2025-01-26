@@ -50,11 +50,6 @@ dependencies {
 }
 ```
 
-## 🛠 Skills
-
-- Java
-- Kotlin
-
 ## Architecture
 
 ### Engine
@@ -195,10 +190,6 @@ When you have to start the service you will have different scenarios:
    // dssi command
   java -jar Ametista.jar dssi // this will delete the current server secret and interrupts the server workflow right next
   ```
-
-## Authors
-
-- [@N7ghtm4r3](https://www.github.com/N7ghtm4r3)
 
 ## Support
 

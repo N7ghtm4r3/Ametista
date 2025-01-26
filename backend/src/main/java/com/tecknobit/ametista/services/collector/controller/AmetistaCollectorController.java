@@ -8,6 +8,7 @@ import com.tecknobit.ametista.services.collector.service.CollectorService;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
+import kotlin.Pair;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import static com.tecknobit.ametista.services.collector.entities.performance.Per
 import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.TOTAL_ISSUES;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PUT;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
+import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
 import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.network.Requester.RESPONSE_DATA_KEY;
@@ -53,9 +55,14 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     private static final String PLATFORM_ALREADY_CONNECTED = "platform_already_connected_key";
 
     /**
-     * {@code DEBUG_OPERATION_EXECUTED_SUCCESSFULLY} message sent when the collection request has been completed successfully
+     * {@code DEBUG_OPERATION_EXECUTED_SUCCESSFULLY} message sent when the debug request has been completed successfully
      */
     private static final String DEBUG_OPERATION_EXECUTED_SUCCESSFULLY = "debug_operation_executed_successfully_key";
+
+    /**
+     * {@code DEBUG_OPERATION_FAILED} message sent when the debug request failed
+     */
+    private static final String DEBUG_OPERATION_FAILED = "debug_operation_failed_key";
 
     /**
      * {@code collectorService} helper to manage the collection operations
@@ -146,9 +153,10 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestParam(value = IS_DEBUG_MODE, defaultValue = "false", required = false) boolean isDebugMode,
             @RequestBody Map<String, Object> payload
     ) {
+        Pair<String, AmetistaApplication> checkResult = checkDebugRequest(applicationId, serverSecret);
         if (isDebugMode)
-            return sendDebugRequestResponse();
-        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+            return checkResult.getFirst();
+        AmetistaApplication application = checkResult.getSecond();
         if (application == null || !application.getPlatforms().contains(platform))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
@@ -194,11 +202,12 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
             @RequestParam(PLATFORM_KEY) Platform platform,
             @RequestParam(PERFORMANCE_ANALYTIC_TYPE_KEY) PerformanceAnalyticType type,
             @RequestParam(value = IS_DEBUG_MODE, defaultValue = "false", required = false) boolean isDebugMode,
-            @RequestBody(required = false) Map<String, String> payload
+            @RequestBody(required = false) Map<String, Object> payload
     ) {
+        Pair<String, AmetistaApplication> checkResult = checkDebugRequest(applicationId, serverSecret);
         if (isDebugMode)
-            return sendDebugRequestResponse();
-        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+            return checkResult.getFirst();
+        AmetistaApplication application = checkResult.getSecond();
         if (application == null || type == TOTAL_ISSUES || type == ISSUES_PER_SESSION ||
                 !application.getPlatforms().contains(platform)) {
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
@@ -213,14 +222,27 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     }
 
     /**
-     * Method to send the debug request response
+     * Method to assemble the debug request response
      *
-     * @return the request response as {@link String}
+     * @param applicationId Identifier of the application
+     * @param serverSecret User token for authentication
+     *
+     * @return the request response as {@link Pair} of {@link String} and {@link AmetistaApplication}
      */
-    private String sendDebugRequestResponse() {
-        return new JSONObject()
-                .put(RESPONSE_STATUS_KEY, SUCCESSFUL)
-                .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY)).toString();
+    private Pair<String, AmetistaApplication> checkDebugRequest(String applicationId, String serverSecret) {
+        AmetistaApplication application = validateCollectorRequest(applicationId, serverSecret);
+        JSONObject response = new JSONObject();
+        if (application != null) {
+            response.put(RESPONSE_STATUS_KEY, SUCCESSFUL)
+                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY));
+        } else {
+            response.put(RESPONSE_STATUS_KEY, FAILED)
+                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_FAILED));
+        }
+        return new Pair<>(
+                response.toString(),
+                application
+        );
     }
 
     /**

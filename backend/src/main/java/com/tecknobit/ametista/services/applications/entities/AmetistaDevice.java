@@ -119,22 +119,11 @@ public class AmetistaDevice extends EquinoxItem {
      * @param jDevice Device details formatted as JSON
      */
     public AmetistaDevice(JSONObject jDevice) {
-        super(jDevice);
+        super(jDevice, DEVICE_IDENTIFIER_KEY);
         brand = hItem.getString(BRAND_KEY);
         model = hItem.getString(MODEL_KEY);
         os = hItem.getString(OS_KEY);
         osVersion = hItem.getString(OS_VERSION_KEY);
-    }
-
-    /**
-     * Method to get {@link #id} instance
-     *
-     * @return {@link #id} instance as {@link String}
-     */
-    @Override
-    @JsonGetter(IDENTIFIER_KEY)
-    public String getId() {
-        return super.getId();
     }
 
     /**

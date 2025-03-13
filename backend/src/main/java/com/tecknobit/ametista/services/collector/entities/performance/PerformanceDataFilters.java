@@ -1,14 +1,14 @@
 package com.tecknobit.ametista.services.collector.entities.performance;
 
-import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
 import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.VERSION_FILTERS_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.FINAL_DATE_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.INITIAL_DATE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.FINAL_DATE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.INITIAL_DATE_KEY;
 
 /**
  * The {@code PerformanceDataFilters} class is used to filter the retrieving of the {@link PerformanceData} from the
@@ -140,7 +140,7 @@ public class PerformanceDataFilters {
      * @param analyticType The type of the analytic to set the filter
      * @param filter The new filter to use
      */
-    public void setFilter(PerformanceAnalyticType analyticType, PerformanceFilter filter) {
+    public void setFilter(com.tecknobit.ametistacore.enums.PerformanceAnalyticType analyticType, PerformanceFilter filter) {
         switch (analyticType) {
             case LAUNCH_TIME -> setLaunchTimeFilter(filter);
             case NETWORK_REQUESTS -> setNetworkRequestsFilter(filter);
@@ -181,7 +181,7 @@ public class PerformanceDataFilters {
      */
     public JSONObject toPayload() {
         JSONObject payload = new JSONObject();
-        for (PerformanceAnalyticType analyticType : PerformanceAnalyticType.values()) {
+        for (PerformanceAnalyticType analyticType : PerformanceAnalyticType.getEntries()) {
             PerformanceFilter filter = getFilter(analyticType);
             if (filter != null) {
                 JSONObject jAnalytic = new JSONObject();

@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.AnalyticType.PERFORMANCE;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.ametistacore.enums.AnalyticType.PERFORMANCE;
 
 
 /**
@@ -21,75 +23,8 @@ import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalyti
  * @see EquinoxItem
  */
 @Entity
-@Table(name = PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY)
+@Table(name = PERFORMANCE_ANALYTICS_KEY)
 public class PerformanceAnalytic extends AmetistaAnalytic {
-
-    /**
-     * The performance analytics available
-     */
-    public enum PerformanceAnalyticType {
-
-        /**
-         * **LAUNCH_TIME** -> Inherent measurement of application startup time
-         */
-        LAUNCH_TIME,
-
-        /**
-         * **NETWORK_REQUESTS** -> Inherent measure of the number of HTTP requests executed by each application daily
-         */
-        NETWORK_REQUESTS,
-
-        /**
-         * **TOTAL_ISSUES** -> Inherent measurement of the number of crashes or problems encountered while using the application
-         */
-        TOTAL_ISSUES,
-
-        /**
-         * **ISSUES_PER_SESSION** -> Inherent measurement of the average number of crashes or issues encountered while using the application for a single session
-         */
-        ISSUES_PER_SESSION
-
-    }
-
-    /**
-     * {@code PERFORMANCES_KEY} the key for the <b>"performance"</b> field
-     */
-    public static final String PERFORMANCES_KEY = "performance";
-
-    /**
-     * {@code LAUNCH_TIME_KEY} the key for the <b>"launch_time"</b> field
-     */
-    public static final String LAUNCH_TIME_KEY = "launch_time";
-
-    /**
-     * {@code INITIAL_DATE_KEY} the key for the <b>"initial_date"</b> field
-     */
-    public static final String INITIAL_DATE_KEY = "initial_date";
-
-    /**
-     * {@code FINAL_DATE_KEY} the key for the <b>"final_date"</b> field
-     */
-    public static final String FINAL_DATE_KEY = "final_date";
-
-    /**
-     * {@code PERFORMANCE_ANALYTICS_KEY} the key for the <b>"performance_analytics"</b> field
-     */
-    public static final String PERFORMANCE_ANALYTICS_KEY = "performance_analytics";
-
-    /**
-     * {@code PERFORMANCE_VALUE_KEY} the key for the <b>"value"</b> field
-     */
-    public static final String PERFORMANCE_VALUE_KEY = "value";
-
-    /**
-     * {@code PERFORMANCE_ANALYTIC_TYPE_KEY} the key for the <b>"performance_analytic_type"</b> field
-     */
-    public static final String PERFORMANCE_ANALYTIC_TYPE_KEY = "performance_analytic_type";
-
-    /**
-     * {@code DATA_UPDATES_KEY} the key for the <b>"data_updates"</b> field
-     */
-    public static final String DATA_UPDATES_KEY = "data_updates";
 
     /**
      * {@code value} the value related to the analytic

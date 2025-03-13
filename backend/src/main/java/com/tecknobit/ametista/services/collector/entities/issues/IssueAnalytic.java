@@ -8,9 +8,8 @@ import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxI
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
-import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.DEVICE_IDENTIFIER_KEY;
-import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.DEVICE_KEY;
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.AnalyticType.ISSUE;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.ametistacore.enums.AnalyticType.ISSUE;
 
 /**
  * The {@code IssueAnalytic} class is useful to represent an issue
@@ -21,39 +20,9 @@ import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalyti
  * @see EquinoxItem
  */
 @Entity
-@Table(name = IssueAnalytic.ISSUES_KEY)
-@DiscriminatorValue(IssueAnalytic.ISSUE_KEY)
+@Table(name = ISSUES_KEY)
+@DiscriminatorValue(ISSUE_KEY)
 public class IssueAnalytic extends AmetistaAnalytic {
-
-    /**
-     * {@code ISSUES_KEY} the key for the <b>"issues"</b> field
-     */
-    public static final String ISSUES_KEY = "issues";
-
-    /**
-     * {@code ISSUE_KEY} the key for the <b>"issue"</b> field
-     */
-    public static final String ISSUE_KEY = "issue";
-
-    /**
-     * {@code DATE_FILTERS_KEY} the key for the <b>"dates"</b> field
-     */
-    public static final String DATE_FILTERS_KEY = "dates";
-
-    /**
-     * {@code VERSION_FILTERS_KEY} the key for the <b>"versions"</b> field
-     */
-    public static final String VERSION_FILTERS_KEY = "versions";
-
-    /**
-     * {@code BRAND_FILTERS_KEY} the key for the <b>"brands"</b> field
-     */
-    public static final String BRAND_FILTERS_KEY = "brands";
-
-    /**
-     * {@code MODEL_FILTERS_KEY} the key for the <b>"models"</b> field
-     */
-    public static final String MODEL_FILTERS_KEY = "models";
 
     /**
      * {@code application} the cause message of the issue occurred
@@ -106,6 +75,7 @@ public class IssueAnalytic extends AmetistaAnalytic {
      *
      * @param jIssue Issue details formatted as JSON
      */
+    // TODO: 13/03/2025 CHECK TO REMOVE
     public IssueAnalytic(JSONObject jIssue) {
         super(jIssue, ISSUE);
         issue = hItem.getString(ISSUE_KEY);

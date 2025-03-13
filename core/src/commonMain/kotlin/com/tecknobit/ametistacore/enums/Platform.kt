@@ -1,8 +1,11 @@
 package com.tecknobit.ametistacore.enums
 
+import kotlinx.serialization.Serializable
+
 /**
  * The list of tha available platforms
  */
+@Serializable
 enum class Platform {
 
     /**

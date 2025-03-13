@@ -1,13 +1,12 @@
 package com.tecknobit.ametista.services.users.dtos;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecknobit.ametista.services.users.entity.AmetistaUser.Role;
+import com.tecknobit.ametistacore.enums.Role;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxcore.annotations.DTO;
 import org.json.JSONObject;
 
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.ROLE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.ROLE_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 
 /**
@@ -73,6 +72,7 @@ public class AmetistaMember extends EquinoxItem {
      *
      * @param jMember: user details formatted as JSON
      */
+    // TODO: 13/03/2025 CHECK TO REMOVE
     public AmetistaMember(JSONObject jMember) {
         super(jMember);
         profilePic = hItem.getString(PROFILE_PIC_KEY);
@@ -111,17 +111,6 @@ public class AmetistaMember extends EquinoxItem {
      */
     public String getSurname() {
         return surname;
-    }
-
-    /**
-     * Method to get the complete name of the user <br>
-     * No-any params required
-     *
-     * @return the complete name of the user as {@link String}
-     */
-    @JsonIgnore
-    public String getCompleteName() {
-        return name + " " + surname;
     }
 
     /**

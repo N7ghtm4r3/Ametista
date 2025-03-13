@@ -3,6 +3,7 @@ package com.tecknobit.ametista.services.users.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.ametista.services.users.dtos.AmetistaMember;
+import com.tecknobit.ametistacore.enums.Role;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
@@ -12,6 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.ConstantsKt.ROLE_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.PASSWORD_KEY;
 
 
@@ -26,48 +28,6 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.PASSWORD_KEY;
 @Entity
 @JsonIgnoreProperties({PASSWORD_KEY})
 public class AmetistaUser extends EquinoxUser implements DTOConvertible<AmetistaMember> {
-
-    /**
-     * {@code ADMIN_CODE_KEY} the key for the <b>"admin_code"</b> field
-     */
-    public static final String ADMIN_CODE_KEY = "admin_code";
-
-    /**
-     * {@code IS_ADMIN_KEY} the key for the <b>"is_admin"</b> field
-     */
-    public static final String IS_ADMIN_KEY = "is_admin";
-
-    /**
-     * {@code ROLE_KEY} the key for the <b>"role"</b> field
-     */
-    public static final String ROLE_KEY = "role";
-
-    /**
-     * {@code SESSION_KEY} the key for the <b>"session"</b> field
-     */
-    public static final String SESSION_KEY = "session";
-
-    /**
-     * {@code MEMBERS_KEY} the key for the <b>"members"</b> field
-     */
-    public static final String MEMBERS_KEY = "members";
-
-    /**
-     * List of the available roles
-     */
-    public enum Role {
-
-        /**
-         * {@code VIEWER} this role allows the users to only see the data without the possibility to add/edit/remove them
-         */
-        VIEWER,
-
-        /**
-         * {@code ADMIN} this role allows the users to execute the basics action and add new {@link #VIEWER} in the system
-         */
-        ADMIN
-
-    }
 
     /**
      * {@code role} the role of the user
@@ -126,6 +86,7 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
      *
      * @param jUser User details formatted as JSON
      */
+    // TODO: 13/03/2025 CHECK TO REMOVE
     public AmetistaUser(JSONObject jUser) {
         super(jUser);
         role = Role.valueOf(hItem.getString(ROLE_KEY));

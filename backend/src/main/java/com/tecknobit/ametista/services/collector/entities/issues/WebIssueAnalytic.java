@@ -12,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_VERSION_KEY;
+
 /**
  * The {@code IssueAnalytic} class is useful to represent an issue occurred in a web environment
  *
@@ -25,26 +28,6 @@ import org.json.JSONObject;
 @Table(name = WebIssueAnalytic.WEB_ISSUES_KEY)
 @DiscriminatorValue(WebIssueAnalytic.WEB_ISSUE_KEY)
 public class WebIssueAnalytic extends IssueAnalytic {
-
-    /**
-     * {@code WEB_ISSUES_KEY} the key for the <b>"web_issues"</b> field
-     */
-    public static final String WEB_ISSUES_KEY = "web_issues";
-
-    /**
-     * {@code WEB_ISSUE_KEY} the key for the <b>"web_issue"</b> field
-     */
-    public static final String WEB_ISSUE_KEY = "web_issue";
-
-    /**
-     * {@code BROWSER_KEY} the key for the <b>"browser"</b> field
-     */
-    public static final String BROWSER_KEY = "browser";
-
-    /**
-     * {@code BROWSER_VERSION_KEY} the key for the <b>"browser_version"</b> field
-     */
-    public static final String BROWSER_VERSION_KEY = "browser_version";
 
     /**
      * {@code browser} the browser where the issue occurred
@@ -92,6 +75,7 @@ public class WebIssueAnalytic extends IssueAnalytic {
      *
      * @param jWebIssue Web issue details formatted as JSON
      */
+    // TODO: 13/03/2025 CHECK TO REMOVE
     public WebIssueAnalytic(JSONObject jWebIssue) {
         super(jWebIssue);
         browser = hItem.getString(BROWSER_KEY);

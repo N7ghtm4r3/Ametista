@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.DATA_KEY;
 
 /**
@@ -19,26 +19,6 @@ import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.DATA_KEY;
  * @author N7ghtm4r3 - Tecknobit
  */
 public class PerformanceData {
-
-    /**
-     * {@code LAUNCH_TIME_KEY} the key for the <b>"launch_times"</b> field
-     */
-    public static final String LAUNCH_TIME_KEY = "launch_times";
-
-    /**
-     * {@code NETWORK_REQUESTS_KEY} the key for the <b>"network_requests"</b> field
-     */
-    public static final String NETWORK_REQUESTS_KEY = "network_requests";
-
-    /**
-     * {@code TOTAL_ISSUES_KEY} the key for the <b>"total_issues"</b> field
-     */
-    public static final String TOTAL_ISSUES_KEY = "total_issues";
-
-    /**
-     * {@code ISSUES_PER_SESSION_KEY} the key for the <b>"issues_per_session"</b> field
-     */
-    public static final String ISSUES_PER_SESSION_KEY = "issues_per_session";
 
     /**
      * {@code launchTime} the container of the launch time collected
@@ -90,6 +70,7 @@ public class PerformanceData {
      *
      * @param jPerformanceData Performance data details formatted as JSON
      */
+    // TODO: 13/03/2025 CHECK TO REMOVE
     public PerformanceData(JSONObject jPerformanceData) {
         JsonHelper hItem = new JsonHelper(jPerformanceData);
         launchTime = new PerformanceDataItem(hItem.getJSONObject(LAUNCH_TIME_KEY, new JSONObject()));

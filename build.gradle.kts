@@ -6,8 +6,9 @@ import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
-    id("org.jetbrains.dokka") version "1.9.20"
     kotlin("jvm")
+    id("org.jetbrains.dokka") version "1.9.20"
+    id("com.android.library") version "8.2.2" apply false
 }
 
 buildscript {

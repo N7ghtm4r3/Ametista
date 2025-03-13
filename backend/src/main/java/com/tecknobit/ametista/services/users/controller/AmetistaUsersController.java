@@ -3,6 +3,7 @@ package com.tecknobit.ametista.services.users.controller;
 import com.tecknobit.ametista.services.users.entity.AmetistaUser;
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
 import com.tecknobit.ametista.services.users.service.AmetistaUsersService;
+import com.tecknobit.ametistacore.enums.Role;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
@@ -15,16 +16,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.tecknobit.ametista.services.users.dtos.AmetistaMember.MEMBER_IDENTIFIER_KEY;
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.*;
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.Role.ADMIN;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.ametistacore.enums.Role.ADMIN;
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
-import static com.tecknobit.equinoxcore.helpers.InputsValidator.Companion;
 import static com.tecknobit.equinoxcore.helpers.InputsValidator.*;
+import static com.tecknobit.equinoxcore.helpers.InputsValidator.Companion;
 import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 

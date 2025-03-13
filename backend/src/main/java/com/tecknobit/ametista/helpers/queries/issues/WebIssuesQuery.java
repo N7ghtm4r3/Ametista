@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic.BROWSER_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_KEY;
 import static com.tecknobit.ametistacore.enums.Platform.WEB;
 
 /**

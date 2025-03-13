@@ -2,7 +2,7 @@ package com.tecknobit.ametista.services.collector.entities.performance;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;

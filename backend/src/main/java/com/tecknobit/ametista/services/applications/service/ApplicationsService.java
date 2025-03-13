@@ -9,6 +9,7 @@ import com.tecknobit.ametista.services.applications.repositories.ApplicationsRep
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
 import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
 import com.tecknobit.ametista.services.collector.entities.performance.PerformanceData;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
 

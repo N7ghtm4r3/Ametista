@@ -6,9 +6,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.VERSION_FILTERS_KEY;
-import static com.tecknobit.ametistacore.ConstantsKt.FINAL_DATE_KEY;
-import static com.tecknobit.ametistacore.ConstantsKt.INITIAL_DATE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 
 /**
  * The {@code PerformanceDataFilters} class is used to filter the retrieving of the {@link PerformanceData} from the

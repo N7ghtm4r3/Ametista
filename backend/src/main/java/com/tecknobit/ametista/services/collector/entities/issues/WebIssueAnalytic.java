@@ -12,8 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import org.json.JSONObject;
 
-import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_KEY;
-import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_VERSION_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 
 /**
  * The {@code IssueAnalytic} class is useful to represent an issue occurred in a web environment
@@ -25,8 +24,8 @@ import static com.tecknobit.ametistacore.ConstantsKt.BROWSER_VERSION_KEY;
  * @see EquinoxItem
  */
 @Entity
-@Table(name = WebIssueAnalytic.WEB_ISSUES_KEY)
-@DiscriminatorValue(WebIssueAnalytic.WEB_ISSUE_KEY)
+@Table(name = WEB_ISSUES_KEY)
+@DiscriminatorValue(WEB_ISSUE_KEY)
 public class WebIssueAnalytic extends IssueAnalytic {
 
     /**

@@ -3,8 +3,8 @@ package com.tecknobit.ametista.services.collector.controller;
 
 import com.tecknobit.ametista.services.DefaultAmetistaController;
 import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
-import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
 import com.tecknobit.ametista.services.collector.service.CollectorService;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
@@ -15,15 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATIONS_KEY;
-import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_IDENTIFIER_KEY;
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.APP_VERSION_KEY;
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
-import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUES_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTICS_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PERFORMANCE_ANALYTIC_TYPE_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.ISSUES_PER_SESSION;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.TOTAL_ISSUES;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.ametistacore.enums.PerformanceAnalyticType.ISSUES_PER_SESSION;
+import static com.tecknobit.ametistacore.enums.PerformanceAnalyticType.TOTAL_ISSUES;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.PUT;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;

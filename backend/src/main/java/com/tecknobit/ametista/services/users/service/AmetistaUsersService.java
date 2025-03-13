@@ -18,9 +18,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.ADMIN_CODE_KEY;
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.ROLE_KEY;
-import static com.tecknobit.ametista.services.users.entity.AmetistaUser.Role.VIEWER;
+import static com.tecknobit.ametistacore.ConstantsKt.ADMIN_CODE_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.ROLE_KEY;
+import static com.tecknobit.ametistacore.enums.Role.VIEWER;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.DEFAULT_VIEWER_PASSWORD;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
 import static com.tecknobit.equinoxcore.helpers.InputsValidator.DEFAULT_LANGUAGE;

@@ -1,12 +1,8 @@
 package com.tecknobit.ametista.services.collector.entities.performance;
 
 import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
-
-import static com.tecknobit.ametistacore.ConstantsKt.*;
 
 /**
  * The {@code PerformanceDataFilters} class is used to filter the retrieving of the {@link PerformanceData} from the
@@ -170,26 +166,6 @@ public class PerformanceDataFilters {
             }
         }
         return null;
-    }
-
-    /**
-     * Method to use the class as json payload
-     *
-     * @return the data of the class formatted as {@link JSONObject}
-     */
-    public JSONObject toPayload() {
-        JSONObject payload = new JSONObject();
-        for (PerformanceAnalyticType analyticType : PerformanceAnalyticType.getEntries()) {
-            PerformanceFilter filter = getFilter(analyticType);
-            if (filter != null) {
-                JSONObject jAnalytic = new JSONObject();
-                payload.put(INITIAL_DATE_KEY, filter.getInitialDate());
-                jAnalytic.put(FINAL_DATE_KEY, filter.getFinalDate());
-                jAnalytic.put(VERSION_FILTERS_KEY, new JSONArray(filter.getVersions()));
-                payload.put(analyticType.name(), jAnalytic);
-            }
-        }
-        return payload;
     }
 
     /**

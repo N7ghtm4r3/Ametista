@@ -8,7 +8,6 @@ import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.AnalyticType.PERFORMANCE;
@@ -71,18 +70,6 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
         this.value = value;
         this.performanceAnalyticType = performanceAnalyticType;
         this.dataUpdates = dataUpdates;
-    }
-
-    /**
-     * Constructor to init the {@link PerformanceAnalytic} class
-     *
-     * @param jPerformance Performance analytic details formatted as JSON
-     */
-    public PerformanceAnalytic(JSONObject jPerformance) {
-        super(jPerformance, PERFORMANCE);
-        value = hItem.getDouble(PERFORMANCE_VALUE_KEY);
-        performanceAnalyticType = PerformanceAnalyticType.valueOf(hItem.getString(PERFORMANCE_ANALYTIC_TYPE_KEY));
-        dataUpdates = 0;
     }
 
     /**

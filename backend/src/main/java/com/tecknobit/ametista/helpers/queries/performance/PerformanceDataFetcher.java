@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem.MAX_TEMPORAL_RANGE;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.PerformanceAnalyticType.*;
 

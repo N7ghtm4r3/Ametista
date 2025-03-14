@@ -234,3 +234,13 @@ const val BROWSER_KEY = "browser"
  * `BROWSER_VERSION_KEY` the key for the **"browser_version"** field
  */
 const val BROWSER_VERSION_KEY = "browser_version"
+
+/**
+ * `IS_CUSTOM_FILTERED_KEY` the key for the **"is_custom_filtered"** field
+ */
+const val IS_CUSTOM_FILTERED_KEY = "is_custom_filtered"
+
+/**
+ * `MAX_TEMPORAL_RANGE` the maximum temporal range allowed for the data retrieving (about 3 months)
+ */
+const val MAX_TEMPORAL_RANGE = 86400000L * 90

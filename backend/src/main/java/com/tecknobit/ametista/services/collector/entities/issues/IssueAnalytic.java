@@ -71,18 +71,6 @@ public class IssueAnalytic extends AmetistaAnalytic {
     }
 
     /**
-     * Constructor to init the {@link IssueAnalytic} class
-     *
-     * @param jIssue Issue details formatted as JSON
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE
-    public IssueAnalytic(JSONObject jIssue) {
-        super(jIssue, ISSUE);
-        issue = hItem.getString(ISSUE_KEY);
-        device = new AmetistaDevice(hItem.getJSONObject(DEVICE_KEY));
-    }
-
-    /**
      * Method to get {@link #issue} instance
      *
      * @return {@link #issue} instance as {@link String}

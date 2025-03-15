@@ -244,3 +244,8 @@ const val IS_CUSTOM_FILTERED_KEY = "is_custom_filtered"
  * `MAX_TEMPORAL_RANGE` the maximum temporal range allowed for the data retrieving (about 3 months)
  */
 const val MAX_TEMPORAL_RANGE = 86400000L * 90
+
+/**
+ * `MEMBER_IDENTIFIER_KEY` the key for the **"member_id"** field
+ */
+const val MEMBER_IDENTIFIER_KEY = "member_id"

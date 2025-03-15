@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import static com.tecknobit.ametista.services.users.dtos.AmetistaMember.MEMBER_IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.Role.ADMIN;
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;

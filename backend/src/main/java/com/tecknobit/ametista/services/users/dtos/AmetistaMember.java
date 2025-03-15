@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.tecknobit.ametistacore.enums.Role;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxcore.annotations.DTO;
-import org.json.JSONObject;
 
-import static com.tecknobit.ametistacore.ConstantsKt.ROLE_KEY;
-import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.PROFILE_PIC_KEY;
 
 /**
  * The {@code AmetistaUser} class is useful to represent a base Ametista's system user
@@ -17,11 +15,6 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
  */
 @DTO
 public class AmetistaMember extends EquinoxItem {
-
-    /**
-     * {@code MEMBER_IDENTIFIER_KEY} the key for the <b>"member_id"</b> field
-     */
-    public static final String MEMBER_IDENTIFIER_KEY = "member_id";
 
     /**
      * {@code profilePic} the profile picture of the user
@@ -65,21 +58,6 @@ public class AmetistaMember extends EquinoxItem {
         this.surname = surname;
         this.email = email;
         this.role = role;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaMember} class
-     *
-     * @param jMember: user details formatted as JSON
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE
-    public AmetistaMember(JSONObject jMember) {
-        super(jMember);
-        profilePic = hItem.getString(PROFILE_PIC_KEY);
-        name = hItem.getString(NAME_KEY);
-        surname = hItem.getString(SURNAME_KEY);
-        email = hItem.getString(EMAIL_KEY);
-        role = Role.valueOf(hItem.getString(ROLE_KEY));
     }
 
     /**

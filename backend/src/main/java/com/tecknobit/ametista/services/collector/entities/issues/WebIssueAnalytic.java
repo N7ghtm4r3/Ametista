@@ -10,7 +10,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 
@@ -67,18 +66,6 @@ public class WebIssueAnalytic extends IssueAnalytic {
         super(id, name, creationDate, appVersion, device, issue, platform);
         this.browser = browser;
         this.browserVersion = browserVersion;
-    }
-
-    /**
-     * Constructor to init the {@link IssueAnalytic} class
-     *
-     * @param jWebIssue Web issue details formatted as JSON
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE
-    public WebIssueAnalytic(JSONObject jWebIssue) {
-        super(jWebIssue);
-        browser = hItem.getString(BROWSER_KEY);
-        browserVersion = hItem.getString(BROWSER_VERSION_KEY);
     }
 
     /**

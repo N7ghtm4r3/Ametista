@@ -1,13 +1,11 @@
 package com.tecknobit.ametista.services.applications.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.tecknobit.ametista.services.users.entity.AmetistaUser;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
@@ -77,20 +75,6 @@ public class AmetistaDevice extends EquinoxItem {
         this.model = model;
         this.os = os;
         this.osVersion = osVersion;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaUser} class
-     *
-     * @param jDevice Device details formatted as JSON
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE 
-    public AmetistaDevice(JSONObject jDevice) {
-        super(jDevice, DEVICE_IDENTIFIER_KEY);
-        brand = hItem.getString(BRAND_KEY);
-        model = hItem.getString(MODEL_KEY);
-        os = hItem.getString(OS_KEY);
-        osVersion = hItem.getString(OS_VERSION_KEY);
     }
 
     /**

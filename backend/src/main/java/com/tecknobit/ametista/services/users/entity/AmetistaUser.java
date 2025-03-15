@@ -11,7 +11,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.ROLE_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.PASSWORD_KEY;
@@ -79,17 +78,6 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
                         String profilePic, String language, Role role) {
         super(id, token, name, surname, email, password, profilePic, language);
         this.role = role;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaUser} class
-     *
-     * @param jUser User details formatted as JSON
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE
-    public AmetistaUser(JSONObject jUser) {
-        super(jUser);
-        role = Role.valueOf(hItem.getString(ROLE_KEY));
     }
 
     /**

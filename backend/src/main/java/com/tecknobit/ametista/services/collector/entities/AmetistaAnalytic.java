@@ -11,7 +11,6 @@ import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxI
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.APP_VERSION_KEY;
 import static com.tecknobit.ametistacore.ConstantsKt.PLATFORM_KEY;
@@ -79,20 +78,6 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
         this.appVersion = appVersion;
         this.type = type;
         this.platform = platform;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaAnalytic} class
-     *
-     * @param jAnalytic Analytic details formatted as JSON
-     * @param analyticType The type of the analytic
-     */
-    // TODO: 13/03/2025 CHECK TO REMOVE
-    public AmetistaAnalytic(JSONObject jAnalytic, AnalyticType analyticType) {
-        super(jAnalytic);
-        type = analyticType;
-        appVersion = hItem.getString(APP_VERSION_KEY);
-        platform = Platform.valueOf(hItem.getString(PLATFORM_KEY));
     }
 
     /**

@@ -18,9 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.APPLICATION_KEY;
-import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.*;
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 import static jakarta.persistence.criteria.JoinType.INNER;

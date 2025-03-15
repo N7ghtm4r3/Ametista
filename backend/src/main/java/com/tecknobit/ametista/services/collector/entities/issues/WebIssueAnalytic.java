@@ -10,7 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.json.JSONObject;
+
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 
 /**
  * The {@code IssueAnalytic} class is useful to represent an issue occurred in a web environment
@@ -22,29 +23,9 @@ import org.json.JSONObject;
  * @see EquinoxItem
  */
 @Entity
-@Table(name = WebIssueAnalytic.WEB_ISSUES_KEY)
-@DiscriminatorValue(WebIssueAnalytic.WEB_ISSUE_KEY)
+@Table(name = WEB_ISSUES_KEY)
+@DiscriminatorValue(WEB_ISSUE_KEY)
 public class WebIssueAnalytic extends IssueAnalytic {
-
-    /**
-     * {@code WEB_ISSUES_KEY} the key for the <b>"web_issues"</b> field
-     */
-    public static final String WEB_ISSUES_KEY = "web_issues";
-
-    /**
-     * {@code WEB_ISSUE_KEY} the key for the <b>"web_issue"</b> field
-     */
-    public static final String WEB_ISSUE_KEY = "web_issue";
-
-    /**
-     * {@code BROWSER_KEY} the key for the <b>"browser"</b> field
-     */
-    public static final String BROWSER_KEY = "browser";
-
-    /**
-     * {@code BROWSER_VERSION_KEY} the key for the <b>"browser_version"</b> field
-     */
-    public static final String BROWSER_VERSION_KEY = "browser_version";
 
     /**
      * {@code browser} the browser where the issue occurred
@@ -85,17 +66,6 @@ public class WebIssueAnalytic extends IssueAnalytic {
         super(id, name, creationDate, appVersion, device, issue, platform);
         this.browser = browser;
         this.browserVersion = browserVersion;
-    }
-
-    /**
-     * Constructor to init the {@link IssueAnalytic} class
-     *
-     * @param jWebIssue Web issue details formatted as JSON
-     */
-    public WebIssueAnalytic(JSONObject jWebIssue) {
-        super(jWebIssue);
-        browser = hItem.getString(BROWSER_KEY);
-        browserVersion = hItem.getString(BROWSER_VERSION_KEY);
     }
 
     /**

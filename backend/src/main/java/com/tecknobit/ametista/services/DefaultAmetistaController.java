@@ -1,9 +1,9 @@
 package com.tecknobit.ametista.services;
 
 import com.tecknobit.ametista.services.users.entity.AmetistaUser;
-import com.tecknobit.ametista.services.users.entity.AmetistaUser.Role;
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
 import com.tecknobit.ametista.services.users.service.AmetistaUsersService;
+import com.tecknobit.ametistacore.enums.Role;
 import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
 

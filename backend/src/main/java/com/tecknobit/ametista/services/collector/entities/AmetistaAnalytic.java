@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
+import com.tecknobit.ametistacore.enums.AnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONObject;
+
+import static com.tecknobit.ametistacore.ConstantsKt.APP_VERSION_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.PLATFORM_KEY;
 
 /**
  * The {@code AmetistaAnalytic} class is useful to represent an Ametista's analytic
@@ -23,71 +26,6 @@ import org.json.JSONObject;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AmetistaAnalytic extends AmetistaItem {
-
-    /**
-     * List of available analytic types
-     */
-    public enum AnalyticType {
-
-        /**
-         * {@code ISSUE} analytic
-         */
-        ISSUE("Issues"),
-
-        /**
-         * {@code PERFORMANCE} analytic
-         */
-        PERFORMANCE("Performance");
-
-        /**
-         * {@code tabTitle} related tab title
-         */
-        private final String tabTitle;
-
-        /**
-         * Constructor to init the {@link AnalyticType} enum class
-         *
-         * @param tabTitle The related tab title
-         */
-        AnalyticType(String tabTitle) {
-            this.tabTitle = tabTitle;
-        }
-
-        /**
-         * Method to get {@link #tabTitle} instance
-         *
-         * @return {@link #tabTitle} instance as {@link String}
-         */
-        public String getTabTitle() {
-            return tabTitle;
-        }
-
-    }
-
-    /**
-     * {@code ANALYTIC_IDENTIFIER_KEY} the key for the <b>"analytic_id"</b> field
-     */
-    public static final String ANALYTIC_IDENTIFIER_KEY = "analytic_id";
-
-    /**
-     * {@code ANALYTIC_KEY} the key for the <b>"analytic"</b> field
-     */
-    public static final String ANALYTIC_KEY = "analytic";
-
-    /**
-     * {@code APP_VERSION_KEY} the key for the <b>"app_version"</b> field
-     */
-    public static final String APP_VERSION_KEY = "app_version";
-
-    /**
-     * {@code ANALYTIC_TYPE_KEY} the key for the <b>"type"</b> field
-     */
-    public static final String ANALYTIC_TYPE_KEY = "type";
-
-    /**
-     * {@code PLATFORM_KEY} the key for the <b>"platform"</b> field
-     */
-    public static final String PLATFORM_KEY = "platform";
 
     /**
      * {@code application} the application where the analytic is attached
@@ -140,19 +78,6 @@ public abstract class AmetistaAnalytic extends AmetistaItem {
         this.appVersion = appVersion;
         this.type = type;
         this.platform = platform;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaAnalytic} class
-     *
-     * @param jAnalytic Analytic details formatted as JSON
-     * @param analyticType The type of the analytic
-     */
-    public AmetistaAnalytic(JSONObject jAnalytic, AnalyticType analyticType) {
-        super(jAnalytic);
-        type = analyticType;
-        appVersion = hItem.getString(APP_VERSION_KEY);
-        platform = Platform.valueOf(hItem.getString(PLATFORM_KEY));
     }
 
     /**

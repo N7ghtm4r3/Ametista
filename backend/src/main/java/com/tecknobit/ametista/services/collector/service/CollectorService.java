@@ -4,6 +4,7 @@ import com.tecknobit.ametista.services.applications.service.ApplicationsService;
 import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic;
 import com.tecknobit.ametista.services.collector.repositories.DevicesRepository;
 import com.tecknobit.ametista.services.collector.repositories.IssuesRepository;
+import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.apimanager.formatters.JsonHelper;
@@ -16,13 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.tecknobit.ametista.services.applications.entities.AmetistaDevice.*;
-import static com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic.ISSUE_KEY;
-import static com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic.BROWSER_KEY;
-import static com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic.BROWSER_VERSION_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.LAUNCH_TIME_KEY;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType;
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic.PerformanceAnalyticType.*;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.ametistacore.enums.PerformanceAnalyticType.*;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
 
 /**

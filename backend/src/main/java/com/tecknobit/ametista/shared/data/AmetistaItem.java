@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.ConstantsKt.CREATION_DATE_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**
@@ -20,16 +21,6 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 @Structure
 @MappedSuperclass
 public abstract class AmetistaItem extends EquinoxItem {
-
-    /**
-     * {@code CREATION_DATE_KEY} the key for the <b>"creation_date"</b> field
-     */
-    public static final String CREATION_DATE_KEY = "creation_date";
-
-    /**
-     * {@code FILTERS_KEY} the key for the <b>"filters"</b> field
-     */
-    public static final String FILTERS_KEY = "filters";
 
     /**
      * {@code name} the name of the item

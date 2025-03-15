@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic.PLATFORM_KEY;
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**
@@ -27,7 +27,7 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
  */
 @Entity
 @Table(
-        name = AmetistaApplication.APPLICATIONS_KEY,
+        name = APPLICATIONS_KEY,
         uniqueConstraints = {
                 @UniqueConstraint(
                         columnNames = {NAME_KEY}
@@ -35,41 +35,6 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
         }
 )
 public class AmetistaApplication extends AmetistaItem {
-
-    /**
-     * {@code APPLICATION_IDENTIFIER_KEY} the key for the <b>"application_id"</b> field
-     */
-    public static final String APPLICATION_IDENTIFIER_KEY = "application_id";
-
-    /**
-     * {@code APPLICATION_KEY} the key for the <b>"application"</b> field
-     */
-    public static final String APPLICATION_KEY = "application";
-
-    /**
-     * {@code APPLICATIONS_KEY} the key for the <b>"applications"</b> field
-     */
-    public static final String APPLICATIONS_KEY = "applications";
-
-    /**
-     * {@code APPLICATION_ICON_KEY} the key for the <b>"icon"</b> field
-     */
-    public static final String APPLICATION_ICON_KEY = "icon";
-
-    /**
-     * {@code DESCRIPTION_KEY} the key for the <b>"description"</b> field
-     */
-    public static final String DESCRIPTION_KEY = "description";
-
-    /**
-     * {@code PLATFORMS_KEY} the key for the <b>"platforms"</b> field
-     */
-    public static final String PLATFORMS_KEY = "platforms";
-
-    /**
-     * {@code MAX_VERSION_SAMPLES} the maximum version samples allowed for single time
-     */
-    public static final int MAX_VERSION_SAMPLES = 3;
 
     /**
      * {@code icon} the icon of the application

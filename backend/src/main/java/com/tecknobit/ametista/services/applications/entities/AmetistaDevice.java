@@ -1,14 +1,13 @@
 package com.tecknobit.ametista.services.applications.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.tecknobit.ametista.services.users.entity.AmetistaUser;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.json.JSONObject;
 
+import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 
 /**
@@ -19,49 +18,14 @@ import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.E
  * @see EquinoxItem
  */
 @Entity
-@Table(name = AmetistaDevice.DEVICES_KEY)
+@Table(name = DEVICES_KEY)
 @AttributeOverride(
         name = IDENTIFIER_KEY,
         column = @Column(
-                name = AmetistaDevice.DEVICE_IDENTIFIER_KEY
+                name = DEVICE_IDENTIFIER_KEY
         )
 )
 public class AmetistaDevice extends EquinoxItem {
-
-    /**
-     * {@code DEVICE_KEY} the key for the <b>"device"</b> field
-     */
-    public static final String DEVICE_KEY = "device";
-
-    /**
-     * {@code DEVICES_KEY} the key for the <b>"devices"</b> field
-     */
-    public static final String DEVICES_KEY = "devices";
-
-    /**
-     * {@code DEVICE_IDENTIFIER_KEY} the key for the <b>"device_id"</b> field
-     */
-    public static final String DEVICE_IDENTIFIER_KEY = "device_id";
-
-    /**
-     * {@code BRAND_KEY} the key for the <b>"brand"</b> field
-     */
-    public static final String BRAND_KEY = "brand";
-
-    /**
-     * {@code MODEL_KEY} the key for the <b>"model"</b> field
-     */
-    public static final String MODEL_KEY = "model";
-
-    /**
-     * {@code OS_KEY} the key for the <b>"os"</b> field
-     */
-    public static final String OS_KEY = "os";
-
-    /**
-     * {@code OS_VERSION_KEY} the key for the <b>"os_version"</b> field
-     */
-    public static final String OS_VERSION_KEY = "os_version";
 
     /**
      * {@code brand} the brand of the device
@@ -111,19 +75,6 @@ public class AmetistaDevice extends EquinoxItem {
         this.model = model;
         this.os = os;
         this.osVersion = osVersion;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaUser} class
-     *
-     * @param jDevice Device details formatted as JSON
-     */
-    public AmetistaDevice(JSONObject jDevice) {
-        super(jDevice, DEVICE_IDENTIFIER_KEY);
-        brand = hItem.getString(BRAND_KEY);
-        model = hItem.getString(MODEL_KEY);
-        os = hItem.getString(OS_KEY);
-        osVersion = hItem.getString(OS_VERSION_KEY);
     }
 
     /**

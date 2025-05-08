@@ -7,13 +7,13 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.dokka") version "1.9.20"
-    id("com.android.library") version "8.2.2" apply false
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.androidLibrary) apply false
 }
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:1.9.20")
+        classpath(libs.dokka.base)
     }
 }
 

@@ -1,16 +1,15 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("maven-publish")
-    id("com.android.library") version "8.2.2"
+    alias(libs.plugins.androidLibrary)
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "2.1.0"
 }
 
 group = "com.tecknobit.ametistacore"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     google()
@@ -20,7 +19,6 @@ repositories {
 kotlin {
     jvm {
         compilations.all {
-            @OptIn(ExperimentalKotlinGradlePluginApi::class)
             this@jvm.compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_18)
             }
@@ -28,7 +26,6 @@ kotlin {
     }
     androidTarget {
         publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_18)
         }
@@ -39,7 +36,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ametista-core"
+            baseName = "ametistacore"
             isStatic = true
         }
     }
@@ -59,8 +56,8 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("io.github.n7ghtm4r3:equinox-core:1.0.9")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+                implementation(libs.equinox.core)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
@@ -72,7 +69,7 @@ kotlin {
 
 android {
     namespace = "com.tecknobit.ametistacore"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
     }
@@ -84,7 +81,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.ametistacore"
                 artifactId = "ametistacore"
-                version = "1.0.1"
+                version = "1.0.2"
                 from(components["kotlin"])
             }
         }

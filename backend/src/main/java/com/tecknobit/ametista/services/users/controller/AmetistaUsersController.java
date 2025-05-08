@@ -99,7 +99,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             );
             setSessionLocale(DEFAULT_LANGUAGE);
             return successResponse(response
-                    .put(IDENTIFIER_KEY, id)
+                    .put(USER_IDENTIFIER_KEY, id)
                     .put(TOKEN_KEY, token)
                     .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
             );

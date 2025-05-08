@@ -45,7 +45,7 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
                     "COALESCE(:" + VERSION_FILTERS_KEY + ") IS NULL OR " +
                     APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" +
                     ")" +
-                    " ORDER BY " + APP_VERSION_KEY,
+                    " ORDER BY " + CREATION_DATE_KEY,
             nativeQuery = true
     )
     List<PerformanceAnalytic> collectPerformanceData(

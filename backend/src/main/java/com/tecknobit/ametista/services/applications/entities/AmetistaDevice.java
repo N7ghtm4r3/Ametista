@@ -1,6 +1,7 @@
 package com.tecknobit.ametista.services.applications.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -8,7 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
 
 /**
  * The {@code AmetistaDevice} class is useful to represent a device where the applications monitored by the Ametista Engine
@@ -56,6 +57,7 @@ public class AmetistaDevice extends EquinoxItem {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public AmetistaDevice() {
         this(null, null, null, null, null);
     }

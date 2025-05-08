@@ -12,12 +12,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.security.NoSuchAlgorithmException;
 
-import static com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager.APPLICATION_ICONS_FOLDER;
 import static com.tecknobit.ametista.services.users.controller.AmetistaUsersController.adminCodeProvider;
 import static com.tecknobit.apimanager.apis.ServerProtector.DELETE_SERVER_SECRET_AND_INTERRUPT_COMMAND;
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
-import static java.lang.String.format;
 
 /**
  * The {@code Launcher} class is useful to launch <b>Ametista's backend service</b>
@@ -30,7 +28,7 @@ import static java.lang.String.format;
 })
 @EnableJpaRepositories("com.tecknobit.*")
 @EntityScan("com.tecknobit.*")
-@ComponentScan("com.tecknobit.ametista.*")
+@ComponentScan({"com.tecknobit.ametista.*", "com.tecknobit.equinoxbackend.environment.configuration"})
 @SpringBootApplication
 public class Launcher {
 
@@ -69,12 +67,13 @@ public class Launcher {
                     "correctly deleting the server secret and admin code.");
         }
         String adminCode = generateAdminCode(args);
-        EquinoxController.initEquinoxEnvironment(
-                "tecknobit/ametista/backend",
-                getSaveMessage(adminCode),
-                Launcher.class,
-                args,
-                APPLICATION_ICONS_FOLDER);
+        // TODO: 08/05/2025 TO REMOVE THE WORKAROUND WHEN saveMessage FIXED
+        System.out.println("-----##### ADMIN CODE #####-----");
+        System.out.println("<--- Temporarily workaround --->");
+        System.out.println(adminCode);
+        System.out.println("-----##### END ADMIN CODE #####-----");
+        System.out.println("<--- End temporarily workaround --->");
+        EquinoxController.initEquinoxEnvironment(Launcher.class, args);
         SpringApplication.run(Launcher.class, args);
     }
 
@@ -108,18 +107,6 @@ public class Launcher {
             adminCode = e.getSaveableContent();
         }
         return adminCode;
-    }
-
-    /**
-     * Method to assemble the save message for the {@link SaveData} exception
-     *
-     * @param adminCode The generated admin code
-     *
-     * @return the save message assembled as {@link String}
-     */
-    private static String getSaveMessage(String adminCode) {
-        return format(" to correctly register a new user in the Ametista system.\nThe admin code: %sto authenticate as " +
-                "an admin, keep it safe!", adminCode);
     }
 
 }

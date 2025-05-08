@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tecknobit.ametista.services.applications.entities.AmetistaApplication.IDENTIFIER_KEY;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**

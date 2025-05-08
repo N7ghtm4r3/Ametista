@@ -4,9 +4,9 @@ import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
 import com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
 import com.tecknobit.ametistacore.enums.Platform;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.AnalyticType.ISSUE;
@@ -47,6 +47,7 @@ public class IssueAnalytic extends AmetistaAnalytic {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public IssueAnalytic() {
         this(null, null, -1, null, null, null, null);
     }

@@ -26,44 +26,79 @@
     <link href="../../../styles/prism.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
     <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
     <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
     <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
     <script type="text/javascript" src="../../../scripts/main.js" defer></script>
     <script type="text/javascript" src="../../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
     <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
 </head>
 <body>
 <div class="root">
-    <nav class="navigation" id="navigation-wrapper">
-        <div class="navigation--inner">
-            <div class="navigation-title">
-                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-                <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
-                        Ametista
-                    </a></div>
-                <div class="library-version">
-                </div>
-            </div>
-            <div class="filter-section" id="filter-section">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../../index.html">
+            Ametista
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
                 <button class="platform-tag platform-selector jvm-like" data-active=""
                         data-filter=":backend:dokkaHtmlPartial/main">jvm
                 </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":backend:dokkaHtmlPartial/main"
+                                       data-filter=":backend:dokkaHtmlPartial/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
-        </div>
-        <div class="navigation-controls">
-            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
-                switch theme
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
             </button>
-            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
     </nav>
     <div id="container">
         <div class="sidebar" id="leftColumn">
-            <div class="sidebar--inner" id="sideMenu"></div>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Ametista
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
         </div>
         <div id="main">
             <div class="main-content" data-page-type="classlike" id="content"
@@ -173,7 +208,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1104355087%2FProperties%2F-612206970"><span><span>_IN_CLAUSE_</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1104355087%2FProperties%2F-612206970"><span>_</span><wbr><span>IN_</span><wbr><span>CLAUSE_</span><wbr></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1104355087%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -204,7 +239,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1609531800%2FProperties%2F-612206970"><span><span>_VALUES_</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1609531800%2FProperties%2F-612206970"><span>_</span><wbr><span>VALUES_</span><wbr></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1609531800%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -235,7 +270,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#754029709%2FProperties%2F-612206970"><span><span>_WHERE_</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#754029709%2FProperties%2F-612206970"><span>_</span><wbr><span>WHERE_</span><wbr></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="754029709%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -259,15 +294,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1905434579%2FProperties%2F-612206970"
-                                   anchor-label="APPLICATION_ICONS_FOLDER" id="-1905434579%2FProperties%2F-612206970"
+                                <a data-name="1103690588%2FProperties%2F-612206970"
+                                   anchor-label="APPLICATION_ICONS_FOLDER" id="1103690588%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/-a-p-p-l-i-c-a-t-i-o-n_-i-c-o-n-s_-f-o-l-d-e-r.html"><span><span>APPLICATION_ICONS_FOLDER</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1905434579%2FProperties%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/-a-p-p-l-i-c-a-t-i-o-n_-i-c-o-n-s_-f-o-l-d-e-r.html"><span>APPLICATION_</span><wbr><span>ICONS_</span><wbr><span>FOLDER</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1103690588%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -279,7 +314,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">val </span><a
-                                                                href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/-a-p-p-l-i-c-a-t-i-o-n_-i-c-o-n-s_-f-o-l-d-e-r.html">APPLICATION_ICONS_FOLDER</a><span
+                                                                href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/-a-p-p-l-i-c-a-t-i-o-n_-i-c-o-n-s_-f-o-l-d-e-r.html">APPLICATION_ICONS_FOLDER</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
@@ -342,7 +377,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#31123442%2FProperties%2F-612206970"><span><span>CLOSED_ROUND_BRACKET</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#31123442%2FProperties%2F-612206970"><span>CLOSED_</span><wbr><span>ROUND_</span><wbr><span>BRACKET</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="31123442%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -404,7 +439,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.applications.service/-applications-service/-d-e-f-a-u-l-t_-p-l-a-t-f-o-r-m-s_-f-i-l-t-e-r.html"><span><span>DEFAULT_PLATFORMS_FILTER</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.applications.service/-applications-service/-d-e-f-a-u-l-t_-p-l-a-t-f-o-r-m-s_-f-i-l-t-e-r.html"><span>DEFAULT_</span><wbr><span>PLATFORMS_</span><wbr><span>FILTER</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1159822306%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -438,7 +473,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1935135147%2FProperties%2F-612206970"><span><span>DELETE_FROM_</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1935135147%2FProperties%2F-612206970"><span>DELETE_</span><wbr><span>FROM_</span><wbr></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1935135147%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -543,7 +578,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-e-x-c-e-p-t-i-o-n_-n-a-m-e_-p-a-t-t-e-r-n.html"><span><span>EXCEPTION_NAME_PATTERN</span></span></a></div>
+                  <div><a href="-e-x-c-e-p-t-i-o-n_-n-a-m-e_-p-a-t-t-e-r-n.html"><span>EXCEPTION_</span><wbr><span>NAME_</span><wbr><span>PATTERN</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2139967295%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -576,7 +611,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-e-x-c-e-p-t-i-o-n_-n-a-m-e_-r-e-g-e-x.html"><span><span>EXCEPTION_NAME_REGEX</span></span></a></div>
+                  <div><a href="-e-x-c-e-p-t-i-o-n_-n-a-m-e_-r-e-g-e-x.html"><span>EXCEPTION_</span><wbr><span>NAME_</span><wbr><span>REGEX</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-628840214%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -653,7 +688,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#864898645%2FProperties%2F-612206970"><span><span>OPENED_ROUND_BRACKET</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#864898645%2FProperties%2F-612206970"><span>OPENED_</span><wbr><span>ROUND_</span><wbr><span>BRACKET</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="864898645%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -726,7 +761,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-334678920%2FProperties%2F-612206970"><span><span>PROFILES_DIRECTORY</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-334678920%2FProperties%2F-612206970"><span>PROFILES_</span><wbr><span>DIRECTORY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-334678920%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -757,7 +792,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1483658302%2FProperties%2F-612206970"><span><span>QUESTION_MARK</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1483658302%2FProperties%2F-612206970"><span>QUESTION_</span><wbr><span>MARK</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1483658302%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -788,7 +823,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1423562885%2FProperties%2F-612206970"><span><span>RESOURCES_KEY</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1423562885%2FProperties%2F-612206970"><span>RESOURCES_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1423562885%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -819,7 +854,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1089564145%2FProperties%2F-612206970"><span><span>RESOURCES_PATH</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1089564145%2FProperties%2F-612206970"><span>RESOURCES_</span><wbr><span>PATH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1089564145%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -850,7 +885,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1037193839%2FProperties%2F-612206970"><span><span>SINGLE_QUOTE</span></span></a></div>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1037193839%2FProperties%2F-612206970"><span>SINGLE_</span><wbr><span>QUOTE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1037193839%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -942,7 +977,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief ">Method to get whether the application is
                                                             present in the database
@@ -953,15 +988,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-451475784%2FFunctions%2F-612206970" anchor-label="batchDelete"
-                                   id="-451475784%2FFunctions%2F-612206970"
+                                <a data-name="333462266%2FFunctions%2F-612206970" anchor-label="batchDelete"
+                                   id="333462266%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-451475784%2FFunctions%2F-612206970"><span>batch</span><wbr><span><span>Delete</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-451475784%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#333462266%2FFunctions%2F-612206970"><span>batch</span><wbr><span><span>Delete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="333462266%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -974,7 +1009,7 @@
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-451475784%2FFunctions%2F-612206970"><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#333462266%2FFunctions%2F-612206970"><span
                                                                 class="token function">batchDelete</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">table<span
@@ -983,19 +1018,19 @@
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">values<span
                                                                 class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span
-                                                                class="token operator">&lt;</span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/util/Collection.html">Collection</a><span
                                                                 class="token operator">&lt;</span><span
                                                                 class="token keyword">out </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
-                                                                class="token operator">&gt;</span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
                                                                 class="token operator">&gt;</span><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">columns<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
-                                                                class="token operator">&lt;</span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
+                                                                class="token operator">&lt;</span><span><span
+                                                                class="token annotation builtin">@</span><span
+                                                                data-unresolved-link="org.jetbrains.annotations/NotNull///PointingToDeclaration/"><span
+                                                                class="token annotation builtin">NotNull</span></span>&nbsp;</span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator">&gt;</span></span></span><span
                                                                 class="token punctuation">)</span></div>
@@ -1005,64 +1040,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-181069733%2FFunctions%2F-612206970" anchor-label="batchDeleteOnSingleSet"
-                                   id="-181069733%2FFunctions%2F-612206970"
+                                <a data-name="-340340324%2FFunctions%2F-612206970" anchor-label="batchInsert"
+                                   id="-340340324%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-181069733%2FFunctions%2F-612206970"><span>batch</span><wbr><span>Delete</span><wbr><span>On</span><wbr><span>Single</span><wbr><span><span>Set</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-181069733%2FFunctions%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
-                                                                class="token keyword">open </span><span
-                                                                class="token keyword">fun </span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-181069733%2FFunctions%2F-612206970"><span
-                                                                class="token function">batchDeleteOnSingleSet</span></a><span
-                                                                class="token punctuation">(</span><span
-                                                                class="parameters "><span class="parameter ">table<span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token punctuation">, </span></span><span
-                                                                class="parameter ">values<span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span
-                                                                class="token operator">&lt;</span><span
-                                                                class="token keyword">out </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
-                                                                class="token operator">&gt;</span><span
-                                                                class="token punctuation">, </span></span><span
-                                                                class="parameter ">columns<span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
-                                                                class="token operator">&lt;</span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator">&gt;</span></span></span><span
-                                                                class="token punctuation">)</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1972668022%2FFunctions%2F-612206970" anchor-label="batchInsert"
-                                   id="1972668022%2FFunctions%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1972668022%2FFunctions%2F-612206970"><span>batch</span><wbr><span><span>Insert</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1972668022%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-340340324%2FFunctions%2F-612206970"><span>batch</span><wbr><span><span>Insert</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-340340324%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1076,9 +1062,9 @@
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><span
                                                                 class="token operator">&lt;</span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1972668022%2FFunctions%2F-612206970">V</a><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-340340324%2FFunctions%2F-612206970">V</a><span
                                                                 class="token operator">&gt; </span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1972668022%2FFunctions%2F-612206970"><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-340340324%2FFunctions%2F-612206970"><span
                                                                 class="token function">batchInsert</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span
@@ -1094,14 +1080,7 @@
                                                                 class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.builtin.service/EquinoxItemsHelper.BatchQuery///PointingToDeclaration/">EquinoxItemsHelper.BatchQuery</span><span
                                                                 class="token operator">&lt;</span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1972668022%2FFunctions%2F-612206970">V</a><span
-                                                                class="token operator">&gt;</span><span
-                                                                class="token punctuation">, </span></span><span
-                                                                class="parameter ">columns<span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
-                                                                class="token operator">&lt;</span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-340340324%2FFunctions%2F-612206970">V</a><span
                                                                 class="token operator">&gt;</span></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                     </div>
@@ -1140,11 +1119,11 @@
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">value<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-double/index.html">Double</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">currentDate<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                         <div class="brief ">Method to calculate and store the value of
                                                             an analytic
@@ -1155,15 +1134,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1462295768%2FFunctions%2F-612206970" anchor-label="collectAnalytic"
-                                   id="-1462295768%2FFunctions%2F-612206970"
+                                <a data-name="77260518%2FFunctions%2F-612206970" anchor-label="collectAnalytic"
+                                   id="77260518%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="collect-analytic.html"><span>collect</span><wbr><span><span>Analytic</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1462295768%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="77260518%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1187,10 +1166,12 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">type<span
-                                                                class="token operator">: </span>PerformanceAnalyticType<span
+                                                                class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-performance-analytic-type/index.html">PerformanceAnalyticType</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">hPayload<span class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/JsonHelper///PointingToDeclaration/">JsonHelper</span></span></span><span
@@ -1204,15 +1185,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1640126100%2FFunctions%2F-612206970" anchor-label="collectIssue"
-                                   id="-1640126100%2FFunctions%2F-612206970"
+                                <a data-name="-1942029481%2FFunctions%2F-612206970" anchor-label="collectIssue"
+                                   id="-1942029481%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="collect-issue.html"><span>collect</span><wbr><span><span>Issue</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1640126100%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1942029481%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1235,7 +1216,8 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">hPayload<span class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/JsonHelper///PointingToDeclaration/">JsonHelper</span></span></span><span
@@ -1249,15 +1231,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1087863967%2FFunctions%2F-612206970" anchor-label="connectPlatform"
-                                   id="-1087863967%2FFunctions%2F-612206970"
+                                <a data-name="1376821546%2FFunctions%2F-612206970" anchor-label="connectPlatform"
+                                   id="1376821546%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="connect-platform.html"><span>connect</span><wbr><span><span>Platform</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1087863967%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1376821546%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1277,7 +1259,8 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform</span></span><span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                         <div class="brief ">Method to connect a new platform for the
                                                             application
@@ -1288,15 +1271,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1587435958%2FFunctions%2F-612206970" anchor-label="createAppIcon"
-                                   id="-1587435958%2FFunctions%2F-612206970"
+                                <a data-name="1100819067%2FFunctions%2F-612206970" anchor-label="createAppIcon"
+                                   id="1100819067%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/create-app-icon.html"><span>create</span><wbr><span>App</span><wbr><span><span>Icon</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1587435958%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/create-app-icon.html"><span>create</span><wbr><span>App</span><wbr><span><span>Icon</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1100819067%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1309,7 +1292,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/create-app-icon.html"><span
+                                                                href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/create-app-icon.html"><span
                                                                 class="token function">createAppIcon</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">icon<span
@@ -1418,15 +1401,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1867442071%2FFunctions%2F-612206970" anchor-label="deleteAppIcon"
-                                   id="1867442071%2FFunctions%2F-612206970"
+                                <a data-name="1815081416%2FFunctions%2F-612206970" anchor-label="deleteAppIcon"
+                                   id="1815081416%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/delete-app-icon.html"><span>delete</span><wbr><span>App</span><wbr><span><span>Icon</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1867442071%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/delete-app-icon.html"><span>delete</span><wbr><span>App</span><wbr><span><span>Icon</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1815081416%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1439,7 +1422,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="../../com.tecknobit.ametista.helpers.resources/-ametista-resources-manager/delete-app-icon.html"><span
+                                                                href="../../com.tecknobit.ametista.configuration.resources/-ametista-resources-manager/delete-app-icon.html"><span
                                                                 class="token function">deleteAppIcon</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">applicationId<span
@@ -1447,7 +1430,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief ">Method to delete an icon pic</div>
                                                     </div>
@@ -1521,7 +1504,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1562,7 +1545,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1677,10 +1660,10 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">page<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">pageSize<span class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">name<span
                                                                 class="token operator">: </span><a
@@ -1733,7 +1716,7 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a>
                                                         </div>
                                                         <div class="brief ">Method to get the current date formatted
                                                             with the <a href="time-formatter.html">timeFormatter</a>
@@ -1784,15 +1767,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1965315769%2FFunctions%2F-612206970" anchor-label="getIssues"
-                                   id="1965315769%2FFunctions%2F-612206970"
+                                <a data-name="1557455514%2FFunctions%2F-612206970" anchor-label="getIssues"
+                                   id="1557455514%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="../../com.tecknobit.ametista.services.applications.service/-applications-service/get-issues.html"><span>get</span><wbr><span><span>Issues</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1965315769%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1557455514%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1820,12 +1803,13 @@
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">page<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">pageSize<span class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">filters<span
                                                                 class="token operator">: </span><a
@@ -1848,15 +1832,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-634089959%2FFunctions%2F-612206970" anchor-label="getPerformanceData"
-                                   id="-634089959%2FFunctions%2F-612206970"
+                                <a data-name="-1070849974%2FFunctions%2F-612206970" anchor-label="getPerformanceData"
+                                   id="-1070849974%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="../../com.tecknobit.ametista.services.applications.service/-applications-service/get-performance-data.html"><span>get</span><wbr><span>Performance</span><wbr><span><span>Data</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-634089959%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1070849974%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1876,14 +1860,15 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">filters<span
                                                                 class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/JsonHelper///PointingToDeclaration/">JsonHelper</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="../../com.tecknobit.ametista.services.collector.entities.performance/-performance-data/index.html">PerformanceData</a>
+                                                                href="../../com.tecknobit.ametista.services.collector.dtos/-performance-data/index.html">PerformanceData</a>
                                                         </div>
                                                         <div class="brief ">Method to get the performance data of an
                                                             application
@@ -1931,15 +1916,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1399040321%2FFunctions%2F-612206970" anchor-label="getVersionSamples"
-                                   id="1399040321%2FFunctions%2F-612206970"
+                                <a data-name="1525255363%2FFunctions%2F-612206970" anchor-label="getVersionSamples"
+                                   id="1525255363%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="../../com.tecknobit.ametista.services.applications.service/-applications-service/get-version-samples.html"><span>get</span><wbr><span>Version</span><wbr><span><span>Samples</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1399040321%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1525255363%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1959,10 +1944,12 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">analyticType<span
-                                                                class="token operator">: </span>PerformanceAnalyticType</span></span><span
+                                                                class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-performance-analytic-type/index.html">PerformanceAnalyticType</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html">List</a><span
@@ -2008,11 +1995,11 @@
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">incrementValue<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">currentDate<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                         <div class="brief ">Method to increment and store the value of
                                                             an analytic
@@ -2023,16 +2010,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-453752587%2FFunctions%2F-612206970"
-                                   anchor-label="manageIssuesPerSessionAnalytic"
-                                   id="-453752587%2FFunctions%2F-612206970"
+                                <a data-name="435084822%2FFunctions%2F-612206970"
+                                   anchor-label="manageIssuesPerSessionAnalytic" id="435084822%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="manage-issues-per-session-analytic.html"><span>manage</span><wbr><span>Issues</span><wbr><span>Per</span><wbr><span>Session</span><wbr><span><span>Analytic</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-453752587%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="435084822%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -2056,9 +2042,11 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform</span></span><span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a></span></span><span
                                                                 class="token punctuation">)</span></div>
-                                                        <div class="brief ">Method to calculate the ISSUES_PER_SESSION
+                                                        <div class="brief ">Method to calculate the <a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-performance-analytic-type/-i-s-s-u-e-s_-p-e-r_-s-e-s-s-i-o-n/index.html">ISSUES_PER_SESSION</a>
                                                             rate and save it
                                                         </div>
                                                     </div>
@@ -2183,15 +2171,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="949712182%2FFunctions%2F-612206970" anchor-label="storeAnalytic"
-                                   id="949712182%2FFunctions%2F-612206970"
+                                <a data-name="-806669004%2FFunctions%2F-612206970" anchor-label="storeAnalytic"
+                                   id="-806669004%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="store-analytic.html"><span>store</span><wbr><span><span>Analytic</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="949712182%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-806669004%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -2214,14 +2202,16 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">type<span
-                                                                class="token operator">: </span>PerformanceAnalyticType<span
+                                                                class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-performance-analytic-type/index.html">PerformanceAnalyticType</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">value<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-double/index.html">Double</a></span></span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                         <div class="brief ">Method to store an analytic for an
                                                             application and its platform version
@@ -2232,15 +2222,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-62376802%2FFunctions%2F-612206970" anchor-label="storeLaunchTime"
-                                   id="-62376802%2FFunctions%2F-612206970"
+                                <a data-name="-953803163%2FFunctions%2F-612206970" anchor-label="storeLaunchTime"
+                                   id="-953803163%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
                   <div><a href="store-launch-time.html"><span>store</span><wbr><span>Launch</span><wbr><span><span>Time</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-62376802%2FFunctions%2F-612206970"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-953803163%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -2264,12 +2254,15 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
-                                                                class="parameter ">platform<span class="token operator">: </span>Platform<span
+                                                                class="parameter ">platform<span class="token operator">: </span><a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-platform/index.html">Platform</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">hPayload<span class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/JsonHelper///PointingToDeclaration/">JsonHelper</span></span></span><span
                                                                 class="token punctuation">)</span></div>
-                                                        <div class="brief ">Method to collect a LAUNCH_TIME analytic
+                                                        <div class="brief ">Method to collect a <a
+                                                                href="../../../core/com.tecknobit.ametistacore.enums/-performance-analytic-type/-l-a-u-n-c-h_-t-i-m-e/index.html">LAUNCH_TIME</a>
+                                                            analytic
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2277,15 +2270,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1481278396%2FFunctions%2F-612206970" anchor-label="syncBatch"
-                                   id="1481278396%2FFunctions%2F-612206970"
+                                <a data-name="-1436018622%2FFunctions%2F-612206970" anchor-label="syncBatch"
+                                   id="-1436018622%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1481278396%2FFunctions%2F-612206970"><span>sync</span><wbr><span><span>Batch</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1481278396%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1436018622%2FFunctions%2F-612206970"><span>sync</span><wbr><span><span>Batch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1436018622%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -2299,28 +2292,24 @@
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><span
                                                                 class="token operator">&lt;</span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1481278396%2FFunctions%2F-612206970">V</a><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1436018622%2FFunctions%2F-612206970">V</a><span
                                                                 class="token operator">&gt; </span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1481278396%2FFunctions%2F-612206970"><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1436018622%2FFunctions%2F-612206970"><span
                                                                 class="token function">syncBatch</span></a><span
                                                                 class="token punctuation">(</span><span
-                                                                class="parameters "><span
-                                                                class="parameter ">container<span
+                                                                class="parameters "><span class="parameter ">model<span
                                                                 class="token operator">: </span><span
-                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.builtin.service/EquinoxItemsHelper.SyncBatchContainer///PointingToDeclaration/">EquinoxItemsHelper.SyncBatchContainer</span><span
+                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.builtin.service/EquinoxItemsHelper.SyncBatchModel///PointingToDeclaration/">EquinoxItemsHelper.SyncBatchModel</span><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">table<span
                                                                 class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token punctuation">, </span></span><span
-                                                                class="parameter ">targetId<span class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">batchQuery<span
                                                                 class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.builtin.service/EquinoxItemsHelper.BatchQuery///PointingToDeclaration/">EquinoxItemsHelper.BatchQuery</span><span
                                                                 class="token operator">&lt;</span><a
-                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#1481278396%2FFunctions%2F-612206970">V</a><span
+                                                                href="../../com.tecknobit.ametista.services.users.service/-ametista-users-service/index.html#-1436018622%2FFunctions%2F-612206970">V</a><span
                                                                 class="token operator">&gt;</span></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                     </div>
@@ -2355,18 +2344,18 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">updatesRefreshed<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">updatedValue<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-double/index.html">Double</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-double/index.html">Double</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">analytic<span class="token operator">: </span><a
                                                                 href="../../com.tecknobit.ametista.services.collector.entities.performance/-performance-analytic/index.html">PerformanceAnalytic</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">currentDate<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span
                                                                 class="token punctuation">)</span></div>
                                                         <div class="brief ">Method to update and then store the updated
                                                             analytic
@@ -2383,15 +2372,17 @@
                 </div>
             </div>
             <div class="footer">
-                <span class="go-to-top-icon"><a href="#content"
-                                                id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
-                    class="pull-right"><span>Generated by </span><a
-                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
-                    class="padded-icon"></span></a></span>
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

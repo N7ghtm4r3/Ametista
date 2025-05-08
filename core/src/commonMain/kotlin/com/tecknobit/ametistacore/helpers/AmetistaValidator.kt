@@ -17,24 +17,9 @@ object AmetistaValidator : InputsValidator() {
     const val DEFAULT_VIEWER_PASSWORD: String = "changeme"
 
     /**
-     * `INVALID_ADMIN_CODE` error message used when the admin code inserted is not valid
-     */
-    const val INVALID_ADMIN_CODE: String = "invalid_admin_code_key"
-
-    /**
-     * `WRONG_APP_NAME_MESSAGE` error message used when the application name inserted is not valid
-     */
-    const val WRONG_APP_NAME_MESSAGE: String = "wrong_app_name_key"
-
-    /**
      * `APP_NAME_MAX_LENGTH` the max valid length for the application name
      */
     const val APP_NAME_MAX_LENGTH: Int = 30
-
-    /**
-     * `WRONG_APP_DESCRIPTION_MESSAGE` error message used when the application description inserted is not valid
-     */
-    const val WRONG_APP_DESCRIPTION_MESSAGE: String = "wrong_app_description_key"
 
     /**
      * `APP_DESCRIPTION_MAX_LENGTH` the max valid length for the application description

@@ -1,14 +1,14 @@
 package com.tecknobit.ametista.services.applications.service;
 
-import com.tecknobit.ametista.helpers.queries.issues.IssuesQuery;
-import com.tecknobit.ametista.helpers.queries.issues.WebIssuesQuery;
-import com.tecknobit.ametista.helpers.queries.performance.PerformanceDataFetcher;
-import com.tecknobit.ametista.helpers.resources.AmetistaResourcesManager;
+import com.tecknobit.ametista.configuration.resources.AmetistaResourcesManager;
 import com.tecknobit.ametista.services.applications.entities.AmetistaApplication;
+import com.tecknobit.ametista.services.applications.helpers.issues.IssuesQuery;
+import com.tecknobit.ametista.services.applications.helpers.issues.WebIssuesQuery;
+import com.tecknobit.ametista.services.applications.helpers.performance.PerformanceDataFetcher;
 import com.tecknobit.ametista.services.applications.repositories.ApplicationsRepository;
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
+import com.tecknobit.ametista.services.collector.dtos.PerformanceData;
 import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
-import com.tecknobit.ametista.services.collector.entities.performance.PerformanceData;
 import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.formatters.JsonHelper;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem;
+import static com.tecknobit.ametista.services.collector.dtos.PerformanceData.PerformanceDataItem;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
 
 

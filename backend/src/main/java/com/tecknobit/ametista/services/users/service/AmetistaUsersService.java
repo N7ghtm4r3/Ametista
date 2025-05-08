@@ -4,8 +4,7 @@ import com.tecknobit.ametista.services.users.dtos.AmetistaMember;
 import com.tecknobit.ametista.services.users.entity.AmetistaUser;
 import com.tecknobit.ametista.services.users.repository.AmetistaUsersRepository;
 import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
-import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
-import com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersHelper;
+import com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersService;
 import com.tecknobit.equinoxbackend.resourcesutils.ResourcesManager;
 import com.tecknobit.equinoxcore.annotations.CustomParametersOrder;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
@@ -29,13 +28,13 @@ import static com.tecknobit.equinoxcore.helpers.InputsValidator.DEFAULT_LANGUAGE
  * The {@code EquinoxUsersHelper} class is useful to manage all the user database operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxUsersHelper
+ * @see EquinoxUsersService
  * @see EquinoxItemsHelper
  * @see ResourcesManager
  */
 @Primary
 @Service
-public class AmetistaUsersService extends EquinoxUsersHelper<AmetistaUser, AmetistaUsersRepository> {
+public class AmetistaUsersService extends EquinoxUsersService<AmetistaUser, AmetistaUsersRepository> {
 
     /**
      * Method to sign up a new user in the system
@@ -48,7 +47,7 @@ public class AmetistaUsersService extends EquinoxUsersHelper<AmetistaUser, Ameti
      * @param password The password of the user
      * @param language The language of the user
      * @param custom   The custom parameters to add in the default query
-     * @apiNote the order of the custom parameters must be the same of that specified in the {@link #getQueryValuesKeys()}
+     * @apiNote the order of the custom parameters must be the same of that specified in the {@link #getSignUpKeys()}
      */
     @Override
     @CustomParametersOrder(order = {ADMIN_CODE_KEY, ROLE_KEY})
@@ -58,29 +57,14 @@ public class AmetistaUsersService extends EquinoxUsersHelper<AmetistaUser, Ameti
     }
 
     /**
-     * Method to get the list of keys to use in the {@link #BASE_SIGN_UP_QUERY} <br>
-     * No-any params required
-     *
-     * @return a list of keys as {@link List} of {@link String}
-     * @apiNote This method allows a customizable sign-up with custom parameters added in a customization of the {@link EquinoxUser}
+     * {@inheritDoc}
      */
     @Override
     @CustomParametersOrder(order = ROLE_KEY)
-    protected List<String> getQueryValuesKeys() {
-        ArrayList<String> keys = new ArrayList<>(DEFAULT_USER_VALUES_KEYS);
+    protected List<String> getSignUpKeys() {
+        ArrayList<String> keys = new ArrayList<>(DEFAULT_USER_SIGN_UP_KEYS);
         keys.add(ROLE_KEY);
         return keys;
-    }
-
-    /**
-     * Method to get whether the user is present in the database
-     *
-     * @param userId The identifier of the user to check
-     *
-     * @return whether the user exists as {@code boolean}
-     */
-    public boolean userExists(String userId) {
-        return usersRepository.findById(userId).isPresent();
     }
 
     /**

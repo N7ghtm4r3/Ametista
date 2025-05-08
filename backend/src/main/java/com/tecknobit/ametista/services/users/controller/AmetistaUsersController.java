@@ -18,13 +18,11 @@ import java.util.Map;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.Role.ADMIN;
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
-import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
-import static com.tecknobit.equinoxcore.helpers.InputsValidator.*;
 import static com.tecknobit.equinoxcore.helpers.InputsValidator.Companion;
+import static com.tecknobit.equinoxcore.helpers.InputsValidator.DEFAULT_LANGUAGE;
 import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.SIGN_UP_ENDPOINT;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 
@@ -46,6 +44,11 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     );
 
     /**
+     * {@code INVALID_ADMIN_CODE_MESSAGE} error message used when the admin code inserted is not valid
+     */
+    private static final String INVALID_ADMIN_CODE_MESSAGE = "invalid_admin_code";
+
+    /**
      * Method to sign up in the <b>Equinox's system</b>
      *
      * @param payload The payload of the request
@@ -65,15 +68,17 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     @Override
     @PostMapping(path = SIGN_UP_ENDPOINT)
     @RequestPath(path = "/api/v1/users/signUp", method = POST)
-    public String signUp(@RequestBody Map<String, String> payload) {
+    public String signUp(
+            @RequestBody Map<String, Object> payload
+    ) {
         loadJsonHelper(payload);
-        mantis.changeCurrentLocale(jsonHelper.getString(LANGUAGE_KEY, DEFAULT_LANGUAGE));
+        setSessionLocale(jsonHelper.getString(LANGUAGE_KEY, DEFAULT_LANGUAGE));
         String name = jsonHelper.getString(NAME_KEY);
         String surname = jsonHelper.getString(SURNAME_KEY);
         String email = jsonHelper.getString(EMAIL_KEY);
         String password = jsonHelper.getString(PASSWORD_KEY);
         String language = jsonHelper.getString(LANGUAGE_KEY, DEFAULT_LANGUAGE);
-        mantis.changeCurrentLocale(language);
+        setSessionLocale(language);
         Object[] custom = getSignUpCustomParams();
         String signUpValidation = validateSignUp(name, surname, email, password, language, custom);
         if (signUpValidation != null)
@@ -82,7 +87,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             JSONObject response = new JSONObject();
             String id = generateIdentifier();
             String token = generateIdentifier();
-            usersHelper.signUpUser(
+            usersService.signUpUser(
                     id,
                     token,
                     name,
@@ -92,9 +97,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
                     language,
                     custom
             );
-            mantis.changeCurrentLocale(DEFAULT_LANGUAGE);
+            setSessionLocale(DEFAULT_LANGUAGE);
             return successResponse(response
-                    .put(IDENTIFIER_KEY, id)
+                    .put(USER_IDENTIFIER_KEY, id)
                     .put(TOKEN_KEY, token)
                     .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
             );
@@ -123,7 +128,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     protected String validateSignUp(String name, String surname, String email, String password, String language, Object... custom) {
         String validation = super.validateSignUp(name, surname, email, password, language, custom);
         if (!adminCodeProvider.serverSecretMatches((String) custom[0]))
-            return INVALID_ADMIN_CODE;
+            return INVALID_ADMIN_CODE_MESSAGE;
         return validation;
     }
 
@@ -152,7 +157,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         String validation = super.validateSignIn(email, password, language, custom);
         if ((boolean) custom[0]) {
             if (!adminCodeProvider.serverSecretMatches((String) custom[1]))
-                return INVALID_ADMIN_CODE;
+                return INVALID_ADMIN_CODE_MESSAGE;
         } else {
             if (!serverProtector.serverSecretMatches((String) custom[2]))
                 return NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE;
@@ -196,7 +201,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         if (!Companion.isPasswordValid(password))
             return failedResponse(WRONG_PASSWORD_MESSAGE);
         try {
-            usersHelper.changePassword(password, userId);
+            usersService.changePassword(password, userId);
             return successResponse();
         } catch (Exception e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -228,7 +233,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     ) {
         if (!isMe(userId, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(usersHelper.getSessionMembers(page, pageSize, userId));
+        return (T) successResponse(usersService.getSessionMembers(page, pageSize, userId));
     }
 
     /**
@@ -273,7 +278,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         if (!Companion.isEmailValid(email))
             return failedResponse(WRONG_EMAIL_MESSAGE);
         try {
-            usersHelper.addViewer(name, surname, email);
+            usersService.addViewer(name, surname, email);
         } catch (NoSuchAlgorithmException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
@@ -304,9 +309,9 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     ) {
         if (!isAdmin(userId, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        if (!usersHelper.userExists(memberId))
+        if (!usersService.userExists(memberId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        usersHelper.deleteUser(memberId);
+        usersService.deleteUser(memberId);
         return successResponse();
     }
 

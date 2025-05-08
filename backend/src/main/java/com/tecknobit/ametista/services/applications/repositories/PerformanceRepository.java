@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
 
 /**
  * The {@code PerformanceRepository} interface is useful to manage the queries for the performance data operations
@@ -45,7 +45,7 @@ public interface PerformanceRepository extends JpaRepository<PerformanceAnalytic
                     "COALESCE(:" + VERSION_FILTERS_KEY + ") IS NULL OR " +
                     APP_VERSION_KEY + " IN (:" + VERSION_FILTERS_KEY + ")" +
                     ")" +
-                    " ORDER BY " + APP_VERSION_KEY,
+                    " ORDER BY " + CREATION_DATE_KEY,
             nativeQuery = true
     )
     List<PerformanceAnalytic> collectPerformanceData(

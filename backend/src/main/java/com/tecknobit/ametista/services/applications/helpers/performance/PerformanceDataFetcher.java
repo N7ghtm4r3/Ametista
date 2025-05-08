@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.helpers.queries.performance;
+package com.tecknobit.ametista.services.applications.helpers.performance;
 
 import com.tecknobit.ametista.services.applications.repositories.PerformanceRepository;
 import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic;

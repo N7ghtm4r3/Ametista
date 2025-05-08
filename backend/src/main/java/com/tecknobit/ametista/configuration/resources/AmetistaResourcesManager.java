@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.helpers.resources;
+package com.tecknobit.ametista.configuration.resources;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.equinoxbackend.resourcesutils.ResourcesManager;

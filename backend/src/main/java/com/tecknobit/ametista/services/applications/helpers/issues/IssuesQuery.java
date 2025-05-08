@@ -1,9 +1,11 @@
-package com.tecknobit.ametista.helpers.queries.issues;
+package com.tecknobit.ametista.services.applications.helpers.issues;
 
 import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
 import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
 import com.tecknobit.ametistacore.enums.Platform;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxbackend.annotations.FiltersAdder;
+import com.tecknobit.equinoxbackend.annotations.FiltersExtractor;
 import com.tecknobit.equinoxbackend.environment.helpers.FilteredQuery;
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall;
 import jakarta.persistence.EntityManager;
@@ -19,7 +21,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static com.tecknobit.ametistacore.ConstantsKt.*;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 import static jakarta.persistence.criteria.JoinType.INNER;
 
@@ -144,6 +146,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the mandatory filters such {@link #applicationId} and {@link #platform}
      */
+    @FiltersAdder
     private void addMandatoryFilters() {
         predicates.add(criteriaBuilder.equal(root.get(APPLICATION_KEY).get(IDENTIFIER_KEY), applicationId));
         predicates.add(criteriaBuilder.equal(root.get(PLATFORM_KEY), platform));
@@ -152,6 +155,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the names filter
      */
+    @FiltersAdder
     private void addNameFilters() {
         HashSet<String> names = getNameFilters();
         if (names != null) {
@@ -166,6 +170,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
      * @return the names filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getNameFilters() {
         return extractFiltersByPattern(NAME_PATTERN);
     }
@@ -173,6 +178,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the dates filter
      */
+    @FiltersAdder
     private void addDateFilters() {
         HashSet<String> dates = getDateFilters();
         if (dates != null) {
@@ -195,6 +201,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
      * @return the dates filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getDateFilters() {
         return extractFiltersByPattern(DATE_PATTERN);
     }
@@ -202,6 +209,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the versions filter
      */
+    @FiltersAdder
     private void addVersionFilters() {
         HashSet<String> versions = getVersionFilters();
         if (versions != null) {
@@ -217,6 +225,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
      * @return the versions filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getVersionFilters() {
         return extractFiltersByPattern(VERSION_PATTERN);
     }
@@ -236,6 +245,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the brands filter
      */
+    @FiltersAdder
     private void addBrandFilters() {
         HashSet<String> brands = getBrandFilters();
         if (brands != null) {
@@ -250,6 +260,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
      * @return the brands filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getBrandFilters() {
         return extractFiltersByPattern(BRAND_PATTERN);
     }
@@ -257,6 +268,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
     /**
      * Method to add the models filter
      */
+    @FiltersAdder
     private void addModelFilters() {
         HashSet<String> models = getModelFilters();
         if (models != null) {
@@ -271,6 +283,7 @@ public class IssuesQuery<T extends IssueAnalytic> extends FilteredQuery<T> {
      * @return the models filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getModelFilters() {
         return extractFiltersByPattern(MODEL_PATTERN);
     }

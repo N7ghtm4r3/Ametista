@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.helpers.resources;
+package com.tecknobit.ametista.configuration.resources;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

@@ -1,4 +1,4 @@
-package com.tecknobit.ametista.helpers.resources;
+package com.tecknobit.ametista.configuration.resources;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

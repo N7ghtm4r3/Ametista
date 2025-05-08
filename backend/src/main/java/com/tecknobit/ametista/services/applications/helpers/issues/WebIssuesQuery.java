@@ -1,7 +1,9 @@
-package com.tecknobit.ametista.helpers.queries.issues;
+package com.tecknobit.ametista.services.applications.helpers.issues;
 
 import com.tecknobit.ametista.services.collector.entities.issues.WebIssueAnalytic;
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxbackend.annotations.FiltersAdder;
+import com.tecknobit.equinoxbackend.annotations.FiltersExtractor;
 import com.tecknobit.equinoxcore.annotations.RequiresSuperCall;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -57,6 +59,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
     /**
      * Method to add the browsers filter
      */
+    @FiltersAdder
     private void addBrowserPredicates() {
         HashSet<String> browsers = getBrowserFilters();
         if (browsers != null) {
@@ -71,6 +74,7 @@ public class WebIssuesQuery extends IssuesQuery<WebIssueAnalytic> {
      * @return the browsers filter as {@link HashSet} of {@link String}
      */
     @Wrapper
+    @FiltersExtractor
     private HashSet<String> getBrowserFilters() {
         return extractFiltersByPattern(BROWSER_PATTERN);
     }

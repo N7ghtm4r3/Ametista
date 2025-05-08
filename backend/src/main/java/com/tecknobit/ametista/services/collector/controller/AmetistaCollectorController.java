@@ -228,15 +228,12 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
         JSONObject response = new JSONObject();
         if (application != null) {
             response.put(RESPONSE_STATUS_KEY, SUCCESSFUL)
-                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY));
+                    .put(RESPONSE_DATA_KEY, getInternationalizedMessage(DEBUG_OPERATION_EXECUTED_SUCCESSFULLY));
         } else {
             response.put(RESPONSE_STATUS_KEY, FAILED)
-                    .put(RESPONSE_DATA_KEY, mantis.getResource(DEBUG_OPERATION_FAILED));
+                    .put(RESPONSE_DATA_KEY, getInternationalizedMessage(DEBUG_OPERATION_FAILED));
         }
-        return new Pair<>(
-                response.toString(),
-                application
-        );
+        return new Pair<>(response.toString(), application);
     }
 
     /**

@@ -23,7 +23,6 @@ import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;

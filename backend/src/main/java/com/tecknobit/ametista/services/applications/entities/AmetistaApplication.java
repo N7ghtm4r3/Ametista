@@ -5,11 +5,10 @@ import com.tecknobit.ametista.services.collector.entities.issues.IssueAnalytic;
 import com.tecknobit.ametista.services.collector.entities.performance.PerformanceAnalytic;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
 import com.tecknobit.ametistacore.enums.Platform;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,6 +93,7 @@ public class AmetistaApplication extends AmetistaItem {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public AmetistaApplication() {
         this(null, null, null, null, new HashSet<>(), -1, List.of(), List.of());
     }
@@ -118,30 +118,6 @@ public class AmetistaApplication extends AmetistaItem {
         this.platforms = platforms;
         this.issues = issues;
         this.performanceAnalytics = performanceAnalytics;
-    }
-
-    /**
-     * Constructor to init the {@link AmetistaApplication} class
-     *
-     * @param jApplication Application details formatted as JSON
-     */
-    public AmetistaApplication(JSONObject jApplication) {
-        super(jApplication);
-        icon = hItem.getString(APPLICATION_ICON_KEY);
-        description = hItem.getString(DESCRIPTION_KEY);
-        platforms = new HashSet<>();
-        loadPlatforms();
-        issues = null;
-        performanceAnalytics = null;
-    }
-
-    /**
-     * Method to load the {@link #platforms} obtained by the response
-     */
-    private void loadPlatforms() {
-        List<String> jPlatforms = hItem.fetchList(PLATFORMS_KEY, new ArrayList<>());
-        for (String platform : jPlatforms)
-            platforms.add(Platform.valueOf(platform));
     }
 
     /**
@@ -179,16 +155,6 @@ public class AmetistaApplication extends AmetistaItem {
     @JsonIgnore
     public List<IssueAnalytic> getIssues() {
         return issues;
-    }
-
-    /**
-     * Method to get {@link #performanceAnalytics} instance
-     *
-     * @return {@link #performanceAnalytics} instance as {@link List} of {@link PerformanceAnalytic}
-     */
-    @JsonIgnore
-    public List<PerformanceAnalytic> getPerformanceAnalytics() {
-        return performanceAnalytics;
     }
 
 }

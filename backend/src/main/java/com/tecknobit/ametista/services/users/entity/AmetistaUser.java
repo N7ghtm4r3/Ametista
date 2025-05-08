@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.ametista.services.users.dtos.AmetistaMember;
 import com.tecknobit.ametistacore.enums.Role;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
@@ -40,25 +41,9 @@ public class AmetistaUser extends EquinoxUser implements DTOConvertible<Ametista
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public AmetistaUser() {
         this(null, null, null, null, null, null, null, null, null);
-    }
-
-    /**
-     * Constructor to init the {@link EquinoxUser} class
-     *
-     * @param id The identifier of the user
-     * @param token The token which the user is allowed to operate on server
-     * @param name The name of the user
-     * @param surname The surname of the user
-     * @param email The email of the user
-     * @param password The password of the user
-     * @param language The language of the user
-     * @param role The role of the user
-     */
-    public AmetistaUser(String id, String token, String name, String surname, String email, String password, String language,
-                        Role role) {
-        this(id, token, name, surname, email, password, null, language, role);
     }
 
     /**

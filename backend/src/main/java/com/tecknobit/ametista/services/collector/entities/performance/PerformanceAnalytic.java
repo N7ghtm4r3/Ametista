@@ -6,6 +6,7 @@ import com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
 import com.tecknobit.ametistacore.enums.PerformanceAnalyticType;
 import com.tecknobit.ametistacore.enums.Platform;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.*;
 
@@ -49,6 +50,7 @@ public class PerformanceAnalytic extends AmetistaAnalytic {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public PerformanceAnalytic() {
         this(null, -1, null, 0, null, null, 0);
     }

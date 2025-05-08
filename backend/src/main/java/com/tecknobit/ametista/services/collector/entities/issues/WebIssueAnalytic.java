@@ -5,6 +5,7 @@ import com.tecknobit.ametista.services.applications.entities.AmetistaDevice;
 import com.tecknobit.ametista.services.collector.entities.AmetistaAnalytic;
 import com.tecknobit.ametista.shared.data.AmetistaItem;
 import com.tecknobit.ametistacore.enums.Platform;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -44,6 +45,7 @@ public class WebIssueAnalytic extends IssueAnalytic {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public WebIssueAnalytic() {
         this(null, null, -1, null, null, null, null, null, null);
     }

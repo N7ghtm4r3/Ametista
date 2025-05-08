@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static com.tecknobit.ametista.services.collector.entities.performance.PerformanceData.PerformanceDataItem;
+import static com.tecknobit.ametista.services.collector.dtos.PerformanceData.PerformanceDataItem;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.PerformanceAnalyticType.*;
 

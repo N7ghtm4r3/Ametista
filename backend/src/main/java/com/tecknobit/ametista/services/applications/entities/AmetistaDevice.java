@@ -1,6 +1,7 @@
 package com.tecknobit.ametista.services.applications.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -56,6 +57,7 @@ public class AmetistaDevice extends EquinoxItem {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public AmetistaDevice() {
         this(null, null, null, null, null);
     }

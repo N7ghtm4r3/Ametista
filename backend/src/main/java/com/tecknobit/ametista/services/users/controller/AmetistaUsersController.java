@@ -18,7 +18,6 @@ import java.util.Map;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
 import static com.tecknobit.ametistacore.enums.Role.ADMIN;
 import static com.tecknobit.ametistacore.helpers.AmetistaEndpointsSet.CHANGE_PRESET_PASSWORD_ENDPOINT;
-import static com.tecknobit.ametistacore.helpers.AmetistaValidator.INVALID_ADMIN_CODE;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
@@ -43,6 +42,11 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
             "tecknobit/ametista/admin",
             ""
     );
+
+    /**
+     * {@code INVALID_ADMIN_CODE_MESSAGE} error message used when the admin code inserted is not valid
+     */
+    private static final String INVALID_ADMIN_CODE_MESSAGE = "invalid_admin_code";
 
     /**
      * Method to sign up in the <b>Equinox's system</b>
@@ -124,7 +128,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
     protected String validateSignUp(String name, String surname, String email, String password, String language, Object... custom) {
         String validation = super.validateSignUp(name, surname, email, password, language, custom);
         if (!adminCodeProvider.serverSecretMatches((String) custom[0]))
-            return INVALID_ADMIN_CODE;
+            return INVALID_ADMIN_CODE_MESSAGE;
         return validation;
     }
 
@@ -153,7 +157,7 @@ public class AmetistaUsersController extends EquinoxUsersController<AmetistaUser
         String validation = super.validateSignIn(email, password, language, custom);
         if ((boolean) custom[0]) {
             if (!adminCodeProvider.serverSecretMatches((String) custom[1]))
-                return INVALID_ADMIN_CODE;
+                return INVALID_ADMIN_CODE_MESSAGE;
         } else {
             if (!serverProtector.serverSecretMatches((String) custom[2]))
                 return NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE;

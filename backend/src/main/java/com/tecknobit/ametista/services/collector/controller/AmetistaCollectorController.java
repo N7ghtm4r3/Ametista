@@ -46,17 +46,17 @@ public class AmetistaCollectorController extends DefaultAmetistaController {
     /**
      * {@code PLATFORM_ALREADY_CONNECTED} error message used when the platform requested to connect is already connected
      */
-    private static final String PLATFORM_ALREADY_CONNECTED = "platform_already_connected_key";
+    private static final String PLATFORM_ALREADY_CONNECTED = "platform_already_connected";
 
     /**
      * {@code DEBUG_OPERATION_EXECUTED_SUCCESSFULLY} message sent when the debug request has been completed successfully
      */
-    private static final String DEBUG_OPERATION_EXECUTED_SUCCESSFULLY = "debug_operation_executed_successfully_key";
+    private static final String DEBUG_OPERATION_EXECUTED_SUCCESSFULLY = "debug_operation_executed_successfully";
 
     /**
      * {@code DEBUG_OPERATION_FAILED} message sent when the debug request failed
      */
-    private static final String DEBUG_OPERATION_FAILED = "debug_operation_failed_key";
+    private static final String DEBUG_OPERATION_FAILED = "debug_operation_failed";
 
     /**
      * {@code collectorService} helper to manage the collection operations

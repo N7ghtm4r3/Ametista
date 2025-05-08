@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.mysql.connector.java)
     implementation(libs.apimanager)
-    implementation("com.github.N7ghtm4r3:Mantis:1.0.0")
     implementation(libs.equinox.backend)
     implementation(libs.equinox.core)
     implementation(libs.json)

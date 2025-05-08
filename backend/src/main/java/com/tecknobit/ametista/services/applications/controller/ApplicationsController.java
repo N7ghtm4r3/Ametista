@@ -20,7 +20,8 @@ import java.util.Set;
 
 import static com.tecknobit.ametista.services.applications.service.ApplicationsService.DEFAULT_PLATFORMS_FILTER;
 import static com.tecknobit.ametistacore.ConstantsKt.*;
-import static com.tecknobit.ametistacore.helpers.AmetistaValidator.*;
+import static com.tecknobit.ametistacore.helpers.AmetistaValidator.isAppDescriptionValid;
+import static com.tecknobit.ametistacore.helpers.AmetistaValidator.isAppNameValid;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.GET;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.POST;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
@@ -37,6 +38,16 @@ import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 @RestController
 @RequestMapping(BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + APPLICATIONS_KEY)
 public class ApplicationsController extends DefaultAmetistaController {
+
+    /**
+     * {@code WRONG_APP_NAME_MESSAGE} error message used when the application name inserted is not valid
+     */
+    private static final String WRONG_APP_NAME_MESSAGE = "wrong_app_name";
+
+    /**
+     * {@code WRONG_APP_DESCRIPTION_MESSAGE} error message used when the application description inserted is not valid
+     */
+    private static final String WRONG_APP_DESCRIPTION_MESSAGE = "wrong_app_description";
 
     /**
      * {@code applicationsService} helper to manage the applications database operations

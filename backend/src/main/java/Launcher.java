@@ -28,7 +28,7 @@ import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFA
 })
 @EnableJpaRepositories("com.tecknobit.*")
 @EntityScan("com.tecknobit.*")
-@ComponentScan("com.tecknobit.ametista.*")
+@ComponentScan({"com.tecknobit.ametista.*", "com.tecknobit.equinoxbackend.environment.configuration"})
 @SpringBootApplication
 public class Launcher {
 
